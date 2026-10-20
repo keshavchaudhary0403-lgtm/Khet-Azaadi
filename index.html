@@ -150,6 +150,14 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 .ptab .pn{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .ptab .pn .pill{font-family:"Karla",sans-serif;font-size:11px;padding:2px 8px;line-height:1.3}
 .ptab.on .pn .pill{background:var(--surface)}
+.pst{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap}
+.pill.st-done{background:var(--green);color:#fff}:root[data-theme="dark"] .pill.st-done{color:#12160f}
+.pill.st-mid{background:var(--amber-soft);color:var(--amber)}
+.pill.st-none{background:var(--surface-3);color:var(--muted)}
+.ptab.is-done .pt::after{content:" ✓";color:var(--green)}
+.pills{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.done-row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px;padding:12px 16px;border-radius:14px;border:1px solid var(--line);background:var(--surface-2)}
+.done-row .toggle{grid-column:auto}
 .ptab .pn{font-family:"Caveat",cursive;font-size:19px;font-weight:700;color:var(--amber);line-height:1}
 .ptab .pt{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:17px;margin:2px 0}
 .ptab .pd{font-size:12px;color:var(--muted)}
@@ -428,7 +436,7 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
     <div class="tiles" id="tiles"></div>
     <div class="grid-2" style="margin-top:16px;align-items:start">
       <div class="card reveal"><div class="lbl">Monthly income at full scale vs family cost</div><div id="incStack"></div></div>
-      <div class="card reveal"><div class="lbl" style="margin-bottom:10px">Phase milestones under this scenario</div><div id="gateList"></div></div>
+      <div class="card reveal"><div class="lbl" style="margin-bottom:10px">Phases · plan check and your progress</div><div id="gateList"></div></div>
     </div>
   </div>
 </section>
@@ -556,7 +564,7 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
 
 <section id="phases">
   <div class="wrap">
-    <div class="sec-head reveal"><div><div class="num">04 · phases</div><h2>Five phases to freedom</h2><p>Edit any title, date or task, tick tasks as you finish them, and add your own. Milestones turn green automatically when this scenario's numbers meet them.</p></div>
+    <div class="sec-head reveal"><div><div class="num">04 · phases</div><h2>Five phases to freedom</h2><p>Edit any title, date or task and add your own. <b>Plan works / falls short</b> checks whether this scenario's numbers add up. <b>Not started / In progress / Completed</b> tracks what you've actually done.</p></div>
       <div class="field" style="max-width:230px"><label for="areaFilter">Show area</label><div class="select"><select id="areaFilter">
         <option value="all">All areas</option><option value="job">Job & savings</option><option value="farm">Farm</option><option value="gur">Gur & sales</option><option value="tech">Tech</option><option value="life">Life & family</option></select></div></div>
     </div>
@@ -679,31 +687,31 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
     gates:{income:30000},
     p0done:false,
     phases:[
-      {n:'Phase 0',t:'Test',d:'Oct 2026 – Mar 2027 · Age 29',sum:'Prove people will buy your gur, with almost no risk.',gate:'p0',items:{
+      {n:'Phase 0',t:'Test',d:'Oct 2026 – Mar 2027 · Age 29',sum:'Prove people will buy your gur, with almost no risk.',gate:'p0',done:false,items:{
         job:[T('Keep the job; save ~₹75,000 every month'),T('Savings grow from ₹35L toward ~₹40L')],
         farm:[T('Sit with father: note current cane yield, costs and where it sells (mill / kolhu)'),T('Get a soil test done through KVK Bulandshahr'),T('Put the rent arrangement with cousins in writing'),T('Work this season alongside father to learn the field calendar')],
         gur:[T('Rent the unit to the contractor as usual'),T('Get 1–2 tonnes made chemical-free from our own cane'),T('Pick a brand name and simple packaging'),T('Get FSSAI registration')],
         tech:[T('Build a simple order page + WhatsApp ordering'),T('Build the gur brand site yourself, learning as you go')],
         life:[T('Agree roles with father: he leads the fields, you build sales'),T('Check maternity cover and waiting period on health policy')]}},
-      {n:'Phase 1',t:'Build the base',d:'2027 – 28 · Age 30–31',sum:'Your own cane, your own unit, your own buyers.',gate:'rent',items:{
+      {n:'Phase 1',t:'Build the base',d:'2027 – 28 · Age 30–31',sum:'Your own cane, your own unit, your own buyers.',gate:'rent',done:false,items:{
         job:[T('Still full-time; savings reach ~₹55–60L')],
         farm:[T('Keep ~20 bigha of cane; free ~4 bigha as old ratoons finish'),T('Set up the fodder plot (berseem / maize)'),T('Buy 2 cows; start compost and vermicompost'),T('Plant orchard and boundary trees in the monsoon')],
         gur:[T('Run the unit yourself for 2027–28'),T('Send our own cane to our kolhu instead of the mill'),T('Aim for 5–8 tonnes, mostly sold direct')],
         tech:[T('Build the farm + kolhu manager app (batches, stock, labour, sales)'),T('Set up camera monitoring for kolhu, stock and cattle'),T('Teach yourself one new skill each season')],
         life:[T('Talk through this plan with your future partner')]}},
-      {n:'Phase 2',t:'Grow & add value',d:'2028 – 30 · Age 31–33',sum:'Premium products, a highway outlet, steady repeat buyers.',gate:'income',items:{
+      {n:'Phase 2',t:'Grow & add value',d:'2028 – 30 · Age 31–33',sum:'Premium products, a highway outlet, steady repeat buyers.',gate:'income',done:false,items:{
         job:[T('Move to remote or reduced hours if possible')],
         farm:[T('Shift cane to natural / organic methods'),T('Start PGS-India organic certification (~3 years)'),T('Expect a small yield dip during the switch')],
         gur:[T('Scale to 10+ tonnes a season'),T('Add gur powder, flavoured gur and shakkar'),T('Open a temporary roadside outlet on the highway'),T('Check CLU rules before any permanent building')],
         tech:[T('Launch monthly gur / ghee subscriptions'),T('Run kolhu and farm content videos'),T('Offer the kolhu app to a few nearby units')],
         life:[T("Add spouse to health cover; plan for kids' education fund")]}},
-      {n:'Phase 3',t:'Switch',d:'2030 – 32 · Age 33–35',sum:'Leave the race. Live in the village and work by season.',gate:'switch',items:{
+      {n:'Phase 3',t:'Switch',d:'2030 – 32 · Age 33–35',sum:'Leave the race. Live in the village and work by season.',gate:'switch',done:false,items:{
         job:[T('Leave or go part-time only after both gates are met')],
         farm:[T('Move to the village full-time'),T('Busy winters, slow summers and monsoons')],
         gur:[T('Run the full season with the outlet + online sales')],
         tech:[T('Build and learn whatever you enjoy, at your own pace')],
         life:[T('Optional: farmstay or gur-making experiences for Delhi families')]}},
-      {n:'Phase 4',t:'Freedom',d:'Age 35–40',sum:'The farm pays for life. Savings grow untouched.',gate:'lasts',items:{
+      {n:'Phase 4',t:'Freedom',d:'Age 35–40',sum:'The farm pays for life. Savings grow untouched.',gate:'lasts',done:false,items:{
         job:[T('Savings left to grow; work fully optional')],
         farm:[T('Keep the land productive; replant cane every ~3 years')],
         gur:[T('Keep the brand alive; grow only what you enjoy')],
@@ -738,7 +746,7 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
   /* ---------- scenario store ---------- */
   let store=LS.get('ka-store',null);
   if(!store||!store.list){store={cur:'Base plan',list:{'Base plan':defaults()}}}
-  for(const k in store.list)store.list[k]=merge(defaults(),store.list[k]);
+  for(const k in store.list){store.list[k]=merge(defaults(),store.list[k]);const x=store.list[k];if(x.p0done&&x.phases[0]&&x.phases[0].done==null)x.phases[0].done=true;x.phases.forEach(ph=>{if(ph.done==null)ph.done=false})}
   if(!store.list[store.cur])store.cur=Object.keys(store.list)[0];
   let st=store.list[store.cur];
   const persist=()=>{store.list[store.cur]=st;LS.set('ka-store',store)};
@@ -784,7 +792,7 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
     const corpusSwitch=at(sw), corpus60=at(60);
     const farmM=gurM+vegM+orchM+dairyM;
     const gates={
-      p0:{ok:!!s.p0done,manual:true,text:'Tick when 1–2 tonnes have sold to real buyers and FSSAI is done.'},
+      p0:{ok:null,manual:true,text:'No number check for this phase. Mark it completed once 1–2 tonnes have sold to real buyers and FSSAI is done.'},
       rent:{ok:extraVsMill>num(G.rent),text:`Gur adds ${short(extraVsMill)} a season vs contractor rent ${short(num(G.rent))}.`},
       income:{ok:farmM>=num(s.gates.income),text:`Farm + gur + dairy ≈ ${inr(farmM)}/month vs target ${inr(num(s.gates.income))}.`},
       switch:{ok:corpusSwitch>=slowT(sw),text:`At age ${sw}: savings ${short(corpusSwitch)} vs slow-life target ${short(slowT(sw))}.`},
@@ -842,7 +850,7 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
       `<div class="frow total"><span>${diff>=0?'Surplus each month':'Gap savings must cover'}</span><b style="color:${diff>=0?'var(--green)':'var(--rose)'}">${diff>=0?'+':'−'}${inr(Math.abs(diff))}</b></div></div>`;
     h+=st.money.incMode==='manual'?'<p class="hint">Income is set manually in the Money section, so these parts are shown for reference only.</p>':`<p class="hint">Full scale from age ${num(st.ramp.start)+Math.max(1,num(st.ramp.years))-1}; it builds up from age ${num(st.ramp.start)}. Orchard income starts at ${num(st.land.orchStart)}.</p>`;
     $('#incStack').innerHTML=h;
-    $('#gateList').innerHTML=st.phases.map(p=>{const g=R.gates[p.gate];return`<div class="grow"><div><b>${esc(p.n)} · ${esc(p.t)}</b><div class="hint" style="margin:2px 0 0">${esc(g.text)}</div></div><span class="pill ${g.ok?'ok':'no'}">${g.ok?'✓ met':g.manual?'○ to do':'✗ not yet'}</span></div>`}).join('');
+    $('#gateList').innerHTML=st.phases.map((p,i)=>{const g=R.gates[p.gate];return`<div class="grow"><div><b>${esc(p.n)} · ${esc(p.t)}</b><div class="hint" style="margin:2px 0 0">${esc(g.text)}</div></div><div class="pills">${planPill(g)}${statusPill(i)}</div></div>`}).join('');
   }
   function renderMoney(){
     $('#m1').textContent=short(R.slowT(R.sw));$('#m1s').textContent=`needed at age ${R.sw}`;
@@ -926,8 +934,11 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
   const AREAS={job:['Job & savings','💼','var(--blue-soft)'],farm:['Farm','🌾','var(--green-soft)'],gur:['Gur & sales','🍯','var(--amber-soft)'],tech:['Tech','💻','var(--violet-soft)'],life:['Life & family','🏡','var(--rose-soft)']};
   let curPhase=LS.get('ka-phase',0);if(curPhase>=st.phases.length)curPhase=0;
   const prog=i=>{let t=0,d=0;Object.values(st.phases[i].items).forEach(a=>a.forEach(x=>{t++;if(x.d)d++}));return[d,t]};
+  const planPill=g=>g.manual?'':`<span class="pill ${g.ok?'ok':'no'}">${g.ok?'Plan works ✓':'Plan falls short'}</span>`;
+  const statusOf=i=>{const p=st.phases[i];if(p.done)return['done','✓ Completed'];const[d]=prog(i);return d?['mid','In progress']:['none','Not started']};
+  const statusPill=i=>{const[c,t]=statusOf(i);return`<span class="pill st-${c}">${t}</span>`};
   function renderTabs(){
-    $('#phaseTabs').innerHTML=st.phases.map((p,i)=>{const[d,t]=prog(i);const g=R.gates[p.gate];return`<button class="ptab ${i===curPhase?'on':''}" data-i="${i}"><div class="pn">${esc(p.n)} <span class="pill ${g.ok?'ok':'no'}">${g.ok?'✓ met':'not yet'}</span></div><div class="pt">${esc(p.t)}</div><div class="pd">${esc(p.d.split(' · ')[0])}</div><div class="bar" style="width:${t?d/t*100:0}%"></div></button>`}).join('');
+    $('#phaseTabs').innerHTML=st.phases.map((p,i)=>{const[d,t]=prog(i);const g=R.gates[p.gate];return`<button class="ptab ${i===curPhase?'on':''} ${p.done?'is-done':''}" data-i="${i}"><div class="pn">${esc(p.n)} ${planPill(g)}</div><div class="pt">${esc(p.t)}</div><div class="pd">${esc(p.d.split(' · ')[0])}</div><div class="pst">${statusPill(i)}<span class="hint" style="margin:0">${d}/${t} tasks</span></div><div class="bar" style="width:${t?d/t*100:0}%"></div></button>`}).join('');
     $$('.ptab').forEach(b=>b.onclick=()=>{curPhase=+b.dataset.i;LS.set('ka-phase',curPhase);renderTabs();buildPhase()});
   }
   function buildPhase(){
@@ -937,10 +948,12 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
       h+=`<div class="area" style="animation-delay:${k*50}ms"><h4><span class="ic" style="background:${bg}">${ic}</span>${nm}</h4>`+
       arr.map((x,j)=>`<div class="check-e ${x.d?'done':''}"><input type="checkbox" data-a="${a}" data-j="${j}" ${x.d?'checked':''} aria-label="Done"><div class="ce" contenteditable="true" spellcheck="false" data-a="${a}" data-j="${j}">${esc(x.t)}</div><button class="xbtn" data-a="${a}" data-j="${j}" aria-label="Remove task">×</button></div>`).join('')+
       `<div class="addrow"><input class="input" placeholder="Add a task…" data-add="${a}"><button class="btn" data-addbtn="${a}">Add</button></div></div>`});
-    h+=`</div><div class="gate"><span>🚦</span><div style="flex:1"><b>Milestone to move on:</b> ${esc(g.text)}`+(p.gate==='p0'?`<label class="toggle" style="margin-top:8px"><input type="checkbox" data-path="p0done" ${st.p0done?'checked':''}> Mark this milestone as met</label>`:'')+(p.gate==='income'?`<div class="addrow" style="max-width:320px"><span class="lbl" style="align-self:center">Target ₹/month</span><input class="input" type="number" step="1000" data-path="gates.income" value="${num(st.gates.income)}"></div>`:'')+`</div><span class="pill ${g.ok?'ok':'no'}">${g.ok?'✓ met':g.manual?'○ to do':'✗ not yet'}</span></div>`;
+    h+=`</div><div class="gate"><span>🚦</span><div style="flex:1"><b>Plan check:</b> <span class="gtext">${esc(g.text)}</span>`+(p.gate==='income'?`<div class="addrow" style="max-width:320px"><span class="lbl" style="align-self:center">Target ₹/month</span><input class="input" type="number" step="1000" data-path="gates.income" value="${num(st.gates.income)}"></div>`:'')+`</div><span class="gpill">${planPill(g)}</span></div>`+
+      `<div class="done-row"><label class="toggle"><input type="checkbox" id="phaseDone" ${p.done?'checked':''}> Mark ${esc(p.n)} as completed</label><span class="dpill">${statusPill(curPhase)}</span></div>`;
     const body=$('#phaseBody');body.innerHTML=h;
+    $('#phaseDone').onchange=e=>{p.done=e.target.checked;persist();refresh();body.querySelector('.dpill').innerHTML=statusPill(curPhase)};
     body.querySelectorAll('[data-pf]').forEach(el=>el.oninput=()=>{p[el.dataset.pf]=el.value;persist();renderTabs()});
-    body.querySelectorAll('.check-e input[type=checkbox]').forEach(cb=>cb.onchange=()=>{p.items[cb.dataset.a][+cb.dataset.j].d=cb.checked;cb.parentElement.classList.toggle('done',cb.checked);persist();renderTabs();updProg()});
+    body.querySelectorAll('.check-e input[type=checkbox]').forEach(cb=>cb.onchange=()=>{p.items[cb.dataset.a][+cb.dataset.j].d=cb.checked;cb.parentElement.classList.toggle('done',cb.checked);persist();renderTabs();updProg();const dp=body.querySelector('.dpill');if(dp)dp.innerHTML=statusPill(curPhase);renderOverview()});
     body.querySelectorAll('.check-e .ce').forEach(el=>el.oninput=()=>{p.items[el.dataset.a][+el.dataset.j].t=el.textContent;persist()});
     body.querySelectorAll('.xbtn').forEach(b=>b.onclick=()=>{p.items[b.dataset.a].splice(+b.dataset.j,1);persist();renderTabs();buildPhase()});
     const add=a=>{const inp=body.querySelector(`[data-add="${a}"]`);const v=inp.value.trim();if(!v)return;p.items[a].push(T(v));persist();renderTabs();buildPhase();const n=$(`[data-add="${a}"]`);if(n)n.focus()};
@@ -948,7 +961,7 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
     body.querySelectorAll('[data-add]').forEach(i=>i.onkeydown=e=>{if(e.key==='Enter')add(i.dataset.add)});
   }
   function updProg(){const[d,t]=prog(curPhase);const a=$('#pgTxt'),b=$('#pgFill');if(a)a.textContent=d+'/'+t;if(b)b.style.width=(t?d/t*100:0)+'%'}
-  function renderPhaseGate(){const p=st.phases[curPhase],g=R.gates[p.gate];const gate=$('#phaseBody .gate');if(!gate)return;gate.querySelector('div').firstChild.nextSibling.textContent=' '+g.text;const pill=gate.querySelector('.pill:last-child');pill.className='pill '+(g.ok?'ok':'no');pill.textContent=g.ok?'✓ met':g.manual?'○ to do':'✗ not yet'}
+  function renderPhaseGate(){const p=st.phases[curPhase],g=R.gates[p.gate];const gate=$('#phaseBody .gate');if(!gate)return;gate.querySelector('.gtext').textContent=g.text;gate.querySelector('.gpill').innerHTML=planPill(g)}
 
   /* calendar */
   const MN=['January','February','March','April','May','June','July','August','September','October','November','December'];
