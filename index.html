@@ -217,7 +217,7 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 table{width:100%;border-collapse:separate;border-spacing:0}
 th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);font-size:14px}
 th{font-size:12px;color:var(--muted);font-weight:500;letter-spacing:.02em}
-td .input{height:38px;max-width:150px}
+td .input{height:38px;max-width:150px}#budgetBody td:first-child .input{max-width:none;min-width:160px}#budgetBody td:first-child{width:62%}
 tr:last-child td{border-bottom:none}
 .tfoot td{font-weight:600;background:var(--surface-2)}
 .tfoot td:first-child{border-radius:0 0 0 14px}
@@ -261,6 +261,81 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
   section{padding:40px 0}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+/* ---- planner layer ---- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;padding:0 16px;border-radius:12px;border:1px solid var(--line-2);background:var(--surface);color:var(--text);font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;transition:.2s;white-space:nowrap}
+.btn:hover{border-color:var(--green);color:var(--green)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.primary{background:var(--green);border-color:var(--green);color:#fff}
+:root[data-theme="dark"] .btn.primary{color:#12160f}
+.btn.danger:hover{border-color:var(--rose);color:var(--rose)}
+.scen{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+.scen .field{flex:1 1 200px;min-width:170px}
+.scen .acts{display:flex;gap:8px;flex-wrap:wrap}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px 18px 16px;box-shadow:var(--shadow)}
+.tile .k{font-size:12.5px;color:var(--muted);font-weight:500}
+.tile .v{font-family:"Fraunces",Georgia,serif;font-variation-settings:"SOFT" 100;font-size:32px;font-weight:600;letter-spacing:-.02em;line-height:1.2;font-variant-numeric:tabular-nums}
+.tile .s{font-size:12.5px;color:var(--faint)}
+.tile.good .v{color:var(--green)} .tile.bad .v{color:var(--rose)}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;white-space:nowrap}
+.pill.ok{background:var(--green-soft);color:var(--green)} .pill.no{background:var(--rose-soft);color:var(--rose)}
+.grow{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px 14px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line);font-size:14px;margin-bottom:8px}
+.stack{display:flex;height:40px;border-radius:10px;overflow:hidden;gap:2px;margin:12px 0 4px;background:var(--surface-3)}
+.stack div{display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:600;min-width:0;overflow:hidden;white-space:nowrap}
+.costline{position:relative;height:18px}
+.costline span{position:absolute;top:0;transform:translateX(-50%);font-size:11.5px;color:var(--rose);font-weight:600;white-space:nowrap}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fgrid .field{min-width:0}
+.group-t{font-family:"Caveat",cursive;font-size:22px;font-weight:700;color:var(--amber);margin:8px 0 0;grid-column:1/-1;line-height:1}
+.toggle{display:flex;align-items:center;gap:10px;font-size:13.5px;cursor:pointer;user-select:none;grid-column:1/-1}
+.toggle input{width:18px;height:18px;accent-color:var(--green);flex:none}
+.chtable{width:100%;border-collapse:collapse;margin-top:6px}
+.chtable th{font-size:11.5px;padding:6px 6px 4px;text-align:left;color:var(--muted);font-weight:600}
+.chtable td{padding:5px 4px;border:none}
+.chtable td:first-child{font-size:13.5px;font-weight:600;padding-left:0;white-space:nowrap}
+.chtable .input{height:38px;padding:0 8px}
+.mix{display:flex;height:12px;border-radius:99px;overflow:hidden;margin-top:12px;background:var(--surface-3)}
+.erow{display:flex;gap:6px;align-items:center;padding:3px 0;border-bottom:1px dashed var(--line)}
+.erow .input,.check-e .input{height:36px;border-color:transparent;background:transparent;padding:0 8px;font-weight:500}
+.erow .input:hover,.check-e .input:hover{border-color:var(--line)}
+.erow .input:focus,.check-e .input:focus{background:var(--surface);border-color:var(--accent)}
+.xbtn{flex:none;width:30px;height:30px;border-radius:8px;border:1px solid transparent;background:transparent;color:var(--faint);cursor:pointer;font-size:18px;line-height:1;transition:.15s}
+.xbtn:hover{color:var(--rose);background:var(--rose-soft)}
+.addrow{display:flex;gap:8px;margin-top:10px}
+.addrow .input{height:38px;flex:1;min-width:0}
+.addrow .btn{height:38px}
+.check-e{display:flex;gap:6px;align-items:center;padding:3px 0;border-bottom:1px dashed var(--line)}
+.check-e input[type=checkbox]{width:18px;height:18px;accent-color:var(--green);flex:none;margin-right:2px}
+.ce{flex:1;min-width:0;padding:6px 8px;border-radius:8px;border:1px solid transparent;font-size:14px;line-height:1.45;outline:none;cursor:text;word-break:break-word}.ce:hover{border-color:var(--line)}.ce:focus{border-color:var(--accent);background:var(--surface)}.check-e{align-items:flex-start}.check-e input[type=checkbox]{margin-top:8px}.check-e .xbtn,.erow .xbtn{margin-top:3px}.erow{align-items:flex-start}.check-e.done .ce{color:var(--faint);text-decoration:line-through}
+.title-in{font-family:"Fraunces",Georgia,serif!important;font-size:24px!important;font-weight:600!important;height:44px!important;border-color:transparent!important;background:transparent!important;padding:0 6px!important}
+.sub-in{height:32px!important;border-color:transparent!important;background:transparent!important;padding:0 6px!important;color:var(--muted)!important;font-size:14px!important}
+.title-in:hover,.sub-in:hover{border-color:var(--line)!important}
+.title-in:focus,.sub-in:focus{border-color:var(--accent)!important;background:var(--surface)!important}
+.area-in{height:auto!important;min-height:58px;padding:8px!important;resize:vertical;line-height:1.5;border-color:transparent!important;background:transparent!important;color:var(--muted)!important;font-size:13.5px!important}
+.area-in:focus{border-color:var(--accent)!important;background:var(--surface)!important}
+.rule{position:relative}
+.rule .title-in{font-size:18px!important;height:38px!important}
+.rdel{position:absolute;top:12px;right:12px}
+.add-rule{display:flex;flex-direction:column;justify-content:center;border-style:dashed!important}
+.tornado{display:grid;gap:10px;margin-top:6px}
+.trow{display:grid;grid-template-columns:190px 1fr 170px;gap:14px;align-items:center;font-size:13.5px}
+.tbar{position:relative;height:26px;background:var(--surface-2);border-radius:8px}
+.tbar .mid{position:absolute;left:50%;top:-4px;bottom:-4px;width:2px;background:var(--line-2)}
+.tbar .lo,.tbar .hi{position:absolute;top:4px;bottom:4px;border-radius:5px}
+.tbar .lo{background:var(--rose)} .tbar .hi{background:var(--green)}
+.cmp{overflow-x:auto}
+.cmp table td,.cmp table th{white-space:nowrap;padding:11px 14px}
+.cmp tr.cur td{background:var(--green-soft)}
+.hint{font-size:12.5px;color:var(--faint);margin:10px 0 0}
+.hint.warn{color:var(--rose)}
+.est{font-size:11px;color:var(--amber);font-weight:600}
+.chartbox svg text{fill:var(--faint);font-size:11px;font-family:inherit}
+#flash{position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);background:var(--text);color:var(--bg);padding:10px 18px;border-radius:99px;font-size:13.5px;font-weight:600;opacity:0;pointer-events:none;transition:.3s;z-index:90}
+#flash.on{opacity:1;transform:translate(-50%,0)}
+.file-btn input{display:none}
+@media (max-width:980px){.tiles{grid-template-columns:1fr 1fr}.trow{grid-template-columns:140px 1fr 120px}}
+@media (max-width:640px){.tiles{grid-template-columns:1fr}.fgrid{grid-template-columns:1fr}.trow{grid-template-columns:1fr;gap:4px}.trow .hint{text-align:left!important}.scen .acts .btn{flex:1}}
+
 </style>
 </head>
 <body>
@@ -270,12 +345,14 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
   <div class="wrap">
     <div class="brand"><div class="brand-dot"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 52V16" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/><path d="M32 19C24 14 24.5 6 32 2c7.5 4 8 12 0 17z" fill="#5c8a2e"/><path d="M32 37c-8 1.5-16-3-19.5-12.5 9.5-1.5 17.5 3 19.5 12.5z" fill="#4a6d28"/><path d="M32 30c8 1.5 15.5-3 19.5-12.5-9.5-1.5-17.5 3-19.5 12.5z" fill="#6f9a3a"/><path d="M14 56c6-3 12-4.5 18-4.5S44 53 50 56" fill="none" stroke="#8a5a35" stroke-width="3" stroke-linecap="round"/></svg></div>Khet &amp; Azaadi</div>
     <div class="links" id="links">
+      <a href="#overview">Overview</a>
       <a href="#money">Money</a>
-      <a href="#phases">Phases</a>
-      <a href="#land">Land</a>
-      <a href="#calendar">Calendar</a>
       <a href="#gur">Gur</a>
+      <a href="#land">Land</a>
+      <a href="#phases">Phases</a>
+      <a href="#calendar">Calendar</a>
       <a href="#budget">Budget</a>
+      <a href="#whatif">What-if</a>
       <a href="#rules">Rules</a>
     </div>
     <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">
@@ -319,232 +396,212 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
       </svg>
     </div>
     <div class="stats">
-      <div class="stat reveal" style="--c:var(--amber)"><div class="k">Savings today</div><div class="v">₹<span data-count="35">0</span>L</div><div class="s">+ ~₹75k saved monthly</div></div>
-      <div class="stat reveal" style="--c:var(--green)"><div class="k">Family land</div><div class="v"><span data-count="30">0</span> bigha</div><div class="s">≈ 4.7 acres · ~24 bigha already cane</div></div>
-      <div class="stat reveal" style="--c:var(--blue)"><div class="k">Slow life (some work)</div><div class="v">age ~<span data-count="35">0</span></div><div class="s">corpus ≈ ₹90L</div></div>
-      <div class="stat reveal" style="--c:var(--rose)"><div class="k">Full freedom</div><div class="v">age ~<span data-count="40">0</span></div><div class="s">corpus ≈ ₹1.5 Cr</div></div>
+      <div class="stat reveal" style="--c:var(--amber)"><div class="k">Savings today</div><div class="v" id="hs-save">—</div><div class="s">editable in Money</div></div>
+      <div class="stat reveal" style="--c:var(--green)"><div class="k">Family land</div><div class="v" id="hs-land">—</div><div class="s" id="hs-land-s"></div></div>
+      <div class="stat reveal" style="--c:var(--blue)"><div class="k">Slow life (some work)</div><div class="v" id="hs-slow">—</div><div class="s" id="hs-slow-s"></div></div>
+      <div class="stat reveal" style="--c:var(--rose)"><div class="k">Full freedom</div><div class="v" id="hs-full">—</div><div class="s" id="hs-full-s"></div></div>
     </div>
   </div>
 </header>
 
-<!-- MONEY -->
+<section id="overview">
+  <div class="wrap">
+    <div class="sec-head reveal"><div><div class="num">00 · overview</div><h2>Test every approach</h2><p>Every number below is editable. Change anything in any section and the whole plan updates. Save versions as scenarios and compare them.</p></div></div>
+    <div class="card reveal">
+      <div class="scen">
+        <div class="field"><label for="scenSel">Scenario</label><div class="select"><select id="scenSel"></select></div></div>
+        <div class="field"><label for="scenName">Save current as</label><input class="input" id="scenName" placeholder="e.g. Premium gur, switch at 36"></div>
+        <div class="acts">
+          <button class="btn primary" id="scenSave">Save as new</button>
+          <button class="btn danger" id="scenDel">Delete</button>
+          <button class="btn" id="scenReset">Reset</button>
+          <button class="btn" id="scenExp">Export</button>
+          <label class="btn file-btn">Import<input type="file" id="scenImp" accept="application/json"></label>
+        </div>
+      </div>
+      <p class="hint">Edits save automatically to the selected scenario. To test a new approach, first “Save as new”, then change that copy — your original stays as it was. Export keeps a backup file you can import on another device.</p>
+    </div>
+    <div class="tiles" id="tiles"></div>
+    <div class="grid-2" style="margin-top:16px">
+      <div class="card reveal"><div class="lbl">Monthly income at full scale vs family cost</div><div id="incStack"></div></div>
+      <div class="card reveal"><div class="lbl" style="margin-bottom:10px">Phase milestones under this scenario</div><div id="gateList"></div></div>
+    </div>
+  </div>
+</section>
+
 <section id="money">
   <div class="wrap">
-    <div class="sec-head reveal">
-      <div><div class="num">01 · paisa</div><h2>The freedom calculator</h2><p>All figures in today's money (inflation-adjusted). Change the inputs to see when each target is reached.</p></div>
-    </div>
+    <div class="sec-head reveal"><div><div class="num">01 · paisa</div><h2>Savings over your whole life</h2><p>All figures in today's money (inflation-adjusted). Saving continues until your switch age; after that the farm, gur and projects pay the bills and savings cover any gap.</p></div></div>
     <div class="calc">
       <div class="card controls reveal">
-        <div class="field">
-          <label for="strategy">Investment mix</label>
-          <div class="select"><select id="strategy">
-            <option value="1.5">FD only · ~1.5% above inflation</option>
-            <option value="3.5" selected>Balanced · ~3.5% above inflation</option>
-            <option value="5">Equity-heavy · ~5% above inflation</option>
-          </select></div>
-        </div>
-        <div>
-          <div class="range-row"><span class="lbl">Current savings</span><b id="startV"></b></div>
-          <input type="range" id="start" min="0" max="100" step="1" value="35">
-        </div>
-        <div>
-          <div class="range-row"><span class="lbl">Monthly saving</span><b id="saveV"></b></div>
-          <input type="range" id="save" min="10" max="110" step="5" value="75">
-        </div>
-        <div>
-          <div class="range-row"><span class="lbl">Family monthly cost (village)</span><b id="costV"></b></div>
-          <input type="range" id="cost" min="20" max="80" step="1" value="40">
-        </div>
-        <div>
-          <div class="range-row"><span class="lbl">Farm + gur + own projects income</span><b id="incV"></b></div>
-          <input type="range" id="inc" min="0" max="60" step="1" value="20">
-        </div>
-        <div class="field">
-          <label for="swr">Safe withdrawal rate</label>
-          <div class="select"><select id="swr">
-            <option value="3">3% · very safe</option>
-            <option value="3.5" selected>3.5% · safe for 40+ years</option>
-            <option value="4">4% · standard</option>
-          </select></div>
+        <div class="fgrid">
+          <div class="group-t">savings</div>
+          <div class="field"><label>Current savings (₹)</label><input class="input" type="number" step="50000" data-path="money.start" ></div>
+          <div class="field"><label>Monthly saving (₹)</label><input class="input" type="number" step="5000" data-path="money.save" ></div>
+          <div class="field"><label>Saving grows / year (%)</label><input class="input" type="number" step="0.5" data-path="money.saveGrowth" ></div>
+          <div class="field"><label>Plan until age</label><input class="input" type="number" step="1" data-path="money.horizon" ></div>
+          <div class="field" style="grid-column:1/-1"><div class="range-row"><label class="lbl">Switch age (leave the job)</label><b data-show="money.switchAge"></b></div><input type="range" min="30" max="55" step="1" data-path="money.switchAge"></div>
+          <div class="group-t">returns</div>
+          <div class="field"><label>Return while working (% above inflation)</label><input class="input" type="number" step="0.25" data-path="money.rPre" ></div>
+          <div class="field"><label>Return after switch (%)</label><input class="input" type="number" step="0.25" data-path="money.rPost" ></div>
+          <div class="field"><label>Safe withdrawal rate (%)</label><input class="input" type="number" step="0.25" data-path="money.swr" ></div>
+          <p class="hint" style="grid-column:1/-1;margin:0">Rough guide: FD only ≈ 1.5%, balanced ≈ 3.5%, equity-heavy ≈ 5% above inflation.</p>
+          <div class="group-t">costs & income</div>
+          <div class="field"><label>Family cost comes from</label><div class="select"><select data-path="money.costMode"><option value="budget">Household budget (by life stage)</option><option value="manual">A fixed number</option></select></div></div>
+          <div class="field" id="costManualWrap"><label>Fixed monthly cost (₹)</label><input class="input" type="number" step="1000" data-path="money.costManual" ></div>
+          <div class="field"><label>Other income comes from</label><div class="select"><select data-path="money.incMode"><option value="linked">Gur + land + dairy + projects</option><option value="manual">A fixed number</option></select></div></div>
+          <div class="field" id="incManualWrap"><label>Fixed monthly income (₹)</label><input class="input" type="number" step="1000" data-path="money.incManual" ></div>
+          <div class="field"><label>Farm income starts at age</label><input class="input" type="number" step="1" data-path="ramp.start" ></div>
+          <div class="field"><label>Years to reach full scale</label><input class="input" type="number" step="1" data-path="ramp.years" ></div>
+          <label class="toggle"><input type="checkbox" data-path="money.saveFarmIncome"> Save farm & gur income too while still working</label>
         </div>
       </div>
       <div class="card reveal">
         <div class="results">
-          <div class="res"><div class="k">Slow-life target</div><div class="v" id="t1">—</div><div class="s" id="t1s"></div></div>
-          <div class="res"><div class="k">Full-freedom target</div><div class="v" id="t2">—</div><div class="s" id="t2s"></div></div>
-          <div class="res"><div class="k">Corpus at age 40</div><div class="v" id="t3">—</div><div class="s">if you keep saving</div></div>
+          <div class="res"><div class="k">Slow-life target at switch</div><div class="v" id="m1">—</div><div class="s" id="m1s"></div></div>
+          <div class="res"><div class="k">Savings at switch</div><div class="v" id="m2">—</div><div class="s" id="m2s"></div></div>
+          <div class="res"><div class="k">Money lasts until</div><div class="v" id="m3">—</div><div class="s" id="m3s"></div></div>
         </div>
-        <svg class="chart" id="chart" viewBox="0 0 700 300" preserveAspectRatio="none"></svg>
+        <div class="chartbox"><svg class="chart" id="lifeChart" viewBox="0 0 700 330" preserveAspectRatio="none" style="height:330px"></svg></div>
         <div class="legend">
-          <span><i style="background:var(--accent)"></i>Your corpus</span>
+          <span><i style="background:var(--accent)"></i>Savings with your switch age</span>
+          <span><i style="background:var(--faint)"></i>If you never switch</span>
           <span><i style="background:var(--blue)"></i>Slow-life target</span>
-          <span><i style="background:var(--violet)"></i>Full-freedom target</span>
+          <span><i style="background:var(--rose);border-radius:50%;width:8px;height:8px"></i>One-time costs</span>
         </div>
-        <p style="font-size:12.5px;color:var(--faint);margin:12px 0 0">Slow-life target = (family cost − other income) ÷ withdrawal rate + ₹25L for kids' education and home. Full freedom = family cost ÷ withdrawal rate + ₹25L. Projections, not guarantees. Take advice from a SEBI-registered advisor for the actual allocation.</p>
+        <p class="hint">Slow-life target = (family cost − other income) × 12 ÷ withdrawal rate, plus one-time costs still ahead. Full freedom uses the full family cost. Projections, not guarantees — take advice from a SEBI-registered advisor for the actual allocation.</p>
       </div>
     </div>
   </div>
 </section>
 
-<div class="furrow"></div>
-<!-- PHASES -->
+<section id="gur">
+  <div class="wrap">
+    <div class="sec-head reveal"><div><div class="num">02 · gur</div><h2>Season economics</h2><p>The margin is in selling, not making. Cane comes from the land section; change the share sent to the kolhu, prices, costs and sales channels to test approaches.</p></div>
+      <div class="field" style="max-width:250px"><label for="gurPreset">Approach</label><div class="select"><select id="gurPreset">
+        <option value="test">Season 1 · small test</option><option value="own">Half our cane, mostly direct</option><option value="full" selected>All our cane, mixed channels</option><option value="premium">Premium: direct + outlet only</option><option value="mandi">Mandi only (no brand)</option><option value="custom">Custom</option></select></div></div>
+    </div>
+    <div class="gur">
+      <div class="card reveal">
+        <div class="fgrid">
+          <div class="group-t">production</div>
+          <div class="field"><label>Own cane sent to kolhu (%)</label><input class="input" type="number" step="5" data-path="gur.useShare" data-preset="#gurPreset" ></div>
+          <div class="field"><label>Extra cane bought (tonnes)</label><input class="input" type="number" step="5" data-path="gur.boughtCane" data-preset="#gurPreset" ></div>
+          <div class="field"><label>Gur recovery (%)</label><input class="input" type="number" step="0.5" data-path="gur.recovery" data-preset="#gurPreset" ></div>
+          <div class="field"><label>Loss / unsold (%)</label><input class="input" type="number" step="1" data-path="gur.wastage" data-preset="#gurPreset" ></div>
+          <div class="group-t">costs</div>
+          <div class="field"><label>Cane price (₹/quintal)</label><input class="input" type="number" step="5" data-path="gur.canePrice" data-preset="#gurPreset" ></div>
+          <div class="field"><label>Making cost (₹/kg)</label><input class="input" type="number" step="1" data-path="gur.making" data-preset="#gurPreset" ></div>
+          <div class="field"><label>Fixed season costs (₹)</label><input class="input" type="number" step="5000" data-path="gur.fixed" data-preset="#gurPreset" ></div>
+          <div class="field"><label>Contractor rent (₹/season) <span class="est">enter actual</span></label><input class="input" type="number" step="5000" data-path="gur.rent" data-preset="#gurPreset"></div>
+          <label class="toggle"><input type="checkbox" data-path="gur.ownAtMill" data-preset="#gurPreset"> Count our own cane at the mill price (true cost of not selling it to the mill)</label>
+          <div class="group-t">sales channels</div>
+          <div style="grid-column:1/-1"><table class="chtable"><thead><tr><th>Channel</th><th>Share %</th><th>Price ₹/kg</th><th>Pack + delivery ₹/kg</th></tr></thead><tbody><tr><td>Direct to NCR</td><td><input class="input" type="number" step="5" data-path="gur.ch.direct.share" data-preset="#gurPreset"></td><td><input class="input" type="number" step="5" data-path="gur.ch.direct.price" data-preset="#gurPreset"></td><td><input class="input" type="number" step="1" data-path="gur.ch.direct.pack" data-preset="#gurPreset"></td></tr><tr><td>Highway outlet</td><td><input class="input" type="number" step="5" data-path="gur.ch.outlet.share" data-preset="#gurPreset"></td><td><input class="input" type="number" step="5" data-path="gur.ch.outlet.price" data-preset="#gurPreset"></td><td><input class="input" type="number" step="1" data-path="gur.ch.outlet.pack" data-preset="#gurPreset"></td></tr><tr><td>Mandi</td><td><input class="input" type="number" step="5" data-path="gur.ch.mandi.share" data-preset="#gurPreset"></td><td><input class="input" type="number" step="5" data-path="gur.ch.mandi.price" data-preset="#gurPreset"></td><td><input class="input" type="number" step="1" data-path="gur.ch.mandi.pack" data-preset="#gurPreset"></td></tr></tbody></table>
+            <div class="mix" id="mixBar"></div><div class="legend" id="mixLegend" style="margin-top:8px"></div><p class="hint warn" id="shareWarn"></p></div>
+        </div>
+      </div>
+      <div class="card reveal">
+        <div class="flow" id="gurFlow"></div>
+        <div class="compare" id="gurCompare"></div>
+        <div class="lbl" style="margin-top:18px">Profit at different average selling prices</div>
+        <div class="chartbox"><svg id="gurChart" viewBox="0 0 700 240" preserveAspectRatio="none" style="width:100%;height:240px;display:block"></svg></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="land">
+  <div class="wrap">
+    <div class="sec-head reveal"><div><div class="num">03 · zameen</div><h2>Land, crops and dairy</h2><p>Today my father runs the land, with ~80% (about 24 bigha) under sugarcane. 1 pucca bigha ≈ 6,806 sq ft ≈ 0.156 acre.</p></div>
+      <div class="field" style="max-width:250px"><label for="landPreset">Layout</label><div class="select"><select id="landPreset">
+        <option value="today" selected>Today (father's current)</option><option value="plan">Recommended plan</option><option value="cane">Maximum gur (cane-heavy)</option><option value="diverse">Diverse (more veg & orchard)</option><option value="custom">Custom</option></select></div></div>
+    </div>
+    <div class="card reveal">
+      <div class="land-bar" id="landBar"></div>
+      <div class="land-list" id="landList"></div>
+      <div class="land-total"><span>Total used: <b id="landUsed"></b> / 30 bigha</span><span>Own cane: <b id="landGur"></b></span></div>
+    </div>
+    <div class="grid-2" style="margin-top:16px">
+      <div class="card reveal">
+        <div class="fgrid">
+          <div class="group-t">yields & income</div>
+          <div class="field"><label>Cane yield (tonnes / acre)</label><input class="input" type="number" step="1" data-path="land.yieldT" ></div>
+          <div class="field"><label>Vegetables net (₹ / bigha / year)</label><input class="input" type="number" step="1000" data-path="land.vegInc" ></div>
+          <div class="field"><label>Orchard net (₹ / bigha / year)</label><input class="input" type="number" step="1000" data-path="land.orchInc" ></div>
+          <div class="field"><label>Orchard starts earning at age</label><input class="input" type="number" step="1" data-path="land.orchStart" ></div>
+        </div>
+        <div class="flow" id="landSum" style="margin-top:14px"></div>
+      </div>
+      <div class="card reveal">
+        <div class="fgrid">
+          <div class="group-t">dairy</div>
+          <div class="field"><label>Cows</label><input class="input" type="number" step="1" data-path="dairy.cows" ></div>
+          <div class="field"><label>Milk per cow (litres / day)</label><input class="input" type="number" step="0.5" data-path="dairy.litres" ></div>
+          <div class="field"><label>Milk price (₹ / litre)</label><input class="input" type="number" step="1" data-path="dairy.price" ></div>
+          <div class="field"><label>Feed & care per cow (₹ / month)</label><input class="input" type="number" step="500" data-path="dairy.feed" ></div>
+          <div class="group-t">own projects</div>
+          <div class="field"><label>Income from your projects (₹ / month)</label><input class="input" type="number" step="1000" data-path="projects.monthly" ></div>
+          <div class="field"><label>Starts at age</label><input class="input" type="number" step="1" data-path="projects.start" ></div>
+        </div>
+        <div id="dairySum" style="margin-top:14px"></div>
+      </div>
+    </div>
+    <p class="hint">Yields and incomes are rough starting estimates — replace them with your father's real numbers and local rates.</p>
+  </div>
+</section>
+
 <section id="phases">
   <div class="wrap">
-    <div class="sec-head reveal">
-      <div><div class="num">02 · phases</div><h2>Five phases to freedom</h2><p>Tick items as you finish them. Progress is saved in this browser. Move to the next phase only after its milestone is met.</p></div>
-      <div class="field" style="max-width:230px">
-        <label for="areaFilter">Show area</label>
-        <div class="select"><select id="areaFilter">
-          <option value="all">All areas</option>
-          <option value="job">Job & savings</option>
-          <option value="farm">Farm</option>
-          <option value="gur">Gur & sales</option>
-          <option value="tech">Tech</option>
-          <option value="life">Life & family</option>
-        </select></div>
-      </div>
+    <div class="sec-head reveal"><div><div class="num">04 · phases</div><h2>Five phases to freedom</h2><p>Edit any title, date or task, tick tasks as you finish them, and add your own. Milestones turn green automatically when this scenario's numbers meet them.</p></div>
+      <div class="field" style="max-width:230px"><label for="areaFilter">Show area</label><div class="select"><select id="areaFilter">
+        <option value="all">All areas</option><option value="job">Job & savings</option><option value="farm">Farm</option><option value="gur">Gur & sales</option><option value="tech">Tech</option><option value="life">Life & family</option></select></div></div>
     </div>
     <div class="phase-tabs reveal" id="phaseTabs"></div>
     <div class="card phase-body reveal" id="phaseBody"></div>
   </div>
 </section>
 
-<div class="furrow"></div>
-<!-- LAND -->
-<section id="land">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <div><div class="num">03 · zameen</div><h2>How the 30 bigha are used</h2><p>Today my father runs the land, with ~80% (about 24 bigha) under sugarcane. 1 pucca bigha ≈ 6,806 sq ft ≈ 0.156 acre. Pick a layout or edit the numbers.</p></div>
-      <div class="field" style="max-width:230px">
-        <label for="landPreset">Layout</label>
-        <div class="select"><select id="landPreset">
-          <option value="today">Today (father's current)</option>
-          <option value="plan" selected>Recommended plan</option>
-          <option value="cane">Maximum gur (cane-heavy)</option>
-          <option value="diverse">Diverse (more veg & orchard)</option>
-        </select></div>
-      </div>
-    </div>
-    <div class="card reveal">
-      <div class="land-bar" id="landBar"></div>
-      <div class="land-list" id="landList"></div>
-      <div class="land-total"><span>Total used: <b id="landUsed"></b> / 30 bigha</span><span>Expected gur: <b id="landGur"></b></span></div>
-    </div>
-  </div>
-</section>
-
-<div class="furrow"></div>
-<!-- CALENDAR -->
 <section id="calendar">
   <div class="wrap">
-    <div class="sec-head reveal">
-      <div><div class="num">04 · mausam</div><h2>The yearly rhythm</h2><p>Busy winters, slow summers. Pick a month to see what happens on the farm, at the kolhu and on the screen.</p></div>
+    <div class="sec-head reveal"><div><div class="num">05 · mausam</div><h2>The yearly rhythm</h2><p>Busy winters, slow summers. Pick a month to edit what happens on the farm, at the kolhu and on the screen.</p></div>
       <div class="toolbar" style="min-width:min(100%,440px)">
-        <div class="field">
-          <label for="monthSel">Month</label>
-          <div class="select"><select id="monthSel"></select></div>
-        </div>
-        <div class="field">
-          <label for="calFilter">Focus</label>
-          <div class="select"><select id="calFilter">
-            <option value="all">Everything</option>
-            <option value="farm">Farm only</option>
-            <option value="gur">Gur & sales only</option>
-            <option value="tech">Tech only</option>
-          </select></div>
-        </div>
+        <div class="field"><label for="monthSel">Month</label><div class="select"><select id="monthSel"></select></div></div>
+        <div class="field"><label for="calFilter">Focus</label><div class="select"><select id="calFilter"><option value="all">Everything</option><option value="farm">Farm only</option><option value="gur">Gur & sales only</option><option value="tech">Tech only</option></select></div></div>
       </div>
     </div>
     <div class="card reveal">
-      <div class="legend" style="margin:0">
-        <span><i style="background:var(--green)"></i>Farm</span>
-        <span><i style="background:var(--amber)"></i>Gur & sales</span>
-        <span><i style="background:var(--blue)"></i>Tech</span>
-        <span><i style="background:linear-gradient(90deg,var(--green),var(--amber),var(--rose))"></i>Workload</span>
-      </div>
+      <div class="legend" style="margin:0"><span><i style="background:var(--green)"></i>Farm</span><span><i style="background:var(--amber)"></i>Gur & sales</span><span><i style="background:var(--blue)"></i>Tech</span><span><i style="background:linear-gradient(90deg,var(--green),var(--amber),var(--rose))"></i>Workload</span></div>
       <div class="months" id="months"></div>
       <div class="mdetail" id="mdetail"></div>
     </div>
   </div>
 </section>
 
-<div class="furrow"></div>
-<!-- GUR -->
-<section id="gur">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <div><div class="num">05 · gur</div><h2>Season economics</h2><p>The margin is in selling, not making. Our ~24 bigha of cane can make roughly 11–13 tonnes of gur a season, with no cane to buy.</p></div>
-      <div class="field" style="max-width:240px">
-        <label for="gurScenario">Scenario</label>
-        <div class="select"><select id="gurScenario">
-          <option value="test">Season 1 · test (1.5 t)</option>
-          <option value="build">Season 2 · own unit (6 t)</option>
-          <option value="full" selected>Full scale (10 t)</option>
-          <option value="custom">Custom</option>
-        </select></div>
-      </div>
-    </div>
-    <div class="gur">
-      <div class="card reveal">
-        <div class="gur-inputs">
-          <div class="field"><label>Gur sold (tonnes)</label><input class="input" type="number" id="g_t" step="0.5" min="0"></div>
-          <div class="field"><label>Selling price (₹/kg)</label><input class="input" type="number" id="g_p" step="5" min="0"></div>
-          <div class="field"><label>Cane price (₹/quintal)</label><input class="input" type="number" id="g_c" step="5" min="0"></div>
-          <div class="field"><label>Gur recovery (%)</label><input class="input" type="number" id="g_r" step="0.5" min="1"></div>
-          <div class="field"><label>Making cost (₹/kg)</label><input class="input" type="number" id="g_m" step="1" min="0"></div>
-          <div class="field"><label>Packing + delivery (₹/kg)</label><input class="input" type="number" id="g_d" step="1" min="0"></div>
-          <div class="field" style="grid-column:1/-1">
-            <label for="g_sell">Sales channel</label>
-            <div class="select"><select id="g_sell">
-              <option value="direct" selected>Direct to NCR buyers (website / WhatsApp)</option>
-              <option value="outlet">Highway roadside outlet</option>
-              <option value="mandi">Wholesale mandi (~₹40/kg)</option>
-            </select></div>
-          </div>
-        </div>
-      </div>
-      <div class="card reveal">
-        <div class="flow" id="gurFlow"></div>
-        <div class="compare" id="gurCompare"></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="furrow"></div>
-<!-- BUDGET -->
 <section id="budget">
   <div class="wrap">
-    <div class="sec-head reveal">
-      <div><div class="num">06 · ghar kharcha</div><h2>Village family budget</h2><p>Couple and two children, living in the family home. Edit any line.</p></div>
-      <div class="field" style="max-width:230px">
-        <label for="budgetMode">Stage</label>
-        <div class="select"><select id="budgetMode">
-          <option value="single">Single (now)</option>
-          <option value="couple">Married couple</option>
-          <option value="family" selected>Family with 2 kids</option>
-        </select></div>
-      </div>
+    <div class="sec-head reveal"><div><div class="num">06 · ghar kharcha</div><h2>Household & big costs</h2><p>Monthly costs change with life stage. Big one-time costs are taken out of savings in the year they happen.</p></div>
+      <div class="field" style="max-width:230px"><label>Edit stage</label><div class="select"><select data-path="budget.stage"><option value="single">Single</option><option value="couple">Married couple</option><option value="family">Family with 2 kids</option></select></div></div>
     </div>
     <div class="grid-2">
-      <div class="card reveal" style="padding:0">
-        <div class="tbl-scroll"><div class="tbl" style="border:none">
-          <table>
-            <thead><tr><th>Item</th><th>₹ / month</th></tr></thead>
-            <tbody id="budgetBody"></tbody>
-            <tbody><tr class="tfoot"><td>Total</td><td id="budgetTotal"></td></tr></tbody>
-          </table>
-        </div></div>
+      <div class="card reveal">
+        <div class="fgrid" style="margin-bottom:14px">
+          <div class="field"><label>Married at age</label><input class="input" type="number" step="1" data-path="budget.marriageAge" ></div>
+          <div class="field"><label>Kids from age</label><input class="input" type="number" step="1" data-path="budget.kidsAge" ></div>
+        </div>
+        <div class="tbl-scroll"><table>
+          <thead><tr><th>Item</th><th>₹ / month</th><th></th></tr></thead>
+          <tbody id="budgetBody"></tbody>
+          <tbody><tr class="tfoot"><td>Total</td><td id="budgetTotal"></td><td></td></tr></tbody>
+        </table></div>
+        <div class="addrow"><input class="input" id="bN" placeholder="New item"><input class="input" id="bA" type="number" step="500" placeholder="₹ / month" style="max-width:130px"><button class="btn" id="bAdd">Add</button></div>
+        <div style="margin-top:14px" id="stageTotals"></div>
+        <p class="hint" id="budgetNote"></p>
       </div>
       <div class="card reveal">
-        <div class="lbl">One-time costs to plan for</div>
-        <div class="flow" style="margin-top:10px">
-          <div class="frow"><span>Wedding (keep it simple)</span><b>₹5–8 L</b></div>
-          <div class="frow"><span>Home repair / upgrade</span><b>₹10–15 L</b></div>
-          <div class="frow"><span>Kids' higher education (each)</span><b>₹15–20 L</b></div>
-          <div class="frow"><span>Gur unit upgrades & packaging setup</span><b>₹1–3 L</b></div>
-        </div>
-        <div class="lbl" style="margin-top:20px">Protection in place</div>
+        <div class="lbl">One-time costs · name, amount (₹), age</div>
+        <div id="otList" style="margin-top:8px"></div>
+        <div class="addrow"><input class="input" id="otN" placeholder="New cost"><input class="input" id="otA" type="number" step="10000" placeholder="₹" style="max-width:120px"><input class="input" id="otAge" type="number" placeholder="Age" style="max-width:76px"><button class="btn" id="otAdd">Add</button></div>
+        <div class="lbl" style="margin-top:22px">Protection in place</div>
         <div class="flow" style="margin-top:10px">
           <div class="frow"><span>Term insurance</span><b style="color:var(--green)">₹2.75 Cr ✓</b></div>
           <div class="frow"><span>Health insurance</span><b style="color:var(--green)">₹25 L ✓</b></div>
@@ -556,267 +613,471 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
   </div>
 </section>
 
-<div class="furrow"></div>
-<!-- RULES -->
+<section id="whatif">
+  <div class="wrap">
+    <div class="sec-head reveal"><div><div class="num">07 · what-if</div><h2>What moves the plan most</h2><p>Each row lowers one assumption (left half) and raises it (right half), keeping everything else the same. Longer bars matter more. Green is better, red is worse.</p></div>
+      <div class="toolbar" style="min-width:min(100%,440px)">
+        <div class="field"><label for="tMetric">Measure</label><div class="select"><select id="tMetric"><option value="slow">Slow-life age</option><option value="full">Full-freedom age</option><option value="c60">Savings at 60</option><option value="lasts">Money lasts until</option><option value="inc">Monthly income</option></select></div></div>
+        <div class="field"><label for="tRange">Change each by</label><div class="select"><select id="tRange"><option value="10">± 10%</option><option value="20" selected>± 20%</option><option value="30">± 30%</option></select></div></div>
+      </div>
+    </div>
+    <div class="card reveal">
+      <div class="lbl" id="tBase"></div>
+      <div class="tornado" id="tornado"></div>
+    </div>
+    <div class="card reveal" style="margin-top:16px">
+      <div class="lbl" style="margin-bottom:10px">Saved scenarios side by side</div>
+      <div class="cmp" id="cmp"></div>
+      <p class="hint">Save different approaches in the Overview section to compare them here.</p>
+    </div>
+  </div>
+</section>
+
 <section id="rules">
   <div class="wrap">
-    <div class="sec-head reveal">
-      <div><div class="num">07 · niyam</div><h2>What protects the plan</h2></div>
-    </div>
-    <div class="rules">
-      <div class="rule reveal"><div class="ri">🚦</div><h4>Never skip a milestone</h4><p>A phase starts only when the previous one has proven its numbers.</p></div>
-      <div class="rule reveal"><div class="ri">🏦</div><h4>Savings never fund the farm</h4><p>Expansion is paid by farm and gur income, apart from small starting costs.</p></div>
-      <div class="rule reveal"><div class="ri">🛣️</div><h4>Never sell the highway land</h4><p>It's the most valuable long-term asset and the future outlet.</p></div>
-      <div class="rule reveal"><div class="ri">📝</div><h4>Everything in writing</h4><p>Roles with father, rent to cousins, contractor terms, borewell and power costs.</p></div>
-      <div class="rule reveal"><div class="ri">🚫</div><h4>No loans, no show-off</h4><p>No car EMI, no city flat, no ₹25L wedding. These restart the race.</p></div>
-      <div class="rule reveal"><div class="ri">🤝</div><h4>Share it with your partner</h4><p>The person you marry needs to want this life too.</p></div>
-    </div>
+    <div class="sec-head reveal"><div><div class="num">08 · niyam</div><h2>What protects the plan</h2><p>Edit, remove or add your own principles.</p></div></div>
+    <div class="rules" id="rulesList"></div>
     <div class="quote reveal">The freedom test: <em>could I stop this for a month</em><br>without anything bad happening?</div>
   </div>
 </section>
 
+<div id="flash" role="status" aria-live="polite"></div>
 <footer><div class="foot-tree"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 52V16" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/><path d="M32 19C24 14 24.5 6 32 2c7.5 4 8 12 0 17z" fill="#5c8a2e"/><path d="M32 37c-8 1.5-16-3-19.5-12.5 9.5-1.5 17.5 3 19.5 12.5z" fill="#4a6d28"/><path d="M32 30c8 1.5 15.5-3 19.5-12.5-9.5-1.5-17.5 3-19.5 12.5z" fill="#6f9a3a"/><path d="M14 56c6-3 12-4.5 18-4.5S44 53 50 56" fill="none" stroke="#8a5a35" stroke-width="3" stroke-linecap="round"/></svg></div>Khet &amp; Azaadi · freedom plan · built Oct 2026 · figures are estimates — verify locally before committing</footer>
-
 <script>
 (function(){
-  const store={get(k,d){try{const v=localStorage.getItem(k);return v===null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
-  const $=s=>document.querySelector(s);
-  const fmtL=v=>v>=100?'₹'+(v/100).toFixed(2).replace(/\.?0+$/,'')+' Cr':'₹'+Math.round(v)+' L';
-  const inr=n=>'₹'+Math.round(n).toLocaleString('en-IN');
+  /* ---------- helpers ---------- */
+  const LS={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+  const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+  const clone=o=>JSON.parse(JSON.stringify(o));
+  const inr=n=>(n<0?'−':'')+'₹'+Math.round(Math.abs(n)).toLocaleString('en-IN');
+  const short=n=>{const a=Math.abs(n),sg=n<0?'−':'';if(a>=1e7)return sg+'₹'+(a/1e7).toFixed(2).replace(/\.?0+$/,'')+' Cr';if(a>=1e5)return sg+'₹'+(a/1e5).toFixed(1).replace(/\.0$/,'')+' L';return sg+'₹'+Math.round(a).toLocaleString('en-IN')};
+  const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const getP=(o,p)=>p.split('.').reduce((a,k)=>a==null?a:a[k],o);
+  const setP=(o,p,v)=>{const ks=p.split('.');let a=o;ks.slice(0,-1).forEach(k=>a=a[k]);a[ks[ks.length-1]]=v};
+  const num=v=>{v=+v;return isFinite(v)?v:0};
+  const AGE0=29, BIGHA_AC=0.1563;
 
-  /* Theme */
-  const root=document.documentElement;
-  root.setAttribute('data-theme',store.get('fp-theme','light'));
-  $('#themeBtn').onclick=()=>{const t=root.getAttribute('data-theme')==='dark'?'light':'dark';root.setAttribute('data-theme',t);store.set('fp-theme',t);drawChart()};
+  /* ---------- defaults ---------- */
+  const T=t=>({t,d:false});
+  function defaults(){return{
+    money:{start:3500000,save:75000,saveGrowth:2,rPre:3.5,rPost:3,swr:3.5,switchAge:34,horizon:85,saveFarmIncome:true,costMode:'budget',costManual:40000,incMode:'linked',incManual:20000},
+    land:{cane:24,veg:2,fodder:3,orchard:0,base:1,yieldT:32,vegInc:18000,orchInc:12000,orchStart:34},
+    dairy:{cows:2,litres:7,price:50,feed:6000},
+    gur:{useShare:100,boughtCane:0,canePrice:395,ownAtMill:true,recovery:10,making:6,wastage:3,fixed:30000,rent:100000,
+      ch:{direct:{share:60,price:100,pack:15},outlet:{share:25,price:90,pack:3},mandi:{share:15,price:40,pack:1}}},
+    ramp:{start:30,years:3},
+    projects:{monthly:5000,start:30},
+    budget:{stage:'family',marriageAge:31,kidsAge:33,rows:{
+      single:[['Food (partly from own land)',6000],['Electricity, gas, phone, internet',2500],['Bike fuel & maintenance',2500],['Insurance (term + health)',4250],['Clothes, social, festivals',2500],['Travel & leisure',3000]],
+      couple:[['Food (partly from own land)',9000],['Electricity, gas, phone, internet',3000],['Fuel & vehicle',3000],['Insurance (term + health)',5500],['Clothes, social, festivals',4000],['Travel & leisure',4500]],
+      family:[['Household (food, utilities, phone, fuel)',20000],["Kids' schooling (nearby town)",9000],['Insurance (term + family health)',6000],['Clothes, social, festivals',4000],['Travel & leisure',3000]]}},
+    oneTime:[{n:'Wedding (simple)',a:650000,age:31},{n:'Gur unit upgrade & packaging setup',a:200000,age:31},{n:'Home repair / upgrade',a:1200000,age:33},{n:'Child 1 higher education',a:1750000,age:52},{n:'Child 2 higher education',a:1750000,age:55}],
+    gates:{income:30000},
+    p0done:false,
+    phases:[
+      {n:'Phase 0',t:'Test',d:'Oct 2026 – Mar 2027 · Age 29',sum:'Prove people will buy your gur, with almost no risk.',gate:'p0',items:{
+        job:[T('Keep the job; save ~₹75,000 every month'),T('Savings grow from ₹35L toward ~₹40L')],
+        farm:[T('Sit with father: note current cane yield, costs and where it sells (mill / kolhu)'),T('Get a soil test done through KVK Bulandshahr'),T('Put the rent arrangement with cousins in writing'),T('Work this season alongside father to learn the field calendar')],
+        gur:[T('Rent the unit to the contractor as usual'),T('Get 1–2 tonnes made chemical-free from our own cane'),T('Pick a brand name and simple packaging'),T('Get FSSAI registration')],
+        tech:[T('Build a simple order page + WhatsApp ordering'),T('Build the gur brand site yourself, learning as you go')],
+        life:[T('Agree roles with father: he leads the fields, you build sales'),T('Check maternity cover and waiting period on health policy')]}},
+      {n:'Phase 1',t:'Build the base',d:'2027 – 28 · Age 30–31',sum:'Your own cane, your own unit, your own buyers.',gate:'rent',items:{
+        job:[T('Still full-time; savings reach ~₹55–60L')],
+        farm:[T('Keep ~20 bigha of cane; free ~4 bigha as old ratoons finish'),T('Set up the fodder plot (berseem / maize)'),T('Buy 2 cows; start compost and vermicompost'),T('Plant orchard and boundary trees in the monsoon')],
+        gur:[T('Run the unit yourself for 2027–28'),T('Send our own cane to our kolhu instead of the mill'),T('Aim for 5–8 tonnes, mostly sold direct')],
+        tech:[T('Build the farm + kolhu manager app (batches, stock, labour, sales)'),T('Set up camera monitoring for kolhu, stock and cattle'),T('Teach yourself one new skill each season')],
+        life:[T('Talk through this plan with your future partner')]}},
+      {n:'Phase 2',t:'Grow & add value',d:'2028 – 30 · Age 31–33',sum:'Premium products, a highway outlet, steady repeat buyers.',gate:'income',items:{
+        job:[T('Move to remote or reduced hours if possible')],
+        farm:[T('Shift cane to natural / organic methods'),T('Start PGS-India organic certification (~3 years)'),T('Expect a small yield dip during the switch')],
+        gur:[T('Scale to 10+ tonnes a season'),T('Add gur powder, flavoured gur and shakkar'),T('Open a temporary roadside outlet on the highway'),T('Check CLU rules before any permanent building')],
+        tech:[T('Launch monthly gur / ghee subscriptions'),T('Run kolhu and farm content videos'),T('Offer the kolhu app to a few nearby units')],
+        life:[T("Add spouse to health cover; plan for kids' education fund")]}},
+      {n:'Phase 3',t:'Switch',d:'2030 – 32 · Age 33–35',sum:'Leave the race. Live in the village and work by season.',gate:'switch',items:{
+        job:[T('Leave or go part-time only after both gates are met')],
+        farm:[T('Move to the village full-time'),T('Busy winters, slow summers and monsoons')],
+        gur:[T('Run the full season with the outlet + online sales')],
+        tech:[T('Build and learn whatever you enjoy, at your own pace')],
+        life:[T('Optional: farmstay or gur-making experiences for Delhi families')]}},
+      {n:'Phase 4',t:'Freedom',d:'Age 35–40',sum:'The farm pays for life. Savings grow untouched.',gate:'lasts',items:{
+        job:[T('Savings left to grow; work fully optional')],
+        farm:[T('Keep the land productive; replant cane every ~3 years')],
+        gur:[T('Keep the brand alive; grow only what you enjoy')],
+        tech:[T('Build what you love: local agri-tech products as optional upside')],
+        life:[T('Run the freedom test every few months')]}}
+    ],
+    calendar:[
+      {w:95,farm:['Harvest cane','Winter vegetables','Irrigate wheat and mustard'],gur:['Peak crushing','Peak winter sales; restock buyers'],tech:['Push subscriptions','Collect reviews and photos']},
+      {w:90,farm:['Plant spring cane','Intercrop moong, onion or garlic'],gur:['Crushing continues','Build summer stock'],tech:['Track batch costs in the app']},
+      {w:75,farm:['Finish spring cane planting','Harvest mustard'],gur:['Last batches of the season','Store gur airtight for summer'],tech:["Review the season's real numbers"]},
+      {w:55,farm:['Harvest wheat','Sow summer vegetables','Sow maize / jowar fodder'],gur:['Sell stored stock','Make gur powder and value-added products'],tech:['Build or upgrade tools','Personal projects and learning']},
+      {w:40,farm:['Irrigation','Summer vegetables'],gur:['Online and repeat orders','Prepare the outlet'],tech:['Build and learn: own tools and side projects']},
+      {w:40,farm:['Pre-monsoon field prep','Fodder care'],gur:['Move stock to airtight storage before humidity'],tech:['Build and learn: own tools and side projects','Content: farm life videos']},
+      {w:45,farm:['Plant orchard saplings','Ratoon cane care'],gur:['Repeat orders','Small batches of flavoured gur'],tech:['Build and learn: own tools and side projects']},
+      {w:45,farm:['Weeding and earthing up cane','Sapling care'],gur:['Order packaging for next season','Plan prices and products'],tech:['Upgrade the order site']},
+      {w:55,farm:['Prepare fields for autumn cane','Sow berseem (late Sep)'],gur:['Renew FSSAI if due','Open winter pre-orders'],tech:['Launch pre-order campaign']},
+      {w:80,farm:['Harvest early cane','Plant autumn cane','Sow berseem'],gur:['Crushing season starts','First fresh batches'],tech:['Open orders; announce new season']},
+      {w:90,farm:['Sow wheat or mustard on spare plots','Cane harvest'],gur:['Full crushing','Outlet busy with highway travellers'],tech:['Marketing push']},
+      {w:95,farm:['Cane harvest','Winter vegetables'],gur:['Peak crushing and sales','Gifting orders (festivals, weddings)'],tech:['Handle order volume; keep it simple']}
+    ],
+    rules:[
+      {i:'🚦',t:'Never skip a milestone',p:'A phase starts only when the previous one has proven its numbers.'},
+      {i:'🏦',t:'Savings never fund the farm',p:'Expansion is paid by farm and gur income, apart from small starting costs.'},
+      {i:'🛣️',t:'Never sell the highway land',p:"It's the most valuable long-term asset and the future outlet."},
+      {i:'📝',t:'Everything in writing',p:'Roles with father, rent to cousins, contractor terms, borewell and power costs.'},
+      {i:'🚫',t:'No loans, no show-off',p:'No car EMI, no city flat, no ₹25L wedding. These restart the race.'},
+      {i:'🤝',t:'Share it with your partner',p:'The person you marry needs to want this life too.'}
+    ]
+  }}
+  function merge(def,obj){if(Array.isArray(def))return Array.isArray(obj)?obj:def;if(def&&typeof def==='object'){const o={};for(const k in def)o[k]=(obj&&k in obj)?merge(def[k],obj[k]):clone(def[k]);return o}return obj==null?def:obj}
 
-  /* Reveal + counters */
-  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
-  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-  document.querySelectorAll('[data-count]').forEach(el=>{const to=+el.dataset.count;let t0=null;const step=ts=>{if(!t0)t0=ts;const p=Math.min((ts-t0)/1200,1);el.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(step)};requestAnimationFrame(step)});
+  /* ---------- scenario store ---------- */
+  let store=LS.get('ka-store',null);
+  if(!store||!store.list){store={cur:'Base plan',list:{'Base plan':defaults()}}}
+  for(const k in store.list)store.list[k]=merge(defaults(),store.list[k]);
+  if(!store.list[store.cur])store.cur=Object.keys(store.list)[0];
+  let st=store.list[store.cur];
+  const persist=()=>{store.list[store.cur]=st;LS.set('ka-store',store)};
 
-  /* Nav active */
-  const links=[...document.querySelectorAll('#links a')];
-  const secIO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id))}}),{rootMargin:'-45% 0px -50% 0px'});
-  document.querySelectorAll('section[id]').forEach(s=>secIO.observe(s));
-
-  /* ---------- Calculator ---------- */
-  const AGE=29;
-  function paintRange(r){const p=(r.value-r.min)/(r.max-r.min)*100;r.style.setProperty('--p',p+'%')}
-  let sim=[];
-  function calc(){
-    const start=+$('#start').value, save=+$('#save').value, cost=+$('#cost').value, inc=+$('#inc').value;
-    const r=+$('#strategy').value/100, swr=+$('#swr').value/100;
-    ['start','save','cost','inc'].forEach(id=>paintRange($('#'+id)));
-    $('#startV').textContent='₹'+start+' L';
-    $('#saveV').textContent=inr(save*1000);
-    $('#costV').textContent=inr(cost*1000);
-    $('#incV').textContent=inr(inc*1000);
-    const extra=25;
-    const t1=Math.max(0,(cost-inc)*12/100)/swr+extra; // lakh
-    const t2=cost*12/100/swr+extra;
-    const yearly=save*12/100; // lakh
-    sim=[start];let c=start;
-    for(let y=1;y<=20;y++){c=c*(1+r)+yearly;sim.push(c)}
-    const reach=t=>{if(start>=t)return 0;for(let y=1;y<sim.length;y++){if(sim[y]>=t){const f=(t-sim[y-1])/(sim[y]-sim[y-1]);return y-1+f}}return null};
-    const y1=reach(t1),y2=reach(t2);
-    $('#t1').textContent=fmtL(t1);
-    $('#t1s').textContent=y1===null?'20+ years':'in ~'+y1.toFixed(1)+' yrs · age '+Math.ceil(AGE+y1);
-    $('#t2').textContent=fmtL(t2);
-    $('#t2s').textContent=y2===null?'20+ years':'in ~'+y2.toFixed(1)+' yrs · age '+Math.ceil(AGE+y2);
-    $('#t3').textContent=fmtL(sim[11]);
-    window._targets=[t1,t2];
-    drawChart();
+  /* ---------- model ---------- */
+  function compute(s){
+    const L=s.land,G=s.gur,D=s.dairy,M=s.money,B=s.budget;
+    const caneAc=num(L.cane)*BIGHA_AC, ownCaneT=caneAc*num(L.yieldT), usedOwnT=ownCaneT*num(G.useShare)/100;
+    const totalCaneT=usedOwnT+num(G.boughtCane), rec=Math.max(num(G.recovery),.1)/100;
+    const produced=totalCaneT*rec, sold=produced*(1-num(G.wastage)/100), soldKg=sold*1000;
+    const caneCost=((G.ownAtMill?usedOwnT:0)+num(G.boughtCane))*10*num(G.canePrice);
+    const makingCost=produced*1000*num(G.making);
+    const CH=['direct','outlet','mandi'];const shareSum=CH.reduce((a,k)=>a+num(G.ch[k].share),0)||1;
+    let revenue=0,pack=0;const rows=CH.map(k=>{const c=G.ch[k];const kg=soldKg*num(c.share)/shareSum;const r=kg*num(c.price),p=kg*num(c.pack);revenue+=r;pack+=p;return{k,kg,r,p}});
+    const fixed=num(G.fixed), totalCost=caneCost+makingCost+pack+fixed, profit=revenue-totalCost;
+    const avgPrice=soldKg?revenue/soldKg:0, breakEven=soldKg?totalCost/soldKg:0;
+    const extraVsMill=G.ownAtMill?profit:profit-usedOwnT*10*num(G.canePrice);
+    const gurM=profit/12;
+    const vegM=num(L.veg)*num(L.vegInc)/12, orchM=num(L.orchard)*num(L.orchInc)/12;
+    const dairyM=num(D.cows)*(num(D.litres)*30*num(D.price)-num(D.feed));
+    const projM=num(s.projects.monthly);
+    const ramp=a=>{const y=Math.max(1,num(s.ramp.years));return Math.min(1,Math.max(0,(a-num(s.ramp.start)+1)/y))};
+    const incAt=a=>{if(M.incMode==='manual')return a>=num(s.ramp.start)?num(M.incManual):0;return ramp(a)*(gurM+vegM+dairyM)+(a>=num(L.orchStart)?orchM:0)+(a>=num(s.projects.start)?projM:0)};
+    const stageTotal=k=>(B.rows[k]||[]).reduce((t,r)=>t+num(r[1]),0);
+    const costAt=a=>M.costMode==='manual'?num(M.costManual):stageTotal(a<num(B.marriageAge)?'single':a<num(B.kidsAge)?'couple':'family');
+    const costFinal=M.costMode==='manual'?num(M.costManual):stageTotal('family');
+    const incFull=M.incMode==='manual'?num(M.incManual):gurM+vegM+orchM+dairyM+projM;
+    const otAt=a=>s.oneTime.filter(o=>Math.round(num(o.age))===a).reduce((t,o)=>t+num(o.a),0);
+    const futureOT=a=>s.oneTime.filter(o=>num(o.age)>=a).reduce((t,o)=>t+num(o.a),0);
+    const swr=Math.max(num(M.swr),.5)/100, H=Math.max(num(M.horizon),AGE0+5);
+    const slowT=a=>Math.max(0,costFinal-incAt(a))*12/swr+futureOT(a);
+    const fullT=a=>costFinal*12/swr+futureOT(a);
+    function life(sw){let c=num(M.start);const out=[{age:AGE0,c,inc:incAt(AGE0),cost:costAt(AGE0)}];
+      for(let a=AGE0;a<H;a++){const w=a<sw;const r=(w?num(M.rPre):num(M.rPost))/100;const inc=incAt(a)*12,cost=costAt(a)*12;
+        const flow=w?num(M.save)*12*Math.pow(1+num(M.saveGrowth)/100,a-AGE0)+(M.saveFarmIncome?inc:0):inc-cost;
+        c=c*(1+r)+flow-otAt(a);out.push({age:a+1,c,inc:incAt(a+1),cost:costAt(a+1),ot:otAt(a+1)})}
+      return out}
+    const sw=num(M.switchAge), L1=life(sw), NV=life(999);
+    const reach=fn=>{const p=NV.find(p=>p.c>=fn(p.age));return p?p.age:null};
+    const slowAge=reach(slowT), fullAge=reach(fullT);
+    const neg=L1.find(p=>p.c<0), lastsAge=neg?neg.age:null;
+    const at=a=>{const p=L1.find(p=>p.age===a);return p?p.c:L1[L1.length-1].c};
+    const corpusSwitch=at(sw), corpus60=at(60);
+    const farmM=gurM+vegM+orchM+dairyM;
+    const gates={
+      p0:{ok:!!s.p0done,manual:true,text:'Tick when 1–2 tonnes have sold to real buyers and FSSAI is done.'},
+      rent:{ok:extraVsMill>num(G.rent),text:`Gur adds ${short(extraVsMill)} a season vs contractor rent ${short(num(G.rent))}.`},
+      income:{ok:farmM>=num(s.gates.income),text:`Farm + gur + dairy ≈ ${inr(farmM)}/month vs target ${inr(num(s.gates.income))}.`},
+      switch:{ok:corpusSwitch>=slowT(sw),text:`At age ${sw}: savings ${short(corpusSwitch)} vs slow-life target ${short(slowT(sw))}.`},
+      lasts:{ok:!lastsAge,text:lastsAge?`With a switch at ${sw}, savings run out around age ${lastsAge}.`:`With a switch at ${sw}, savings last beyond age ${H}.`}
+    };
+    return{caneAc,ownCaneT,usedOwnT,totalCaneT,produced,sold,soldKg,caneCost,makingCost,pack,fixed,totalCost,revenue,profit,avgPrice,breakEven,extraVsMill,rows,
+      gurM,vegM,orchM,dairyM,projM,farmM,incFull,costFinal,costAt,incAt,stageTotal,slowT,fullT,slowAge,fullAge,lastsAge,corpusSwitch,corpus60,life:L1,never:NV,gates,H,sw};
   }
-  function drawChart(){
-    if(!sim.length)return;
-    const svg=$('#chart'),W=700,H=300,pl=44,pr=12,pt=14,pb=28;
-    const cs=getComputedStyle(root);
-    const accent=cs.getPropertyValue('--accent').trim(),blue=cs.getPropertyValue('--blue').trim(),violet=cs.getPropertyValue('--violet').trim(),line=cs.getPropertyValue('--line').trim();
-    const yrs=15,data=sim.slice(0,yrs+1);
-    const [t1,t2]=window._targets;
-    const max=Math.max(...data,t2)*1.1;
-    const x=i=>pl+i/yrs*(W-pl-pr), y=v=>pt+(1-v/max)*(H-pt-pb);
-    let g='';
-    const ticks=4;
-    for(let i=0;i<=ticks;i++){const v=max/ticks*i;g+=`<line x1="${pl}" x2="${W-pr}" y1="${y(v)}" y2="${y(v)}" stroke="${line}" stroke-width="1"/><text x="${pl-8}" y="${y(v)+4}" text-anchor="end">${v>=100?(v/100).toFixed(1)+'Cr':Math.round(v)+'L'}</text>`}
-    for(let i=0;i<=yrs;i+=3){g+=`<text x="${x(i)}" y="${H-8}" text-anchor="middle">${AGE+i}</text>`}
-    const pts=data.map((v,i)=>`${x(i)},${y(v)}`).join(' ');
-    const area=`${x(0)},${y(0)} ${pts} ${x(yrs)},${y(0)}`;
-    g+=`<defs><linearGradient id="ga" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="${accent}" stop-opacity=".28"/><stop offset="1" stop-color="${accent}" stop-opacity="0"/></linearGradient></defs>`;
-    g+=`<polygon points="${area}" fill="url(#ga)"/>`;
-    [[t1,blue],[t2,violet]].forEach(([t,c])=>{g+=`<line x1="${pl}" x2="${W-pr}" y1="${y(t)}" y2="${y(t)}" stroke="${c}" stroke-width="1.6" stroke-dasharray="5 5"/>`});
-    g+=`<polyline points="${pts}" fill="none" stroke="${accent}" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round" class="cline"/>`;
-    data.forEach((v,i)=>{if(i%3===0)g+=`<circle cx="${x(i)}" cy="${y(v)}" r="3.5" fill="${accent}"/>`});
+  let R=compute(st);
+
+  /* ---------- binding ---------- */
+  function populate(){
+    $$('[data-path]').forEach(el=>{const v=getP(st,el.dataset.path);if(el.type==='checkbox')el.checked=!!v;else if(v!=null)el.value=v});
+    paintRanges();
+  }
+  function paintRanges(){$$('input[type=range]').forEach(r=>{const p=(r.value-r.min)/(r.max-r.min)*100;r.style.setProperty('--p',p+'%')});
+    $$('[data-show]').forEach(el=>{const v=getP(st,el.dataset.show);const f=el.dataset.fmt;el.textContent=f==='inr'?inr(v):f==='age'?'age '+v:v})}
+  document.addEventListener('input',e=>{
+    const el=e.target.closest('[data-path]');if(!el)return;
+    let v=el.type==='checkbox'?el.checked:(el.type==='number'||el.type==='range')?num(el.value):el.value;
+    setP(st,el.dataset.path,v);
+    if(el.dataset.preset){const p=$(el.dataset.preset);if(p)p.value='custom'}
+    if(el.dataset.path==='budget.stage')buildBudget();
+    refresh();
+  });
+
+  /* ---------- renderers ---------- */
+  const COL={gur:'#c6861a',veg:'#4a6d28',orch:'#3d6e84',dairy:'#7a8f3a',proj:'#7a4a6c'};
+  const yrsTo=a=>a==null?'':a-AGE0<=0?'already':'in ~'+(a-AGE0)+' yrs';
+  function renderHero(){
+    $('#hs-save').textContent=short(num(st.money.start));
+    const tot=['cane','veg','fodder','orchard','base'].reduce((t,k)=>t+num(st.land[k]),0);
+    $('#hs-land').textContent=tot+' bigha';$('#hs-land-s').textContent=`≈ ${(tot*BIGHA_AC).toFixed(1)} acres · ${num(st.land.cane)} bigha cane`;
+    $('#hs-slow').textContent=R.slowAge?'age ~'+R.slowAge:'60+';$('#hs-slow-s').textContent='target ≈ '+short(R.slowT(R.slowAge||60));
+    $('#hs-full').textContent=R.fullAge?'age ~'+R.fullAge:'60+';$('#hs-full-s').textContent='target ≈ '+short(R.fullT(R.fullAge||60));
+  }
+  function tile(k,v,s,cls){return`<div class="tile ${cls||''}"><div class="k">${k}</div><div class="v">${v}</div><div class="s">${s}</div></div>`}
+  function renderOverview(){
+    const lasts=R.lastsAge?`runs out at ${R.lastsAge}`:`lasts beyond ${R.H}`;
+    $('#tiles').innerHTML=
+      tile('Slow-life age',R.slowAge?R.slowAge:'60+',R.slowAge?`${yrsTo(R.slowAge)} · target ${short(R.slowT(R.slowAge))}`:'not reached by 60',R.slowAge&&R.slowAge<=40?'good':'')+
+      tile('Full-freedom age',R.fullAge?R.fullAge:'60+',R.fullAge?`${yrsTo(R.fullAge)} · target ${short(R.fullT(R.fullAge))}`:'not reached by 60')+
+      tile('Your switch age',R.sw,`money ${lasts}`,R.lastsAge?'bad':'good')+
+      tile('Monthly income (full scale)',inr(R.incFull),`vs family cost ${inr(R.costFinal)}`,R.incFull>=R.costFinal?'good':'')+
+      tile('Gur season profit',short(R.profit),`${R.sold.toFixed(1)} t sold · ${inr(R.profit/12)}/month`,R.profit<0?'bad':'')+
+      tile('Savings at age 60',short(R.corpus60),`with a switch at ${R.sw}`,R.corpus60<0?'bad':'');
+    // income stack
+    const parts=[['Gur',R.gurM,COL.gur],['Vegetables',R.vegM,COL.veg],['Orchard',R.orchM,COL.orch],['Dairy',R.dairyM,COL.dairy],['Own projects',R.projM,COL.proj]].filter(p=>p[1]>0);
+    const tot=Math.max(R.incFull,R.costFinal,1);
+    let h='<div class="stack">'+parts.map(p=>`<div style="flex:0 0 ${p[1]/tot*100}%;background:${p[2]}" title="${p[0]}: ${inr(p[1])}">${p[1]/tot>.1?p[0]:''}</div>`).join('')+'</div>';
+    {const pc=Math.min(100,R.costFinal/tot*100);h+=`<div class="costline"><span style="left:${pc}%;transform:translateX(${pc>70?'-100%':pc<30?'0':'-50%'})">▲ family cost ${inr(R.costFinal)}</span></div>`}
+    h+='<div class="legend" style="margin-top:10px">'+parts.map(p=>`<span><i style="background:${p[2]}"></i>${p[0]} ${inr(p[1])}</span>`).join('')+'</div>';
+    if(st.money.incMode==='manual')h+='<p class="hint">Income is set manually in the Money section, so these parts are shown for reference only.</p>';
+    $('#incStack').innerHTML=h;
+    $('#gateList').innerHTML=st.phases.map(p=>{const g=R.gates[p.gate];return`<div class="grow"><div><b>${esc(p.n)} · ${esc(p.t)}</b><div class="hint" style="margin:2px 0 0">${esc(g.text)}</div></div><span class="pill ${g.ok?'ok':'no'}">${g.ok?'✓ met':g.manual?'○ to do':'✗ not yet'}</span></div>`}).join('');
+  }
+  function renderMoney(){
+    $('#m1').textContent=short(R.slowT(R.sw));$('#m1s').textContent=`needed at age ${R.sw}`;
+    $('#m2').textContent=short(R.corpusSwitch);$('#m2s').textContent=R.corpusSwitch>=R.slowT(R.sw)?'enough to switch ✓':'short by '+short(R.slowT(R.sw)-R.corpusSwitch);
+    $('#m3').textContent=R.lastsAge?'age '+R.lastsAge:R.H+'+';$('#m3s').textContent=R.lastsAge?'savings run out':'savings never run out';
+    $('#costManualWrap').style.display=st.money.costMode==='manual'?'':'none';
+    $('#incManualWrap').style.display=st.money.incMode==='manual'?'':'none';
+    drawLife();
+  }
+  function drawLife(){
+    const svg=$('#lifeChart');if(!svg)return;const W=700,H=330,pl=56,pr=14,pt=26,pb=30;
+    const cs=getComputedStyle(document.documentElement);const c=n=>cs.getPropertyValue(n).trim();
+    const a0=AGE0,a1=R.H,L=R.life;const nv=R.never.filter(p=>p.age<=Math.min(a1,55));
+    const vals=L.map(p=>p.c).concat(nv.map(p=>p.c),L.map(p=>R.slowT(p.age)));
+    const max=Math.max(...vals,1)*1.08,min=Math.min(0,...L.map(p=>p.c))*1.1;
+    const x=a=>pl+(a-a0)/(a1-a0)*(W-pl-pr),y=v=>pt+(max-v)/(max-min||1)*(H-pt-pb);
+    let g='';for(let i=0;i<=4;i++){const v=min+(max-min)/4*i;g+=`<line x1="${pl}" x2="${W-pr}" y1="${y(v)}" y2="${y(v)}" stroke="${c('--line')}"/><text x="${pl-8}" y="${y(v)+4}" text-anchor="end">${short(v).replace('₹','')}</text>`}
+    for(let a=Math.ceil(a0/5)*5;a<=a1;a+=5)g+=`<text x="${x(a)}" y="${H-8}" text-anchor="middle">${a}</text>`;
+    g+=`<rect x="${x(R.sw)}" y="${pt}" width="${W-pr-x(R.sw)}" height="${H-pt-pb}" fill="${c('--green-soft')}" opacity=".55"/>`;
+    g+=`<line x1="${x(R.sw)}" x2="${x(R.sw)}" y1="${pt}" y2="${H-pb}" stroke="${c('--green')}" stroke-dasharray="4 4"/><text x="${x(R.sw)+6}" y="${pt+12}" style="fill:${c('--green')};font-weight:600">switch at ${R.sw}</text>`;
+    if(min<0)g+=`<line x1="${pl}" x2="${W-pr}" y1="${y(0)}" y2="${y(0)}" stroke="${c('--rose')}"/>`;
+    g+=`<polyline points="${nv.map(p=>x(p.age)+','+y(p.c)).join(' ')}" fill="none" stroke="${c('--faint')}" stroke-width="1.6" stroke-dasharray="2 4"/>`;
+    g+=`<polyline points="${L.map(p=>x(p.age)+','+y(R.slowT(p.age))).join(' ')}" fill="none" stroke="${c('--blue')}" stroke-width="1.6" stroke-dasharray="6 5"/>`;
+    const pts=L.map(p=>x(p.age)+','+y(p.c)).join(' ');
+    g+=`<defs><linearGradient id="lg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="${c('--accent')}" stop-opacity=".25"/><stop offset="1" stop-color="${c('--accent')}" stop-opacity="0"/></linearGradient></defs>`;
+    g+=`<polygon points="${x(a0)},${y(Math.max(0,min))} ${pts} ${x(a1)},${y(Math.max(0,min))}" fill="url(#lg)"/><polyline points="${pts}" fill="none" stroke="${c('--accent')}" stroke-width="2.6" stroke-linejoin="round"/>`;
+    st.oneTime.forEach(o=>{const a=Math.round(num(o.age));if(a<a0||a>a1)return;const p=L.find(p=>p.age===a);if(!p)return;g+=`<circle cx="${x(a)}" cy="${y(p.c)}" r="5" fill="${c('--rose')}" stroke="${c('--surface')}" stroke-width="2"><title>${esc(o.n)}: ${short(num(o.a))} at age ${a}</title></circle>`});
     svg.innerHTML=g;
-    const pl2=svg.querySelector('.cline');if(pl2&&pl2.getTotalLength){const L=pl2.getTotalLength();pl2.style.strokeDasharray=L;pl2.style.strokeDashoffset=L;pl2.getBoundingClientRect();pl2.style.transition='stroke-dashoffset .9s ease';pl2.style.strokeDashoffset=0}
   }
-  ['start','save','cost','inc'].forEach(id=>$('#'+id).addEventListener('input',calc));
-  ['strategy','swr'].forEach(id=>$('#'+id).addEventListener('change',calc));
-  calc();
-  window.addEventListener('resize',drawChart);
-
-  /* ---------- Phases ---------- */
-  const AREAS={job:['Job & savings','💼','var(--blue-soft)'],farm:['Farm','🌾','var(--green-soft)'],gur:['Gur & sales','🍯','var(--amber-soft)'],tech:['Tech','💻','var(--violet-soft)'],life:['Life & family','🏡','var(--rose-soft)']};
-  const PHASES=[
-    {n:'Phase 0',t:'Test',d:'Oct 2026 – Mar 2027 · Age 29',sum:'Prove people will buy your gur, with almost no risk.',
-     items:{job:['Keep the job; save ~₹75,000 every month','Savings grow from ₹35L toward ~₹40L'],
-            farm:['Sit with father: note current cane yield, costs and where it sells (mill / kolhu)','Get a soil test done through KVK Bulandshahr','Put the rent arrangement with cousins in writing','Work this season alongside father to learn the field calendar'],
-            gur:['Rent the unit to the contractor as usual','Get 1–2 tonnes made chemical-free from our own cane','Pick a brand name and simple packaging','Get FSSAI registration'],
-            tech:['Build a simple order page + WhatsApp ordering','Build the gur brand site yourself, learning as you go'],
-            life:['Agree roles with father: he leads the fields, you build sales','Check maternity cover and waiting period on health policy']},
-     gate:'Sell 1–2 tonnes to real buyers and get FSSAI registration.'},
-    {n:'Phase 1',t:'Build the base',d:'2027 – 28 · Age 30–31',sum:'Your own cane, your own unit, your own buyers.',
-     items:{job:['Still full-time; savings reach ~₹55–60L'],
-            farm:['Keep ~20 bigha of cane; free ~4 bigha as old ratoons finish','Set up the fodder plot (berseem / maize)','Buy 2 cows; start compost and vermicompost','Plant orchard and boundary trees in the monsoon'],
-            gur:['Run the unit yourself or via manager for 2027–28','Send our own cane to our kolhu instead of the mill','Aim for 5–8 tonnes, mostly sold direct'],
-            tech:['Build the farm + kolhu manager app (batches, stock, labour, sales)','Set up camera monitoring for kolhu, stock and cattle','Teach yourself one new skill each season (payments, automation, AI tools)'],
-            life:['Talk through this plan with your future partner']},
-     gate:'Farm + gur earn more than the contractor\'s rent plus your costs.'},
-    {n:'Phase 2',t:'Grow & add value',d:'2028 – 30 · Age 31–33',sum:'Premium products, a highway outlet, steady repeat buyers.',
-     items:{job:['Move to remote or reduced hours if possible'],
-            farm:['Shift cane to natural/organic methods','Start PGS-India organic certification (~3 years)','Expect a small yield dip during the switch'],
-            gur:['Scale to 10+ tonnes a season','Add gur powder, flavoured gur and shakkar','Open a temporary roadside outlet on the highway','Check CLU rules before any permanent building'],
-            tech:['Launch monthly gur / ghee subscriptions','Run kolhu and farm content videos','Offer the kolhu app to a few nearby units'],
-            life:['Add spouse to health cover; plan for kids\' education fund']},
-     gate:'Farm + gur average ₹30,000–40,000 a month for 2 seasons in a row.'},
-    {n:'Phase 3',t:'Switch',d:'2030 – 32 · Age 33–35',sum:'Leave the race. Live in the village and work by season.',
-     items:{job:['Leave or go part-time only after both gates are met','Savings ≈ ₹90L'],
-            farm:['Move to the village full-time','Busy winters, slow summers and monsoons'],
-            gur:['Run the full season with the outlet + online sales'],
-            tech:['Build and learn whatever you enjoy, at your own pace'],
-            life:['Optional: farmstay or gur-making experiences for Delhi families']},
-     gate:'Savings ≈ ₹90L and the Phase 2 milestone met.'},
-    {n:'Phase 4',t:'Freedom',d:'Age 35–40',sum:'The farm pays for life. Savings grow untouched.',
-     items:{job:['Savings left untouched; ~₹1.5 Cr+ by around 40'],
-            farm:['Keep the land productive; replant cane every ~3 years'],
-            gur:['Keep the brand alive; grow only what you enjoy'],
-            tech:['Build what you love: local agri-tech products as optional upside'],
-            life:['Work becomes fully optional']},
-     gate:'Run the freedom test every few months.'}
-  ];
-  let curPhase=store.get('fp-phase',0);
-  const checks=store.get('fp-checks',{});
-  const tick='<svg viewBox="0 0 24 24" fill="none" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>';
-  function phaseProgress(i){let tot=0,done=0;Object.entries(PHASES[i].items).forEach(([a,arr])=>arr.forEach((_,j)=>{tot++;if(checks[i+'-'+a+'-'+j])done++}));return [done,tot]}
-  function renderTabs(){
-    $('#phaseTabs').innerHTML=PHASES.map((p,i)=>{const [d,t]=phaseProgress(i);return `<button class="ptab ${i===curPhase?'on':''}" data-i="${i}"><div class="pn">${p.n}</div><div class="pt">${p.t}</div><div class="pd">${p.d.split(' · ')[0]}</div><div class="bar" style="width:${t?d/t*100:0}%"></div></button>`}).join('');
-    document.querySelectorAll('.ptab').forEach(b=>b.onclick=()=>{curPhase=+b.dataset.i;store.set('fp-phase',curPhase);renderTabs();renderPhase()});
+  function renderGur(){
+    const r=R;
+    $('#gurFlow').innerHTML=`
+      <div class="frow"><span>Own cane sent to kolhu</span><b>${r.usedOwnT.toFixed(0)} t of ${r.ownCaneT.toFixed(0)} t</b></div>
+      <div class="frow"><span>Gur made → sold (after ${num(st.gur.wastage)}% loss)</span><b>${r.produced.toFixed(1)} t → ${r.sold.toFixed(1)} t</b></div>
+      <div class="frow"><span>Sales revenue (avg ${inr(r.avgPrice)}/kg)</span><b>${inr(r.revenue)}</b></div>
+      <div class="frow"><span>Cane cost${st.gur.ownAtMill?' (own cane at mill price)':' (bought cane only)'}</span><b>− ${inr(r.caneCost)}</b></div>
+      <div class="frow"><span>Making cost</span><b>− ${inr(r.makingCost)}</b></div>
+      <div class="frow"><span>Packing + delivery</span><b>− ${inr(r.pack)}</b></div>
+      <div class="frow"><span>Fixed season costs</span><b>− ${inr(r.fixed)}</b></div>
+      <div class="frow total"><span>Season profit</span><b style="color:${r.profit>=0?'var(--green)':'var(--rose)'}">${inr(r.profit)}</b></div>
+      <div class="frow"><span>Monthly average (÷12)</span><b>${inr(r.profit/12)}</b></div>
+      <div class="frow"><span>Break-even average price</span><b>${inr(r.breakEven)}/kg</b></div>`;
+    const diff=r.extraVsMill-num(st.gur.rent);
+    $('#gurCompare').innerHTML=`Compared with selling cane to the mill and renting the unit for ${inr(num(st.gur.rent))}: running it yourself is <b style="color:${diff>=0?'var(--green)':'var(--rose)'}">${diff>=0?'+':''}${inr(diff)}</b> a season.`;
+    const CHN={direct:['Direct to NCR buyers',COL.gur],outlet:['Highway outlet',COL.veg],mandi:['Mandi',COL.orch]};
+    const ss=r.rows.reduce((t,x)=>t+x.kg,0)||1;
+    $('#mixBar').innerHTML=r.rows.map(x=>`<div style="flex:0 0 ${x.kg/ss*100}%;background:${CHN[x.k][1]}" title="${CHN[x.k][0]}"></div>`).join('');
+    $('#mixLegend').innerHTML=r.rows.map(x=>`<span><i style="background:${CHN[x.k][1]}"></i>${CHN[x.k][0]}: ${(x.kg/1000).toFixed(1)} t · ${short(x.r-x.p)}</span>`).join('');
+    const tot=['direct','outlet','mandi'].reduce((t,k)=>t+num(st.gur.ch[k].share),0);
+    $('#shareWarn').textContent=tot!==100?`Shares add up to ${tot}% — they are scaled to 100%.`:'';
+    drawGurChart();
   }
-  function renderPhase(){
-    const p=PHASES[curPhase],f=$('#areaFilter').value;const [d,t]=phaseProgress(curPhase);
-    let html=`<div class="phase-top"><div><h3>${p.n} · ${p.t}</h3><p>${p.d} — ${p.sum}</p></div><div class="progress"><div class="range-row"><span class="lbl">Progress</span><b>${d}/${t}</b></div><div class="track"><div class="fill" style="width:${t?d/t*100:0}%"></div></div></div></div><div class="areas">`;
-    let k=0;
-    Object.entries(p.items).forEach(([a,arr])=>{if(f!=='all'&&f!==a)return;const [nm,ic,bg]=AREAS[a];
-      html+=`<div class="area" style="animation-delay:${k++*50}ms"><h4><span class="ic" style="background:${bg}">${ic}</span>${nm}</h4>`+
-      arr.map((txt,j)=>{const id=curPhase+'-'+a+'-'+j;return `<label class="check"><input type="checkbox" data-id="${id}" ${checks[id]?'checked':''}><span class="box">${tick}</span><span>${txt}</span></label>`}).join('')+`</div>`});
-    html+=`</div><div class="gate"><span>🚦</span><div><b>Milestone to move on:</b> ${p.gate}</div></div>`;
-    $('#phaseBody').innerHTML=html;
-    $('#phaseBody').querySelectorAll('input[type=checkbox]').forEach(cb=>cb.onchange=()=>{checks[cb.dataset.id]=cb.checked;store.set('fp-checks',checks);renderTabs();const [d2,t2]=phaseProgress(curPhase);$('#phaseBody .fill').style.width=(d2/t2*100)+'%';$('#phaseBody .progress b').textContent=d2+'/'+t2});
+  function drawGurChart(){
+    const svg=$('#gurChart');const W=700,H=240,pl=60,pr=14,pt=16,pb=30;const cs=getComputedStyle(document.documentElement);const c=n=>cs.getPropertyValue(n).trim();
+    const p0=30,p1=180,f=p=>R.soldKg*p-R.totalCost;const ys=[f(p0),f(p1),0];const max=Math.max(...ys)*1.1,min=Math.min(...ys)*1.1;
+    const x=p=>pl+(p-p0)/(p1-p0)*(W-pl-pr),y=v=>pt+(max-v)/(max-min||1)*(H-pt-pb);
+    let g='';for(let i=0;i<=4;i++){const v=min+(max-min)/4*i;g+=`<line x1="${pl}" x2="${W-pr}" y1="${y(v)}" y2="${y(v)}" stroke="${c('--line')}"/><text x="${pl-8}" y="${y(v)+4}" text-anchor="end">${short(v).replace('₹','')}</text>`}
+    for(let p=40;p<=180;p+=20)g+=`<text x="${x(p)}" y="${H-8}" text-anchor="middle">₹${p}</text>`;
+    g+=`<line x1="${pl}" x2="${W-pr}" y1="${y(0)}" y2="${y(0)}" stroke="${c('--rose')}" stroke-dasharray="4 4"/>`;
+    g+=`<line x1="${x(p0)}" y1="${y(f(p0))}" x2="${x(p1)}" y2="${y(f(p1))}" stroke="${c('--amber')}" stroke-width="2.6"/>`;
+    if(R.breakEven>p0&&R.breakEven<p1)g+=`<circle cx="${x(R.breakEven)}" cy="${y(0)}" r="5" fill="${c('--rose')}"/><text x="${x(R.breakEven)}" y="${y(0)-10}" text-anchor="middle" style="fill:${c('--rose')};font-weight:600">break-even ₹${Math.round(R.breakEven)}</text>`;
+    if(R.avgPrice>p0&&R.avgPrice<p1)g+=`<circle cx="${x(R.avgPrice)}" cy="${y(R.profit)}" r="6" fill="${c('--green')}" stroke="${c('--surface')}" stroke-width="2"/><text x="${x(R.avgPrice)+10}" y="${y(R.profit)+4}" style="fill:${c('--green')};font-weight:600">you: ₹${Math.round(R.avgPrice)}/kg</text>`;
+    svg.innerHTML=g;
   }
-  $('#areaFilter').onchange=renderPhase;
-  renderTabs();renderPhase();
-
-  /* ---------- Land ---------- */
-  const LAND=[
-    {k:'cane',n:'Sugarcane',why:'Feeds your own kolhu',c:'#7a8f3a'},
-    {k:'veg',n:'Vegetables & seasonal',why:'Family food + outlet stock',c:'#c6861a'},
-    {k:'fodder',n:'Fodder',why:'Berseem / maize for 2–4 cows',c:'#a9b878'},
-    {k:'orchard',n:'Orchard & boundary',why:'Guava, lemon, amla, jamun',c:'#4a6d28'},
-    {k:'base',n:'Base area',why:'Kolhu, shed, compost, outlet',c:'#8a5a35'}
-  ];
-  const PRESETS={today:{cane:24,veg:2,fodder:3,orchard:0,base:1},plan:{cane:20,veg:4,fodder:3,orchard:2,base:1},cane:{cane:24,veg:2,fodder:2,orchard:1,base:1},diverse:{cane:15,veg:6,fodder:3,orchard:5,base:1}};
-  let land={...PRESETS.plan};
+  const LAND=[{k:'cane',n:'Sugarcane',why:'Feeds your own kolhu',c:'#7a8f3a'},{k:'veg',n:'Vegetables & seasonal',why:'Family food + outlet stock',c:'#c6861a'},{k:'fodder',n:'Fodder',why:'Berseem / maize for the cows',c:'#a9b878'},{k:'orchard',n:'Orchard & boundary',why:'Guava, lemon, amla, jamun',c:'#4a6d28'},{k:'base',n:'Base area',why:'Kolhu, shed, compost, outlet',c:'#8a5a35'}];
+  function buildLand(){
+    $('#landList').innerHTML=LAND.map(l=>`<div class="lrow"><i style="background:${l.c}"></i><div><div class="nm">${l.n}</div><div class="why">${l.why}</div></div><input class="input" type="number" min="0" step="1" data-path="land.${l.k}" data-preset="#landPreset" value="${num(st.land[l.k])}"><div class="ac" data-ac="${l.k}"></div></div>`).join('');
+  }
   function renderLand(){
-    const used=Object.values(land).reduce((a,b)=>a+(+b||0),0);
-    $('#landBar').innerHTML=LAND.map(l=>`<div class="seg" style="flex:${Math.max(+land[l.k]||0,0.0001)};background:${l.c}" title="${l.n}: ${land[l.k]} bigha">${(+land[l.k]||0)>=2?land[l.k]:''}</div>`).join('');
+    const used=LAND.reduce((t,l)=>t+num(st.land[l.k]),0);
+    $('#landBar').innerHTML=LAND.map(l=>`<div class="seg" style="flex:${Math.max(num(st.land[l.k]),.0001)};background:${l.c}" title="${l.n}: ${num(st.land[l.k])} bigha">${num(st.land[l.k])>=2?num(st.land[l.k]):''}</div>`).join('');
+    LAND.forEach(l=>{const e=document.querySelector(`[data-ac="${l.k}"]`);if(e)e.textContent=(num(st.land[l.k])*BIGHA_AC).toFixed(2)+' ac'});
     $('#landUsed').textContent=used;$('#landUsed').classList.toggle('warn',used!==30);
-    const acres=(+land.cane||0)*0.1563;const lo=acres*30*0.10,hi=acres*35*0.10;
-    $('#landGur').textContent='~'+lo.toFixed(1)+'–'+hi.toFixed(1)+' tonnes / season';
+    $('#landGur').textContent=`${R.ownCaneT.toFixed(0)} t cane → ~${(R.ownCaneT*num(st.gur.recovery)/100).toFixed(1)} t gur / season`;
+    $('#landSum').innerHTML=`<div class="frow"><span>Vegetables</span><b>${inr(R.vegM)}/month</b></div><div class="frow"><span>Orchard (from age ${num(st.land.orchStart)})</span><b>${inr(R.orchM)}/month</b></div>`;
+    const fodNeed=num(st.dairy.cows)*1;
+    $('#dairySum').innerHTML=`<div class="frow total"><span>Dairy profit</span><b>${inr(R.dairyM)}/month</b></div>`+(num(st.land.fodder)<fodNeed?`<p class="hint warn">Rough guide: about 1 bigha of fodder per cow. You have ${num(st.land.fodder)} bigha for ${num(st.dairy.cows)} cows.</p>`:'');
   }
-  function buildLandList(){
-    $('#landList').innerHTML=LAND.map(l=>`<div class="lrow"><i style="background:${l.c}"></i><div><div class="nm">${l.n}</div><div class="why">${l.why}</div></div><input class="input" type="number" min="0" max="30" step="1" data-k="${l.k}" value="${land[l.k]}"><div class="ac" data-ac="${l.k}"></div></div>`).join('');
-    const upd=()=>LAND.forEach(l=>{document.querySelector(`[data-ac="${l.k}"]`).textContent=((+land[l.k]||0)*0.1563).toFixed(2)+' ac'});
-    document.querySelectorAll('#landList input').forEach(inp=>inp.oninput=()=>{land[inp.dataset.k]=Math.max(0,+inp.value||0);upd();renderLand()});
-    upd();renderLand();
-  }
-  $('#landPreset').onchange=e=>{land={...PRESETS[e.target.value]};buildLandList()};
-  buildLandList();
 
-  /* ---------- Calendar ---------- */
+  /* phases */
+  const AREAS={job:['Job & savings','💼','var(--blue-soft)'],farm:['Farm','🌾','var(--green-soft)'],gur:['Gur & sales','🍯','var(--amber-soft)'],tech:['Tech','💻','var(--violet-soft)'],life:['Life & family','🏡','var(--rose-soft)']};
+  let curPhase=LS.get('ka-phase',0);if(curPhase>=st.phases.length)curPhase=0;
+  const prog=i=>{let t=0,d=0;Object.values(st.phases[i].items).forEach(a=>a.forEach(x=>{t++;if(x.d)d++}));return[d,t]};
+  function renderTabs(){
+    $('#phaseTabs').innerHTML=st.phases.map((p,i)=>{const[d,t]=prog(i);const g=R.gates[p.gate];return`<button class="ptab ${i===curPhase?'on':''}" data-i="${i}"><div class="pn">${esc(p.n)} <span class="pill ${g.ok?'ok':'no'}" style="font-family:Karla,sans-serif;font-size:10.5px;padding:1px 8px;margin-left:4px;vertical-align:3px">${g.ok?'✓ met':'not yet'}</span></div><div class="pt">${esc(p.t)}</div><div class="pd">${esc(p.d.split(' · ')[0])}</div><div class="bar" style="width:${t?d/t*100:0}%"></div></button>`}).join('');
+    $$('.ptab').forEach(b=>b.onclick=()=>{curPhase=+b.dataset.i;LS.set('ka-phase',curPhase);renderTabs();buildPhase()});
+  }
+  function buildPhase(){
+    const p=st.phases[curPhase],f=$('#areaFilter').value;const[d,t]=prog(curPhase);const g=R.gates[p.gate];
+    let h=`<div class="phase-top"><div style="flex:1;min-width:260px"><input class="input title-in" data-pf="t" value="${esc(p.t)}" aria-label="Phase title"><input class="input sub-in" data-pf="d" value="${esc(p.d)}" aria-label="Phase dates"><input class="input sub-in" data-pf="sum" value="${esc(p.sum)}" aria-label="Phase summary"></div><div class="progress"><div class="range-row"><span class="lbl">Progress</span><b id="pgTxt">${d}/${t}</b></div><div class="track"><div class="fill" id="pgFill" style="width:${t?d/t*100:0}%"></div></div></div></div><div class="areas">`;
+    Object.keys(AREAS).forEach((a,k)=>{if(f!=='all'&&f!==a)return;const[nm,ic,bg]=AREAS[a];const arr=p.items[a]||(p.items[a]=[]);
+      h+=`<div class="area" style="animation-delay:${k*50}ms"><h4><span class="ic" style="background:${bg}">${ic}</span>${nm}</h4>`+
+      arr.map((x,j)=>`<div class="check-e ${x.d?'done':''}"><input type="checkbox" data-a="${a}" data-j="${j}" ${x.d?'checked':''} aria-label="Done"><div class="ce" contenteditable="true" spellcheck="false" data-a="${a}" data-j="${j}">${esc(x.t)}</div><button class="xbtn" data-a="${a}" data-j="${j}" aria-label="Remove task">×</button></div>`).join('')+
+      `<div class="addrow"><input class="input" placeholder="Add a task…" data-add="${a}"><button class="btn" data-addbtn="${a}">Add</button></div></div>`});
+    h+=`</div><div class="gate"><span>🚦</span><div style="flex:1"><b>Milestone to move on:</b> ${esc(g.text)}`+(p.gate==='p0'?`<label class="toggle" style="margin-top:8px"><input type="checkbox" data-path="p0done" ${st.p0done?'checked':''}> Mark this milestone as met</label>`:'')+(p.gate==='income'?`<div class="addrow" style="max-width:320px"><span class="lbl" style="align-self:center">Target ₹/month</span><input class="input" type="number" step="1000" data-path="gates.income" value="${num(st.gates.income)}"></div>`:'')+`</div><span class="pill ${g.ok?'ok':'no'}">${g.ok?'✓ met':g.manual?'○ to do':'✗ not yet'}</span></div>`;
+    const body=$('#phaseBody');body.innerHTML=h;
+    body.querySelectorAll('[data-pf]').forEach(el=>el.oninput=()=>{p[el.dataset.pf]=el.value;persist();renderTabs()});
+    body.querySelectorAll('.check-e input[type=checkbox]').forEach(cb=>cb.onchange=()=>{p.items[cb.dataset.a][+cb.dataset.j].d=cb.checked;cb.parentElement.classList.toggle('done',cb.checked);persist();renderTabs();updProg()});
+    body.querySelectorAll('.check-e .ce').forEach(el=>el.oninput=()=>{p.items[el.dataset.a][+el.dataset.j].t=el.textContent;persist()});
+    body.querySelectorAll('.xbtn').forEach(b=>b.onclick=()=>{p.items[b.dataset.a].splice(+b.dataset.j,1);persist();renderTabs();buildPhase()});
+    const add=a=>{const inp=body.querySelector(`[data-add="${a}"]`);const v=inp.value.trim();if(!v)return;p.items[a].push(T(v));persist();renderTabs();buildPhase();const n=$(`[data-add="${a}"]`);if(n)n.focus()};
+    body.querySelectorAll('[data-addbtn]').forEach(b=>b.onclick=()=>add(b.dataset.addbtn));
+    body.querySelectorAll('[data-add]').forEach(i=>i.onkeydown=e=>{if(e.key==='Enter')add(i.dataset.add)});
+  }
+  function updProg(){const[d,t]=prog(curPhase);const a=$('#pgTxt'),b=$('#pgFill');if(a)a.textContent=d+'/'+t;if(b)b.style.width=(t?d/t*100:0)+'%'}
+  function renderPhaseGate(){const p=st.phases[curPhase],g=R.gates[p.gate];const gate=$('#phaseBody .gate');if(!gate)return;gate.querySelector('div').firstChild.nextSibling.textContent=' '+g.text;const pill=gate.querySelector('.pill:last-child');pill.className='pill '+(g.ok?'ok':'no');pill.textContent=g.ok?'✓ met':g.manual?'○ to do':'✗ not yet'}
+
+  /* calendar */
   const MN=['January','February','March','April','May','June','July','August','September','October','November','December'];
-  const CAL=[
-    {w:95,farm:['Harvest cane','Winter vegetables','Irrigate wheat and mustard'],gur:['Peak crushing','Peak winter sales; restock buyers'],tech:['Push subscriptions','Collect reviews and photos']},
-    {w:90,farm:['Plant spring cane','Intercrop moong, onion or garlic'],gur:['Crushing continues','Build summer stock'],tech:['Track batch costs in the app']},
-    {w:75,farm:['Finish spring cane planting','Harvest mustard'],gur:['Last batches of the season','Store gur airtight for summer'],tech:['Review the season\'s real numbers']},
-    {w:55,farm:['Harvest wheat','Sow summer vegetables','Sow maize / jowar fodder'],gur:['Sell stored stock','Make gur powder and value-added products'],tech:['Build or upgrade tools','Personal projects and learning']},
-    {w:40,farm:['Irrigation','Summer vegetables'],gur:['Online and repeat orders','Prepare the outlet'],tech:['Build and learn: own tools and side projects']},
-    {w:40,farm:['Pre-monsoon field prep','Fodder care'],gur:['Move stock to airtight storage before humidity'],tech:['Build and learn: own tools and side projects','Content: farm life videos']},
-    {w:45,farm:['Plant orchard saplings','Ratoon cane care'],gur:['Repeat orders','Small batches of flavoured gur'],tech:['Build and learn: own tools and side projects']},
-    {w:45,farm:['Weeding and earthing up cane','Sapling care'],gur:['Order packaging for next season','Plan prices and products'],tech:['Upgrade the order site']},
-    {w:55,farm:['Prepare fields for autumn cane','Sow berseem (late Sep)'],gur:['Renew FSSAI if due','Open winter pre-orders'],tech:['Launch pre-order campaign']},
-    {w:80,farm:['Harvest early cane','Plant autumn cane','Sow berseem'],gur:['Crushing season starts','First fresh batches'],tech:['Open orders; announce new season']},
-    {w:90,farm:['Sow wheat or mustard on spare plots','Cane harvest'],gur:['Full crushing','Outlet busy with highway travellers'],tech:['Marketing push']},
-    {w:95,farm:['Cane harvest','Winter vegetables'],gur:['Peak crushing and sales','Gifting orders (festivals, weddings)'],tech:['Handle order volume; keep it simple']}
-  ];
-  const nowM=new Date().getMonth();
-  let selM=nowM;
+  const nowM=new Date().getMonth();let selM=nowM;
   $('#monthSel').innerHTML=MN.map((m,i)=>`<option value="${i}" ${i===selM?'selected':''}>${m}${i===nowM?' (this month)':''}</option>`).join('');
-  const col={farm:'var(--green)',gur:'var(--amber)',tech:'var(--blue)'};
+  const CCOL={farm:'var(--green)',gur:'var(--amber)',tech:'var(--blue)'};
   function renderMonths(){
     const f=$('#calFilter').value;
-    $('#months').innerHTML=CAL.map((c,i)=>{const dots=['farm','gur','tech'].filter(k=>f==='all'||f===k).map(k=>`<span class="chip" style="color:${col[k]};padding:2px 8px;font-size:11px"><i></i>${c[k].length}</span>`).join('');
-      return `<button class="month ${i===selM?'on':''}" data-i="${i}"><div class="mn">${MN[i].slice(0,3)}${i===nowM?'<span class="now">now</span>':''}</div><div class="dots">${dots}</div><div class="intensity"><div style="width:${c.w}%"></div></div></button>`}).join('');
-    document.querySelectorAll('.month').forEach(b=>b.onclick=()=>{selM=+b.dataset.i;$('#monthSel').value=selM;renderMonths()});
-    const c=CAL[selM];
-    const titles={farm:['🌾 Farm','var(--green)'],gur:['🍯 Gur & sales','var(--amber)'],tech:['💻 Tech','var(--blue)']};
-    $('#mdetail').innerHTML=['farm','gur','tech'].filter(k=>f==='all'||f===k).map((k,j)=>`<div class="mcol" style="animation-delay:${j*60}ms"><h5 style="color:${titles[k][1]}">${titles[k][0]}</h5><ul>${c[k].map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('');
+    $('#months').innerHTML=st.calendar.map((c,i)=>{const dots=['farm','gur','tech'].filter(k=>f==='all'||f===k).map(k=>`<span class="chip" style="color:${CCOL[k]};padding:2px 8px;font-size:11px"><i></i>${c[k].length}</span>`).join('');
+      return`<button class="month ${i===selM?'on':''}" data-i="${i}"><div class="mn">${MN[i].slice(0,3)}${i===nowM?'<span class="now">now</span>':''}</div><div class="dots">${dots}</div><div class="intensity"><div style="width:${num(c.w)}%"></div></div></button>`}).join('');
+    $$('.month').forEach(b=>b.onclick=()=>{selM=+b.dataset.i;$('#monthSel').value=selM;renderMonths()});
+    const c=st.calendar[selM];const titles={farm:['🌾 Farm','var(--green)'],gur:['🍯 Gur & sales','var(--amber)'],tech:['💻 Tech','var(--blue)']};
+    let h=['farm','gur','tech'].filter(k=>f==='all'||f===k).map((k,j)=>`<div class="mcol" style="animation-delay:${j*60}ms"><h5 style="color:${titles[k][1]}">${titles[k][0]}</h5>`+
+      c[k].map((x,i)=>`<div class="erow"><div class="ce" contenteditable="true" spellcheck="false" data-k="${k}" data-i="${i}">${esc(x)}</div><button class="xbtn" data-k="${k}" data-i="${i}" aria-label="Remove">×</button></div>`).join('')+
+      `<div class="addrow"><input class="input" placeholder="Add…" data-cadd="${k}"><button class="btn" data-caddbtn="${k}">Add</button></div></div>`).join('');
+    h+=`<div class="mcol" style="grid-column:1/-1"><div class="range-row"><span class="lbl">Workload in ${MN[selM]}</span><b>${num(c.w)}%</b></div><input type="range" min="0" max="100" step="5" value="${num(c.w)}" id="wl"></div>`;
+    const box=$('#mdetail');box.innerHTML=h;
+    box.querySelectorAll('.erow .ce').forEach(el=>el.oninput=()=>{c[el.dataset.k][+el.dataset.i]=el.textContent;persist()});
+    box.querySelectorAll('.erow .xbtn').forEach(b=>b.onclick=()=>{c[b.dataset.k].splice(+b.dataset.i,1);persist();renderMonths()});
+    const add=k=>{const i=box.querySelector(`[data-cadd="${k}"]`);const v=i.value.trim();if(!v)return;c[k].push(v);persist();renderMonths()};
+    box.querySelectorAll('[data-caddbtn]').forEach(b=>b.onclick=()=>add(b.dataset.caddbtn));
+    box.querySelectorAll('[data-cadd]').forEach(i=>i.onkeydown=e=>{if(e.key==='Enter')add(i.dataset.cadd)});
+    const wl=$('#wl');paintRanges();wl.oninput=()=>{c.w=num(wl.value);persist();wl.previousElementSibling.querySelector('b').textContent=c.w+'%';wl.style.setProperty('--p',c.w+'%');const bar=$$('.month')[selM].querySelector('.intensity div');bar.style.width=c.w+'%'};
   }
+
+  /* budget + one-time */
+  function buildBudget(){
+    const k=st.budget.stage,rows=st.budget.rows[k];
+    $('#budgetBody').innerHTML=rows.map((r,i)=>`<tr><td><input class="input" data-bi="${i}" data-bf="0" value="${esc(r[0])}"></td><td><input class="input" type="number" step="500" min="0" data-bi="${i}" data-bf="1" value="${num(r[1])}"></td><td style="width:40px"><button class="xbtn" data-bdel="${i}" aria-label="Remove">×</button></td></tr>`).join('');
+    $$('#budgetBody [data-bi]').forEach(inp=>inp.oninput=()=>{const r=rows[+inp.dataset.bi];r[+inp.dataset.bf]=inp.dataset.bf==='1'?num(inp.value):inp.value;refresh()});
+    $$('#budgetBody [data-bdel]').forEach(b=>b.onclick=()=>{rows.splice(+b.dataset.bdel,1);buildBudget();refresh()});
+  }
+  function renderBudget(){
+    const k=st.budget.stage;$('#budgetTotal').textContent=inr(R.stageTotal(k));
+    $('#stageTotals').innerHTML=[['single','Single'],['couple','Couple'],['family','Family']].map(([s,n])=>`<span class="chip" style="font-size:12px;padding:4px 10px">${n}: ${inr(R.stageTotal(s))}</span>`).join(' ');
+    $('#budgetNote').textContent=st.money.costMode==='manual'?'The Money section uses a manual cost right now, so this budget is not feeding the plan.':`Single until age ${num(st.budget.marriageAge)}, couple until ${num(st.budget.kidsAge)}, then family. These feed the money plan.`;
+  }
+  function buildOT(){
+    $('#otList').innerHTML=st.oneTime.map((o,i)=>`<div class="erow"><input class="input" data-oi="${i}" data-of="n" value="${esc(o.n)}" style="flex:2"><input class="input" type="number" step="10000" data-oi="${i}" data-of="a" value="${num(o.a)}" style="flex:1" aria-label="Amount"><input class="input" type="number" step="1" data-oi="${i}" data-of="age" value="${num(o.age)}" style="width:70px;flex:none" aria-label="Age"><button class="xbtn" data-odel="${i}" aria-label="Remove">×</button></div>`).join('');
+    $$('#otList [data-oi]').forEach(inp=>inp.oninput=()=>{const o=st.oneTime[+inp.dataset.oi];o[inp.dataset.of]=inp.dataset.of==='n'?inp.value:num(inp.value);refresh()});
+    $$('#otList [data-odel]').forEach(b=>b.onclick=()=>{st.oneTime.splice(+b.dataset.odel,1);buildOT();refresh()});
+  }
+  $('#otAdd').onclick=()=>{const n=$('#otN').value.trim()||'New cost';st.oneTime.push({n,a:num($('#otA').value)||100000,age:num($('#otAge').value)||35});$('#otN').value='';buildOT();refresh()};
+  $('#bAdd').onclick=()=>{const n=$('#bN').value.trim()||'New item';st.budget.rows[st.budget.stage].push([n,num($('#bA').value)]);$('#bN').value='';$('#bA').value='';buildBudget();refresh()};
+
+  /* rules */
+  function buildRules(){
+    $('#rulesList').innerHTML=st.rules.map((r,i)=>`<div class="rule"><div class="ri">${esc(r.i||'•')}</div><input class="input title-in" data-ri="${i}" data-rf="t" value="${esc(r.t)}"><textarea class="input area-in" data-ri="${i}" data-rf="p" rows="2">${esc(r.p)}</textarea><button class="xbtn rdel" data-rdel="${i}" aria-label="Remove">×</button></div>`).join('')+
+      `<div class="rule add-rule"><input class="input" id="rNew" placeholder="New principle…"><button class="btn" id="rAdd" style="margin-top:10px">Add principle</button></div>`;
+    $$('#rulesList [data-ri]').forEach(el=>el.oninput=()=>{st.rules[+el.dataset.ri][el.dataset.rf]=el.value;persist()});
+    $$('#rulesList [data-rdel]').forEach(b=>b.onclick=()=>{st.rules.splice(+b.dataset.rdel,1);persist();buildRules()});
+    $('#rAdd').onclick=()=>{const v=$('#rNew').value.trim();if(!v)return;st.rules.push({i:'🌱',t:v,p:''});persist();buildRules()};
+  }
+
+  /* what-if */
+  const SENS=[
+    ['Monthly saving',(s,f)=>{s.money.save*=f}],
+    ['Family living costs',(s,f)=>{Object.values(s.budget.rows).forEach(rs=>rs.forEach(r=>r[1]*=f));s.money.costManual*=f}],
+    ['Gur selling prices',(s,f)=>{Object.values(s.gur.ch).forEach(c=>c.price*=f)}],
+    ['Cane area (bigha)',(s,f)=>{s.land.cane*=f}],
+    ['Cane yield per acre',(s,f)=>{s.land.yieldT*=f}],
+    ['Gur recovery %',(s,f)=>{s.gur.recovery*=f}],
+    ['Cane price (mill)',(s,f)=>{s.gur.canePrice*=f}],
+    ['Return while working',(s,f)=>{s.money.rPre*=f}],
+    ['Return after switch',(s,f)=>{s.money.rPost*=f}],
+    ['Own projects income',(s,f)=>{s.projects.monthly*=f}],
+    ['Number of cows',(s,f)=>{s.dairy.cows*=f}]
+  ];
+  const METRIC={
+    slow:{n:'Slow-life age',get:r=>r.slowAge==null?61:r.slowAge,fmt:v=>v>60?'60+':'age '+v,better:-1},
+    full:{n:'Full-freedom age',get:r=>r.fullAge==null?61:r.fullAge,fmt:v=>v>60?'60+':'age '+v,better:-1},
+    c60:{n:'Savings at 60',get:r=>r.corpus60,fmt:v=>short(v),better:1},
+    lasts:{n:'Money lasts until',get:r=>r.lastsAge==null?r.H:r.lastsAge,fmt:v=>'age '+v,better:1},
+    inc:{n:'Monthly income',get:r=>r.incFull,fmt:v=>inr(v),better:1}
+  };
+  function renderWhatIf(){
+    const m=METRIC[$('#tMetric').value],d=num($('#tRange').value)/100;const base=m.get(R);
+    const rows=SENS.map(([n,fn])=>{const lo=clone(st),hi=clone(st);fn(lo,1-d);fn(hi,1+d);const vl=m.get(compute(lo)),vh=m.get(compute(hi));return{n,vl,vh,spread:Math.abs(vh-vl)}}).sort((a,b)=>b.spread-a.spread);
+    const maxD=Math.max(...rows.map(r=>Math.max(Math.abs(r.vl-base),Math.abs(r.vh-base))),1e-9);
+    $('#tBase').textContent=`${m.n} now: ${m.fmt(base)}`;
+    $('#tornado').innerHTML=rows.map(r=>{const bar=(v,cls,side)=>{const dv=v-base;if(Math.abs(dv)<1e-9)return'';const w=Math.abs(dv)/maxD*50;const good=dv*m.better>0;return`<div class="${good?'hi':'lo'}" style="${side<0?`right:50%`:`left:50%`};width:${w}%" title="${cls}: ${m.fmt(v)}"></div>`};
+      return`<div class="trow"><span>${r.n}</span><div class="tbar"><div class="mid"></div>${bar(r.vl,'−'+Math.round(d*100)+'%',-1)}${bar(r.vh,'+'+Math.round(d*100)+'%',1)}</div><span class="hint" style="margin:0;text-align:right">${m.fmt(r.vl)} ↔ ${m.fmt(r.vh)}</span></div>`}).join('');
+  }
+  function renderCompare(){
+    const names=Object.keys(store.list);
+    $('#cmp').innerHTML=`<table><thead><tr><th>Scenario</th><th>Switch</th><th>Slow life</th><th>Full freedom</th><th>Income / month</th><th>Gur profit</th><th>At age 60</th><th>Money lasts</th></tr></thead><tbody>`+
+      names.map(n=>{const r=n===store.cur?R:compute(store.list[n]);return`<tr class="${n===store.cur?'cur':''}"><td><b>${esc(n)}</b></td><td>${r.sw}</td><td>${r.slowAge||'60+'}</td><td>${r.fullAge||'60+'}</td><td>${inr(r.incFull)}</td><td>${short(r.profit)}</td><td>${short(r.corpus60)}</td><td>${r.lastsAge?'till '+r.lastsAge:r.H+'+'}</td></tr>`}).join('')+`</tbody></table>`;
+  }
+
+  /* scenarios */
+  function renderScen(){$('#scenSel').innerHTML=Object.keys(store.list).map(n=>`<option ${n===store.cur?'selected':''}>${esc(n)}</option>`).join('');$('#scenDel').disabled=Object.keys(store.list).length<2}
+  function loadScen(n){persist();store.cur=n;st=store.list[n];LS.set('ka-store',store);rebuildAll()}
+  $('#scenSel').onchange=e=>loadScen(e.target.value);
+  $('#scenSave').onclick=()=>{let n=$('#scenName').value.trim();if(!n){n='Scenario '+(Object.keys(store.list).length+1)}let b=n,i=2;while(store.list[n])n=b+' '+(i++);persist();store.list[n]=clone(st);$('#scenName').value='';loadScen(n);flash('Saved as “'+n+'”')};
+  $('#scenDel').onclick=()=>{if(Object.keys(store.list).length<2)return;delete store.list[store.cur];store.cur=Object.keys(store.list)[0];st=store.list[store.cur];LS.set('ka-store',store);rebuildAll();flash('Scenario removed')};
+  $('#scenReset').onclick=()=>{store.list[store.cur]=st=defaults();LS.set('ka-store',store);rebuildAll();flash('Reset to the original numbers')};
+  $('#scenExp').onclick=()=>{persist();const b=new Blob([JSON.stringify(store,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='khet-azaadi-scenarios.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
+  $('#scenImp').onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{const s=JSON.parse(rd.result);if(!s.list)throw 0;for(const k in s.list)store.list[k]=merge(defaults(),s.list[k]);store.cur=s.cur&&store.list[s.cur]?s.cur:Object.keys(s.list)[0];st=store.list[store.cur];LS.set('ka-store',store);rebuildAll();flash('Scenarios imported')}catch(err){flash('That file could not be read')}};rd.readAsText(f);e.target.value=''};
+  function flash(t){const el=$('#flash');el.textContent=t;el.classList.add('on');clearTimeout(flash.t);flash.t=setTimeout(()=>el.classList.remove('on'),1800)}
+
+  /* presets */
+  const LANDP={today:{cane:24,veg:2,fodder:3,orchard:0,base:1},plan:{cane:20,veg:4,fodder:3,orchard:2,base:1},cane:{cane:26,veg:1,fodder:2,orchard:0,base:1},diverse:{cane:15,veg:6,fodder:3,orchard:5,base:1}};
+  $('#landPreset').onchange=e=>{const p=LANDP[e.target.value];if(!p)return;Object.assign(st.land,p);buildLand();populate();refresh()};
+  const GURP={
+    test:{useShare:12,boughtCane:0,ch:{direct:{share:90},outlet:{share:0},mandi:{share:10}}},
+    own:{useShare:50,ch:{direct:{share:70},outlet:{share:15},mandi:{share:15}}},
+    full:{useShare:100,ch:{direct:{share:60},outlet:{share:25},mandi:{share:15}}},
+    mandi:{useShare:100,ch:{direct:{share:0},outlet:{share:0},mandi:{share:100}}},
+    premium:{useShare:100,ch:{direct:{share:80,price:130},outlet:{share:20,price:110},mandi:{share:0}}}
+  };
+  $('#gurPreset').onchange=e=>{const p=GURP[e.target.value];if(!p)return;const{ch,...rest}=p;Object.assign(st.gur,rest);for(const k in ch)Object.assign(st.gur.ch[k],ch[k]);populate();refresh()};
+
+  /* ---------- refresh ---------- */
+  function refresh(){
+    R=compute(st);persist();paintRanges();
+    renderHero();renderOverview();renderMoney();renderGur();renderLand();renderBudget();renderTabs();renderPhaseGate();renderWhatIf();renderCompare();
+  }
+  function rebuildAll(){renderScen();buildLand();buildBudget();buildOT();buildRules();populate();R=compute(st);if(curPhase>=st.phases.length)curPhase=0;buildPhase();renderMonths();refresh()}
+  $('#areaFilter').onchange=buildPhase;
   $('#monthSel').onchange=e=>{selM=+e.target.value;renderMonths()};
   $('#calFilter').onchange=renderMonths;
-  renderMonths();
+  $('#tMetric').onchange=renderWhatIf;$('#tRange').onchange=renderWhatIf;
 
-  /* ---------- Gur ---------- */
-  const GS={test:{t:1.5,p:100,c:395,r:10,m:6,d:18},build:{t:6,p:100,c:395,r:10,m:6,d:15},full:{t:10,p:100,c:395,r:10,m:6,d:15}};
-  const CH={direct:null,outlet:{p:90,d:3},mandi:{p:40,d:1}};
-  const g=id=>$('#g_'+id);
-  function setScenario(s){const v=GS[s];if(!v)return;['t','p','c','r','m','d'].forEach(k=>g(k).value=v[k]);applyChannel(false);gur()}
-  function applyChannel(run=true){const ch=CH[$('#g_sell').value];if(ch){g('p').value=ch.p;g('d').value=ch.d}else if($('#gurScenario').value!=='custom'){const v=GS[$('#gurScenario').value];g('p').value=v.p;g('d').value=v.d}if(run)gur()}
-  function gur(){
-    const t=+g('t').value||0,p=+g('p').value||0,c=+g('c').value||0,r=(+g('r').value||10)/100,m=+g('m').value||0,d=+g('d').value||0;
-    const caneKg=c/(100*r);const costKg=caneKg+m+d;const marg=p-costKg;const kg=t*1000;const prof=marg*kg;
-    $('#gurFlow').innerHTML=`
-      <div class="frow"><span>Cane cost per kg of gur</span><b>${inr(caneKg)}</b></div>
-      <div class="frow"><span>Making cost per kg</span><b>${inr(m)}</b></div>
-      <div class="frow"><span>Packing + delivery per kg</span><b>${inr(d)}</b></div>
-      <div class="frow"><span>Total cost per kg</span><b>${inr(costKg)}</b></div>
-      <div class="frow"><span>Margin per kg</span><b style="color:${marg>=0?'var(--green)':'var(--rose)'}">${inr(marg)}</b></div>
-      <div class="frow total"><span>Season profit (${t} t)</span><b>${inr(prof)}</b></div>
-      <div class="frow"><span>Monthly average (÷12)</span><b>${inr(prof/12)}</b></div>`;
-    const mandi=(40-caneKg-m-1)*kg;
-    $('#gurCompare').innerHTML=`Same ${t} t sold at the mandi (~₹40/kg): <b style="color:${mandi>=0?'var(--text)':'var(--rose)'}">${inr(mandi)}</b>. Branded direct sales are where the real margin is. Mandi rates recently ran ~₹37–46/kg; verify retail prices with real sellers.`;
-  }
-  $('#gurScenario').onchange=e=>{if(e.target.value!=='custom')setScenario(e.target.value)};
-  $('#g_sell').onchange=()=>applyChannel(true);
-  ['t','p','c','r','m','d'].forEach(k=>g(k).addEventListener('input',()=>{$('#gurScenario').value='custom';gur()}));
-  setScenario('full');
+  /* theme / reveal / nav */
+  const root=document.documentElement;root.setAttribute('data-theme',LS.get('fp-theme','light'));
+  $('#themeBtn').onclick=()=>{const t=root.getAttribute('data-theme')==='dark'?'light':'dark';root.setAttribute('data-theme',t);LS.set('fp-theme',t);drawLife();drawGurChart()};
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.08});
+  $$('.reveal').forEach(el=>io.observe(el));
+  const links=$$('#links a');
+  const secIO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id))}),{rootMargin:'-45% 0px -50% 0px'});
+  $$('section[id]').forEach(s=>secIO.observe(s));
+  window.addEventListener('resize',()=>{drawLife();drawGurChart()});
 
-  /* ---------- Budget ---------- */
-  const BUD={
-    single:[['Food (partly from own land)',6000],['Electricity, gas, phone, internet',2500],['Bike fuel & maintenance',2500],['Insurance (term + health)',4250],['Clothes, social, festivals',2500],['Travel & leisure',3000]],
-    couple:[['Food (partly from own land)',9000],['Electricity, gas, phone, internet',3000],['Fuel & vehicle',3000],['Insurance (term + health)',5500],['Clothes, social, festivals',4000],['Travel & leisure',4500]],
-    family:[['Household (food, utilities, phone, fuel)',20000],['Kids\' schooling (nearby town)',9000],['Insurance (term + family health)',6000],['Clothes, social, festivals',4000],['Travel & leisure',3000]]
-  };
-  let bud=JSON.parse(JSON.stringify(BUD));
-  function renderBudget(){
-    const mode=$('#budgetMode').value,rows=bud[mode];
-    $('#budgetBody').innerHTML=rows.map((r,i)=>`<tr><td>${r[0]}</td><td><input class="input" type="number" step="500" min="0" data-i="${i}" value="${r[1]}"></td></tr>`).join('');
-    const tot=()=>{$('#budgetTotal').textContent=inr(rows.reduce((a,r)=>a+(+r[1]||0),0))};
-    document.querySelectorAll('#budgetBody input').forEach(inp=>inp.oninput=()=>{rows[+inp.dataset.i][1]=+inp.value||0;tot()});
-    tot();
-  }
-  $('#budgetMode').onchange=renderBudget;
-  renderBudget();
+  rebuildAll();
 })();
+
 </script>
 </body>
 </html>
