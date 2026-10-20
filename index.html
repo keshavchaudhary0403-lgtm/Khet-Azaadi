@@ -398,6 +398,14 @@ details.ytable[open] summary::before{content:"▾ ";}
 .pos{color:var(--green)} .negc{color:var(--rose)}
 .chartbox svg{cursor:crosshair}
 @media (max-width:980px){.flowsum{grid-template-columns:1fr 1fr}}
+
+.stat-edit{display:flex;align-items:baseline;gap:4px}
+.stat-in{font:inherit;color:inherit;background:transparent;border:1px dashed transparent;border-radius:8px;padding:0 4px;margin-left:-4px;width:100%;min-width:0;letter-spacing:inherit;transition:border-color .2s,background .2s}
+.stat-in:hover{border-color:var(--line-2)}.stat-edit::after{content:"✎";font-size:14px;color:var(--faint);margin-left:6px;opacity:0;transition:.2s}.stat:hover .stat-edit::after{opacity:1}
+.stat-in:focus{outline:none;border-color:var(--accent);background:var(--surface-2)}
+.stat .suf{font-size:.7em;font-weight:500;color:var(--muted)}
+.tot-edit{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap}
+.tot-edit .input{width:72px;height:34px;padding:0 8px;text-align:center}
 </style>
 </head>
 <body>
@@ -458,8 +466,8 @@ details.ytable[open] summary::before{content:"▾ ";}
       </svg>
     </div>
     <div class="stats">
-      <div class="stat reveal" data-go="#money" style="--c:var(--amber)"><div class="k">Savings today <span class="go">→</span></div><div class="v" id="hs-save">—</div><div class="s">editable in Money</div></div>
-      <div class="stat reveal" data-go="#land" style="--c:var(--green)"><div class="k">Family land <span class="go">→</span></div><div class="v" id="hs-land">—</div><div class="s" id="hs-land-s"></div></div>
+      <div class="stat reveal" data-go="#money" style="--c:var(--amber)"><div class="k">Savings today <span class="go">→</span></div><div class="v stat-edit"><span class="pre">₹</span><input class="stat-in" type="number" step="50000" min="0" data-path="money.start" aria-label="Savings today"></div><div class="s" id="hs-save-s"></div></div>
+      <div class="stat reveal" data-go="#land" style="--c:var(--green)"><div class="k">Family land <span class="go">→</span></div><div class="v stat-edit"><input class="stat-in" type="number" step="1" min="0" data-path="land.total" aria-label="Family land in bigha" style="width:2.2em;flex:none"><span class="suf">bigha</span></div><div class="s" id="hs-land-s"></div></div>
       <div class="stat reveal" data-go="#money" style="--c:var(--blue)"><div class="k">Slow life (some work) <span class="go">→</span></div><div class="v" id="hs-slow">—</div><div class="s" id="hs-slow-s"></div></div>
       <div class="stat reveal" data-go="#money" style="--c:var(--rose)"><div class="k">Full freedom <span class="go">→</span></div><div class="v" id="hs-full">—</div><div class="s" id="hs-full-s"></div></div>
     </div>
@@ -597,7 +605,7 @@ details.ytable[open] summary::before{content:"▾ ";}
     <div class="card reveal">
       <div class="land-bar" id="landBar"></div>
       <div class="land-list" id="landList"></div>
-      <div class="land-total"><span>Total used: <b id="landUsed"></b> / 30 bigha</span><span>Own cane: <b id="landGur"></b></span></div>
+      <div class="land-total"><span class="tot-edit">Total used: <b id="landUsed"></b> of <input class="input" type="number" step="1" min="0" data-path="land.total" aria-label="Total land in bigha"> bigha <span id="landLeft" class="hint" style="margin:0 0 0 6px"></span></span><span>Own cane: <b id="landGur"></b></span></div>
     </div>
     <div class="grid-2" style="margin-top:16px">
       <div class="card reveal">
@@ -748,7 +756,7 @@ details.ytable[open] summary::before{content:"▾ ";}
   const T=t=>({t,d:false});
   function defaults(){return{
     money:{start:3500000,save:75000,saveGrowth:2,rPre:3.5,rPost:3,swr:3.5,switchAge:34,horizon:85,saveFarmIncome:true,costMode:'budget',costManual:40000,incMode:'linked',incManual:20000},
-    land:{cane:24,veg:2,fodder:3,orchard:0,base:1,yieldT:24,vegInc:18000,orchInc:12000,orchStart:34},
+    land:{total:30,cane:24,veg:2,fodder:3,orchard:0,base:1,yieldT:24,vegInc:18000,orchInc:12000,orchStart:34},
     dairy:{cows:2,litres:7,price:50,feed:6000},
     gur:{useShare:100,boughtCane:0,canePrice:395,ownAtMill:true,recovery:10,making:6,wastage:3,fixed:30000,rent:100000,
       ch:{direct:{share:60,price:100,pack:15},outlet:{share:25,price:90,pack:3},mandi:{share:15,price:40,pack:1}}},
@@ -961,6 +969,7 @@ details.ytable[open] summary::before{content:"▾ ";}
     const el=e.target.closest('[data-path]');if(!el)return;
     let v=el.type==='checkbox'?el.checked:(el.type==='number'||el.type==='range'||el.dataset.numfmt)?num(el.value):el.value;
     setP(st,el.dataset.path,v);
+    document.querySelectorAll(`[data-path="${el.dataset.path}"]`).forEach(o=>{if(o===el)return;if(o.type==='checkbox')o.checked=!!v;else o.value=o.dataset.numfmt?fmtIN(v):v});
     if(el.dataset.preset){const p=$(el.dataset.preset);if(p)p.value='custom'}
     if(el.dataset.path==='budget.stage')buildBudget();
     refresh();
@@ -970,9 +979,8 @@ details.ytable[open] summary::before{content:"▾ ";}
   const COL={gur:'#c6861a',veg:'#4a6d28',orch:'#3d6e84',dairy:'#7a8f3a',proj:'#7a4a6c'};
   const yrsTo=a=>a==null?'':a-AGE0<=0?'already':'in ~'+(a-AGE0)+' yrs';
   function renderHero(){
-    $('#hs-save').textContent=short(num(st.money.start));
-    const tot=['cane','veg','fodder','orchard','base'].reduce((t,k)=>t+num(st.land[k]),0);
-    $('#hs-land').textContent=tot+' bigha';$('#hs-land-s').textContent=`≈ ${(tot*BIGHA_AC).toFixed(1)} acres · ${num(st.land.cane)} bigha cane`;
+    $('#hs-save-s').textContent=`${short(num(st.money.start))} · + ${inr(num(st.money.save))} saved monthly`;
+    const tot=num(st.land.total);$('#hs-land-s').textContent=`≈ ${(tot*BIGHA_AC).toFixed(1)} acres · ${num(st.land.cane)} bigha cane`;
     $('#hs-slow').textContent=R.slowAge?'age ~'+R.slowAge:'60+';$('#hs-slow-s').textContent='target ≈ '+short(R.slowT(R.slowAge||60));
     $('#hs-full').textContent=R.fullAge?'age ~'+R.fullAge:'60+';$('#hs-full-s').textContent='target ≈ '+short(R.fullT(R.fullAge||60));
   }
@@ -1081,9 +1089,9 @@ details.ytable[open] summary::before{content:"▾ ";}
   }
   function renderLand(){
     const used=LAND.reduce((t,l)=>t+num(st.land[l.k]),0);
-    $('#landBar').innerHTML=LAND.map(l=>`<div class="seg" style="flex:${Math.max(num(st.land[l.k]),.0001)};background:${l.c}" data-tip="<b>${l.n}</b><br>${num(st.land[l.k])} bigha ≈ ${(num(st.land[l.k])*BIGHA_AC).toFixed(2)} acres<br>${l.why}">${num(st.land[l.k])>=2?num(st.land[l.k]):''}</div>`).join('');
+    $('#landBar').innerHTML=(()=>{const LT=num(st.land.total),free=Math.max(0,LT-used);return LAND.map(l=>`<div class="seg" style="flex:${Math.max(num(st.land[l.k]),.0001)};background:${l.c}" data-tip="<b>${l.n}</b><br>${num(st.land[l.k])} bigha ≈ ${(num(st.land[l.k])*BIGHA_AC).toFixed(2)} acres<br>${l.why}">${num(st.land[l.k])>=2?num(st.land[l.k]):''}</div>`).join('')+(free>0?`<div class="seg" style="flex:${free};background:var(--surface-3);color:var(--muted)" data-tip="<b>Not assigned</b><br>${free} bigha free to plan">${free>=2?free:''}</div>`:'')})();
     LAND.forEach(l=>{const e=document.querySelector(`[data-ac="${l.k}"]`);if(e)e.textContent=(num(st.land[l.k])*BIGHA_AC).toFixed(2)+' ac'});
-    $('#landUsed').textContent=used;$('#landUsed').classList.toggle('warn',used!==30);
+    const LT=num(st.land.total);$('#landUsed').textContent=used;$('#landUsed').classList.toggle('warn',used!==LT);$('#landLeft').textContent=used<LT?`· ${LT-used} bigha not assigned`:used>LT?`· ${used-LT} bigha more than you have`:'· all assigned';$('#landLeft').classList.toggle('warn',used>LT);
     $('#landGur').textContent=`${R.ownCaneT.toFixed(0)} t cane → ~${(R.ownCaneT*num(st.gur.recovery)/100).toFixed(1)} t gur / season`;
     $('#landSum').innerHTML=`<div class="frow"><span>Vegetables</span><b>${inr(R.vegM)}/month</b></div><div class="frow"><span>Orchard (from age ${num(st.land.orchStart)})</span><b>${inr(R.orchM)}/month</b></div>`;
     const fodNeed=num(st.dairy.cows)*1;
