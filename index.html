@@ -358,6 +358,46 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
 .grow-chart{flex:1;display:flex;min-height:340px}
 .grow-chart svg{width:100%;height:auto;flex:1;min-height:340px;display:block}
 .frow.total.neg{background:var(--rose-soft);border-color:color-mix(in srgb,var(--rose) 35%,transparent)}
+
+/* tooltips, info, clickable */
+#tip{position:fixed;z-index:120;max-width:300px;padding:10px 12px;border-radius:12px;background:var(--text);color:var(--bg);font-size:12.5px;line-height:1.5;box-shadow:0 12px 30px -10px rgba(0,0,0,.45);pointer-events:none;opacity:0;transform:translateY(4px);transition:opacity .12s,transform .12s}
+#tip.on{opacity:1;transform:none}
+#tip b{font-weight:700}
+#tip .tr{display:flex;justify-content:space-between;gap:16px}
+#tip .tr span:first-child{opacity:.75}
+#tip hr{border:none;border-top:1px solid color-mix(in srgb,var(--bg) 25%,transparent);margin:6px 0}
+.info{display:inline-grid;place-items:center;width:16px;height:16px;border-radius:50%;background:var(--surface-3);color:var(--muted);font:700 10.5px/1 "Karla",sans-serif;cursor:help;margin-left:5px;vertical-align:1px;user-select:none;flex:none}
+.info:hover,.info:focus{background:var(--accent);color:#fff;outline:none}
+[data-go]{cursor:pointer;transition:transform .18s,box-shadow .18s,border-color .18s}
+.tile[data-go]:hover,.stat[data-go]:hover,.grow[data-go]:hover{transform:translateY(-2px);border-color:var(--line-2);box-shadow:var(--shadow-lg)}
+.frow[data-go]:hover{border-color:var(--accent)}
+.go{float:right;font-size:12px;color:var(--faint);transition:.2s}
+[data-go]:hover .go{color:var(--accent);transform:translateX(2px)}
+section{scroll-margin-top:70px}
+.cover{margin-top:16px;padding:16px;border-radius:14px;border:1px dashed var(--line-2);background:var(--surface-2)}
+.cover-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.cover-grid .frow{margin:0}@media (max-width:980px){.cover-grid{grid-template-columns:1fr}}
+.cover h5{margin:0 0 12px;font-size:15px;font-weight:700;display:flex;align-items:center}
+.cover .frow{background:var(--surface)}
+.verdict{margin:10px 0 0;font-size:13.5px;line-height:1.5}
+.verdict.ok{color:var(--green)} .verdict.warn{color:var(--amber)} .verdict.bad{color:var(--rose)}
+.flowcard{margin-top:18px}
+.flowhead{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+.flowhead h3{margin:0;font-family:"Fraunces",Georgia,serif;font-size:24px;font-weight:600}
+.flowsum{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0 6px}
+.flowsum .res .v{font-size:22px}
+details.ytable{margin-top:14px}
+details.ytable summary{cursor:pointer;font-weight:600;font-size:13.5px;color:var(--accent);list-style:none}
+details.ytable summary::-webkit-details-marker{display:none}
+details.ytable summary::before{content:"▸ ";}
+details.ytable[open] summary::before{content:"▾ ";}
+.ytwrap{max-height:420px;overflow:auto;margin-top:10px;border:1px solid var(--line);border-radius:12px}
+.ytwrap table th{position:sticky;top:0;background:var(--surface-2);z-index:1}
+.ytwrap td,.ytwrap th{padding:8px 12px;font-size:13px;white-space:nowrap;text-align:right}
+.ytwrap td:first-child,.ytwrap th:first-child{text-align:left}
+.ytwrap tr.sw td{background:var(--green-soft)}
+.pos{color:var(--green)} .negc{color:var(--rose)}
+.chartbox svg{cursor:crosshair}
+@media (max-width:980px){.flowsum{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
@@ -418,10 +458,10 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
       </svg>
     </div>
     <div class="stats">
-      <div class="stat reveal" style="--c:var(--amber)"><div class="k">Savings today</div><div class="v" id="hs-save">—</div><div class="s">editable in Money</div></div>
-      <div class="stat reveal" style="--c:var(--green)"><div class="k">Family land</div><div class="v" id="hs-land">—</div><div class="s" id="hs-land-s"></div></div>
-      <div class="stat reveal" style="--c:var(--blue)"><div class="k">Slow life (some work)</div><div class="v" id="hs-slow">—</div><div class="s" id="hs-slow-s"></div></div>
-      <div class="stat reveal" style="--c:var(--rose)"><div class="k">Full freedom</div><div class="v" id="hs-full">—</div><div class="s" id="hs-full-s"></div></div>
+      <div class="stat reveal" data-go="#money" style="--c:var(--amber)"><div class="k">Savings today <span class="go">→</span></div><div class="v" id="hs-save">—</div><div class="s">editable in Money</div></div>
+      <div class="stat reveal" data-go="#land" style="--c:var(--green)"><div class="k">Family land <span class="go">→</span></div><div class="v" id="hs-land">—</div><div class="s" id="hs-land-s"></div></div>
+      <div class="stat reveal" data-go="#money" style="--c:var(--blue)"><div class="k">Slow life (some work) <span class="go">→</span></div><div class="v" id="hs-slow">—</div><div class="s" id="hs-slow-s"></div></div>
+      <div class="stat reveal" data-go="#money" style="--c:var(--rose)"><div class="k">Full freedom <span class="go">→</span></div><div class="v" id="hs-full">—</div><div class="s" id="hs-full-s"></div></div>
     </div>
   </div>
 </header>
@@ -448,6 +488,7 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
       <div class="card reveal"><div class="lbl">Monthly income at full scale vs family cost</div><div id="incStack"></div></div>
       <div class="card reveal fill"><div class="lbl" style="margin-bottom:10px">Phases · plan check and your progress</div><div id="gateList" class="fill-list"></div></div>
     </div>
+    <div class="card reveal" id="coverBox" style="margin-top:16px"></div>
   </div>
 </section>
 
@@ -464,9 +505,9 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
           <div class="field"><label>Plan until age</label><input class="input" type="number" step="1" data-path="money.horizon" ></div>
           <div class="field" style="grid-column:1/-1"><div class="range-row"><label class="lbl">Switch age (leave the job)</label><b data-show="money.switchAge"></b></div><input type="range" min="30" max="55" step="1" data-path="money.switchAge"></div>
           <div class="group-t">returns</div>
-          <div class="field"><label>Return while working (% above inflation)</label><input class="input" type="number" step="0.25" data-path="money.rPre" ></div>
-          <div class="field"><label>Return after switch (%)</label><input class="input" type="number" step="0.25" data-path="money.rPost" ></div>
-          <div class="field"><label>Safe withdrawal rate (%)</label><input class="input" type="number" step="0.25" data-path="money.swr" ></div>
+          <div class="field"><label>Return while working (% above inflation)<span class="info" tabindex="0" data-tip="Growth of savings after removing inflation. 3.5% above inflation is roughly a balanced mix of FDs and equity funds. All amounts on this page are in today’s money.">i</span></label><input class="input" type="number" step="0.25" data-path="money.rPre" ></div>
+          <div class="field"><label>Return after switch (%)<span class="info" tabindex="0" data-tip="Usually a little lower than while working, because you hold safer investments once you depend on them.">i</span></label><input class="input" type="number" step="0.25" data-path="money.rPost" ></div>
+          <div class="field"><label>Safe withdrawal rate (%)<span class="info" tabindex="0" data-tip="The share of savings you can take out each year without running out over a very long life. 3.5% means ₹3.5 lakh a year per ₹1 crore saved.">i</span></label><input class="input" type="number" step="0.25" data-path="money.swr" ></div>
           <p class="hint" style="grid-column:1/-1;margin:0">Rough guide: FD only ≈ 1.5%, balanced ≈ 3.5%, equity-heavy ≈ 5% above inflation.</p>
           <div class="group-t">costs & income</div>
           <div class="field" style="grid-column:1/-1"><label>Family cost comes from</label><div class="select"><select data-path="money.costMode"><option value="budget">Household budget (by life stage)</option><option value="manual">A fixed number</option></select></div></div>
@@ -480,9 +521,9 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
       </div>
       <div class="card reveal fill">
         <div class="results">
-          <div class="res"><div class="k">Slow-life target at switch</div><div class="v" id="m1">—</div><div class="s" id="m1s"></div></div>
-          <div class="res"><div class="k">Savings at switch</div><div class="v" id="m2">—</div><div class="s" id="m2s"></div></div>
-          <div class="res"><div class="k">Money lasts until</div><div class="v" id="m3">—</div><div class="s" id="m3s"></div></div>
+          <div class="res"><div class="k">Slow-life target at switch<span class="info" tabindex="0" data-tip="Savings needed when you leave the job so that, together with farm, gur and project income, you can cover family costs forever at the safe withdrawal rate, plus one-time costs still ahead.">i</span></div><div class="v" id="m1">—</div><div class="s" id="m1s"></div></div>
+          <div class="res"><div class="k">Savings at switch<span class="info" tabindex="0" data-tip="What your savings are projected to be in the year you leave the job, after monthly saving, returns and one-time costs up to then.">i</span></div><div class="v" id="m2">—</div><div class="s" id="m2s"></div></div>
+          <div class="res"><div class="k">Money lasts until<span class="info" tabindex="0" data-tip="The age at which savings would hit zero after you switch. 85+ means returns plus income keep it positive for the whole plan.">i</span></div><div class="v" id="m3">—</div><div class="s" id="m3s"></div></div>
         </div>
         <div class="chartbox grow-chart"><svg class="chart" id="lifeChart" viewBox="0 0 700 440"></svg></div>
         <div class="legend">
@@ -491,8 +532,23 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
           <span><i style="background:var(--blue)"></i>Slow-life target</span>
           <span><i style="background:var(--rose);border-radius:50%;width:8px;height:8px"></i>One-time costs</span>
         </div>
-        <p class="hint">Slow-life target = (family cost − other income) × 12 ÷ withdrawal rate, plus one-time costs still ahead. Full freedom uses the full family cost. Projections, not guarantees — take advice from a SEBI-registered advisor for the actual allocation.</p>
+        <p class="hint">Hover over the chart to see any year. Slow-life target = (family cost − other income) × 12 ÷ withdrawal rate, plus one-time costs still ahead. Projections, not guarantees — take advice from a SEBI-registered advisor for the actual allocation.</p>
       </div>
+    </div>
+    <div class="card reveal flowcard">
+      <div class="flowhead">
+        <div><div class="lbl">Year by year</div><h3>Where your savings go each year</h3></div>
+        <div class="legend" style="margin:0">
+          <span><i style="background:var(--blue)"></i>Money added</span>
+          <span><i style="background:var(--green)"></i>Returns earned</span>
+          <span><i style="background:var(--amber)"></i>Withdrawn for living gap</span>
+          <span><i style="background:var(--rose)"></i>One-time costs</span>
+        </div>
+      </div>
+      <div class="flowsum" id="flowSum"></div>
+      <div class="chartbox"><svg id="flowChart" viewBox="0 0 1200 300" style="width:100%;height:300px;display:block"></svg></div>
+      <p class="hint">Bars above the line add to savings, bars below take money out. Hover over any year for the exact amounts. All figures in today's money.</p>
+      <details class="ytable"><summary>Show the full year-by-year table</summary><div class="ytwrap" id="yTable"></div></details>
     </div>
   </div>
 </section>
@@ -509,10 +565,10 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
           <div class="group-t">production</div>
           <div class="field"><label>Own cane sent to kolhu (%)</label><input class="input" type="number" step="5" data-path="gur.useShare" data-preset="#gurPreset" ></div>
           <div class="field"><label>Extra cane bought (tonnes)</label><input class="input" type="number" step="5" data-path="gur.boughtCane" data-preset="#gurPreset" ></div>
-          <div class="field"><label>Gur recovery (%)</label><input class="input" type="number" step="0.5" data-path="gur.recovery" data-preset="#gurPreset" ></div>
-          <div class="field"><label>Loss / unsold (%)</label><input class="input" type="number" step="1" data-path="gur.wastage" data-preset="#gurPreset" ></div>
+          <div class="field"><label>Gur recovery (%)<span class="info" tabindex="0" data-tip="Kilos of gur you get from 100 kg of cane. Around 10% is typical; good cane and a good kolhu can reach 11–12%.">i</span></label><input class="input" type="number" step="0.5" data-path="gur.recovery" data-preset="#gurPreset" ></div>
+          <div class="field"><label>Loss / unsold (%)<span class="info" tabindex="0" data-tip="Gur lost to moisture, breakage or stock that doesn’t sell.">i</span></label><input class="input" type="number" step="1" data-path="gur.wastage" data-preset="#gurPreset" ></div>
           <div class="group-t">costs</div>
-          <div class="field"><label>Cane price (₹/quintal)</label><input class="input" type="number" step="5" data-path="gur.canePrice" data-preset="#gurPreset" ></div>
+          <div class="field"><label>Cane price (₹/quintal)<span class="info" tabindex="0" data-tip="UP state advised price for cane sold to mills: ₹390–400 per quintal for 2025–26. Used as the value of your own cane.">i</span></label><input class="input" type="number" step="5" data-path="gur.canePrice" data-preset="#gurPreset" ></div>
           <div class="field"><label>Making cost (₹/kg)</label><input class="input" type="number" step="1" data-path="gur.making" data-preset="#gurPreset" ></div>
           <div class="field"><label>Fixed season costs (₹)</label><input class="input" type="number" step="5000" data-path="gur.fixed" data-preset="#gurPreset" ></div>
           <div class="field"><label>Contractor rent (₹/season) <span class="est">enter actual</span></label><input class="input" type="number" step="5000" data-path="gur.rent" data-preset="#gurPreset"></div>
@@ -664,6 +720,7 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
 </section>
 
 <div id="flash" role="status" aria-live="polite"></div>
+<div id="tip" role="tooltip"></div>
 <footer><div class="foot-tree"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 52V16" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/><path d="M32 19C24 14 24.5 6 32 2c7.5 4 8 12 0 17z" fill="#5c8a2e"/><path d="M32 37c-8 1.5-16-3-19.5-12.5 9.5-1.5 17.5 3 19.5 12.5z" fill="#4a6d28"/><path d="M32 30c8 1.5 15.5-3 19.5-12.5-9.5-1.5-17.5 3-19.5 12.5z" fill="#6f9a3a"/><path d="M14 56c6-3 12-4.5 18-4.5S44 53 50 56" fill="none" stroke="#8a5a35" stroke-width="3" stroke-linecap="round"/></svg></div>Khet &amp; Azaadi · freedom plan · built Oct 2026 · figures are estimates — verify locally before committing</footer>
 <script>
 (function(){
@@ -797,10 +854,12 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
     const swr=Math.max(num(M.swr),.5)/100, H=Math.max(num(M.horizon),AGE0+5);
     const slowT=a=>Math.max(0,costFinal-incAt(a))*12/swr+futureOT(a);
     const fullT=a=>costFinal*12/swr+futureOT(a);
-    function life(sw){let c=num(M.start);const out=[{age:AGE0,c,inc:incAt(AGE0),cost:costAt(AGE0)}];
+    function life(sw){let c=num(M.start);const out=[{age:AGE0,c,start:c,ret:0,add:0,draw:0,ot:0,working:true,inc:incAt(AGE0),cost:costAt(AGE0)}];
       for(let a=AGE0;a<H;a++){const w=a<sw;const r=(w?num(M.rPre):num(M.rPost))/100;const inc=incAt(a)*12,cost=costAt(a)*12;
-        const flow=w?num(M.save)*12*Math.pow(1+num(M.saveGrowth)/100,a-AGE0)+(M.saveFarmIncome?inc:0):inc-cost;
-        c=c*(1+r)+flow-otAt(a);out.push({age:a+1,c,inc:incAt(a+1),cost:costAt(a+1),ot:otAt(a+1)})}
+        const start=c,ret=c*r,ot=otAt(a);let add=0,draw=0;
+        if(w){add=num(M.save)*12*Math.pow(1+num(M.saveGrowth)/100,a-AGE0)+(M.saveFarmIncome?inc:0)}
+        else{const net=inc-cost;if(net>=0)add=net;else draw=-net}
+        c=start+ret+add-draw-ot;out.push({age:a+1,yr:a,c,start,ret,add,draw,ot,working:w,inc:inc/12,cost:cost/12})}
       return out}
     const sw=num(M.switchAge), L1=life(sw), NV=life(999);
     const reach=fn=>{const p=NV.find(p=>p.c>=fn(p.age));return p?p.age:null};
@@ -808,6 +867,7 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
     const neg=L1.find(p=>p.c<0), lastsAge=neg?neg.age:null;
     const at=a=>{const p=L1.find(p=>p.age===a);return p?p.c:L1[L1.length-1].c};
     const corpusSwitch=at(sw), corpus60=at(60);
+    const gapM=costFinal-incFull, retM=corpusSwitch*num(M.rPost)/100/12, safeM=corpusSwitch*swr/12;
     const farmM=gurM+vegM+orchM+dairyM;
     const gates={
       p0:{ok:null,manual:true,text:'No number check for this phase. Mark it completed once 1–2 tonnes have sold to real buyers and FSSAI is done.'},
@@ -817,9 +877,78 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
       lasts:{ok:!lastsAge,text:lastsAge?`With a switch at ${sw}, savings run out around age ${lastsAge}.`:`With a switch at ${sw}, savings last beyond age ${H}.`}
     };
     return{caneAc,ownCaneT,usedOwnT,totalCaneT,produced,sold,soldKg,caneCost,makingCost,pack,fixed,totalCost,revenue,profit,avgPrice,breakEven,extraVsMill,rows,
-      gurM,vegM,orchM,dairyM,projM,farmM,incFull,costFinal,costAt,incAt,stageTotal,slowT,fullT,slowAge,fullAge,lastsAge,corpusSwitch,corpus60,life:L1,never:NV,gates,H,sw};
+      gurM,vegM,orchM,dairyM,projM,farmM,incFull,costFinal,costAt,incAt,stageTotal,slowT,fullT,slowAge,fullAge,lastsAge,corpusSwitch,corpus60,gapM,retM,safeM,life:L1,never:NV,gates,H,sw};
   }
   let R=compute(st);
+
+
+  function drawFlow(){
+    const svg=$('#flowChart');if(!svg)return;const W=Math.max(320,Math.round(svg.clientWidth||1200)),H=300;svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+    const pl=56,pr=10,pt=14,pb=28;const cs=getComputedStyle(document.documentElement);const c=n=>cs.getPropertyValue(n).trim();
+    const L=R.life.slice(1);const pos=p=>p.add+Math.max(0,p.ret),neg=p=>p.draw+p.ot+Math.max(0,-p.ret);
+    const max=Math.max(1,...L.map(pos))*1.08,min=-Math.max(1,...L.map(neg))*1.08;
+    const n=L.length,bw=(W-pl-pr)/n,x=i=>pl+i*bw,y=v=>pt+(max-v)/(max-min)*(H-pt-pb);
+    let g='';[max/1.08,max/2.16,0,min/2.16,min/1.08].forEach(v=>{g+=`<line x1="${pl}" x2="${W-pr}" y1="${y(v)}" y2="${y(v)}" stroke="${c('--line')}"/><text x="${pl-8}" y="${y(v)+4}" text-anchor="end">${v===0?'0':short(v).replace('₹','')}</text>`});
+    const si=L.findIndex(p=>!p.working);if(si>0)g+=`<line x1="${x(si)}" x2="${x(si)}" y1="${pt}" y2="${H-pb}" stroke="${c('--green')}" stroke-dasharray="4 4"/><text x="${x(si)+5}" y="${pt+10}" style="fill:${c('--green')};font-weight:600">switch at ${R.sw}</text>`;
+    L.forEach((p,i)=>{const bx=x(i)+bw*.14,w=Math.max(1,bw*.72);let top=y(0);
+      const up=[[p.add,c('--blue')],[Math.max(0,p.ret),c('--green')]];up.forEach(([v,col])=>{if(v<=0)return;const yy=y(0)-(y(0)-y(v));const h=y(0)-y(v);top-=h;g+=`<rect x="${bx}" y="${top}" width="${w}" height="${h}" fill="${col}" rx="1.5"/>`});
+      let bot=y(0);const dn=[[p.draw,c('--amber')],[p.ot,c('--rose')],[Math.max(0,-p.ret),c('--faint')]];dn.forEach(([v,col])=>{if(v<=0)return;const h=y(-v)-y(0);g+=`<rect x="${bx}" y="${bot}" width="${w}" height="${h}" fill="${col}" rx="1.5"/>`;bot+=h});
+      if(p.yr%5===0)g+=`<text x="${x(i)+bw/2}" y="${H-8}" text-anchor="middle">${p.yr}</text>`});
+    g+=`<line x1="${pl}" x2="${W-pr}" y1="${y(0)}" y2="${y(0)}" stroke="${c('--text')}" stroke-opacity=".35"/>`;
+    g+='<g class="hov"></g>';svg.innerHTML=g;svg._geo={L,bw,x,pl,pt,pb,W,H};
+    // summary
+    const work=L.filter(p=>p.working),free=L.filter(p=>!p.working);const S=(a,k)=>a.reduce((t,p)=>t+p[k],0);
+    $('#flowSum').innerHTML=
+      `<div class="res"><div class="k">Added while working</div><div class="v" style="color:var(--blue)">${short(S(work,'add'))}</div><div class="s">age ${AGE0}–${R.sw-1}</div></div>`+
+      `<div class="res"><div class="k">Returns earned (whole plan)</div><div class="v" style="color:var(--green)">${short(S(L,'ret'))}</div><div class="s">above inflation</div></div>`+
+      `<div class="res"><div class="k">Withdrawn for living gap</div><div class="v" style="color:var(--amber)">${short(S(free,'draw'))}</div><div class="s">age ${R.sw}–${R.H}</div></div>`+
+      `<div class="res"><div class="k">One-time costs paid</div><div class="v" style="color:var(--rose)">${short(S(L,'ot'))}</div><div class="s">wedding, home, education…</div></div>`;
+    if($('#yTable').closest('details').open)renderYTable();
+  }
+  function renderYTable(){
+    const L=R.life.slice(1);
+    $('#yTable').innerHTML=`<table><thead><tr><th>Age</th><th>Start of year</th><th>Added</th><th>Returns</th><th>Withdrawn</th><th>One-time</th><th>End of year</th></tr></thead><tbody>`+
+      L.map(p=>`<tr class="${p.yr===R.sw?'sw':''}"><td>${p.yr}${p.yr===R.sw?' · switch':''}</td><td>${short(p.start)}</td><td class="pos">${p.add?'+'+short(p.add):'—'}</td><td class="${p.ret>=0?'pos':'negc'}">${p.ret>=0?'+':''}${short(p.ret)}</td><td class="negc">${p.draw?'−'+short(p.draw):'—'}</td><td class="negc">${p.ot?'−'+short(p.ot):'—'}</td><td><b>${short(p.c)}</b></td></tr>`).join('')+`</tbody></table>`;
+  }
+
+  /* ---------- tooltips ---------- */
+  const tipEl=()=>$('#tip');
+  function showTip(html,cx,cy){const t=tipEl();t.innerHTML=html;t.classList.add('on');const r=t.getBoundingClientRect();let x=cx+14,y=cy+14;if(x+r.width>innerWidth-8)x=cx-r.width-14;if(y+r.height>innerHeight-8)y=cy-r.height-14;t.style.left=Math.max(8,x)+'px';t.style.top=Math.max(8,y)+'px'}
+  function hideTip(){tipEl().classList.remove('on')}
+  let tipOwner=null;
+  document.addEventListener('mouseover',e=>{const el=e.target.closest('[data-tip]');if(!el){if(tipOwner){tipOwner=null;hideTip()}return}tipOwner=el;const r=el.getBoundingClientRect();showTip(el.dataset.tip,e.clientX,e.clientY)});
+  document.addEventListener('mousemove',e=>{if(tipOwner&&tipOwner.isConnected)showTip(tipOwner.dataset.tip,e.clientX,e.clientY)});
+  document.addEventListener('focusin',e=>{const el=e.target.closest('[data-tip]');if(el){const r=el.getBoundingClientRect();showTip(el.dataset.tip,r.right,r.bottom)}});
+  document.addEventListener('focusout',e=>{if(e.target.closest('[data-tip]'))hideTip()});
+  document.addEventListener('click',e=>{const el=e.target.closest('.info');if(el){e.preventDefault();e.stopPropagation();const r=el.getBoundingClientRect();showTip(el.dataset.tip,r.right,r.bottom);tipOwner=el}},true);
+  window.addEventListener('scroll',()=>{if(tipOwner&&!tipOwner.matches(':hover')){tipOwner=null;hideTip()}},{passive:true});
+
+  const TR=(k,v,cls)=>`<div class="tr"><span>${k}</span><b${cls?` style="color:${cls}"`:''}>${v}</b></div>`;
+  function chartHover(id,fn){const svg=$('#'+id);if(!svg)return;
+    svg.addEventListener('mousemove',e=>{const G=svg._geo;if(!G)return;const r=svg.getBoundingClientRect();const px=(e.clientX-r.left)*G.W/r.width;const out=fn(G,px);if(!out){hideTip();svg.querySelector('.hov').innerHTML='';return}svg.querySelector('.hov').innerHTML=out.g;showTip(out.html,e.clientX,e.clientY)});
+    svg.addEventListener('mouseleave',()=>{hideTip();const h=svg.querySelector('.hov');if(h)h.innerHTML=''})}
+  const cv=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  chartHover('lifeChart',(G,px)=>{const a=Math.round(G.a0+(px-G.pl)/(G.W-G.pl-G.pr)*(G.a1-G.a0));if(a<G.a0||a>G.a1)return null;const p=R.life.find(q=>q.age===a);if(!p)return null;const nv=R.never.find(q=>q.age===a);const n=R.life.find(q=>q.age===a+1);
+    const g=`<line x1="${G.x(a)}" x2="${G.x(a)}" y1="${G.pt}" y2="${G.H-G.pb}" stroke="${cv('--text')}" stroke-opacity=".3"/><circle cx="${G.x(a)}" cy="${G.y(p.c)}" r="5" fill="${cv('--accent')}" stroke="${cv('--surface')}" stroke-width="2"/>`;
+    let html=`<b>Age ${a}</b> · ${a<R.sw?'working':'after switch'}<hr>`+TR('Savings',short(p.c))+TR('Slow-life target',short(R.slowT(a)));
+    if(n){html+='<hr><span style="opacity:.75">During this year</span>'+(n.add?TR('Added',' +'+short(n.add),'#8ec0d1'):'')+TR('Returns',(n.ret>=0?'+':'')+short(n.ret),'#a3c96d')+(n.draw?TR('Withdrawn',' −'+short(n.draw),'#e8b24c'):'')+(n.ot?TR('One-time costs',' −'+short(n.ot),'#ec8d6d'):'')}
+    const o=st.oneTime.filter(x=>Math.round(num(x.age))===a);if(o.length)html+='<hr>'+o.map(x=>`${esc(x.n)}: ${short(num(x.a))}`).join('<br>');
+    if(nv&&a<=55)html+=`<hr>${TR('If you never switch',short(nv.c))}`;
+    return{g,html}});
+  chartHover('flowChart',(G,px)=>{const i=Math.floor((px-G.pl)/G.bw);const p=G.L[i];if(!p)return null;
+    const g=`<rect x="${G.x(i)}" y="${G.pt}" width="${G.bw}" height="${G.H-G.pt-G.pb}" fill="${cv('--text')}" opacity=".07"/>`;
+    const net=p.c-p.start;
+    const html=`<b>Age ${p.yr}</b> · ${p.working?'working':'after switch'}<hr>`+TR('Start of year',short(p.start))+(p.add?TR(p.working?'Saved from job + farm':'Income surplus saved','+'+short(p.add),'#8ec0d1'):'')+TR('Returns earned',(p.ret>=0?'+':'')+short(p.ret),'#a3c96d')+(p.draw?TR('Withdrawn for living gap','−'+short(p.draw),'#e8b24c'):'')+(p.ot?TR('One-time costs','−'+short(p.ot),'#ec8d6d'):'')+'<hr>'+TR('End of year',short(p.c))+TR('Change',(net>=0?'+':'')+short(net),net>=0?'#a3c96d':'#ec8d6d')+(!p.working?`<hr><span style="opacity:.75">Income ${inr(p.inc)}/mo vs cost ${inr(p.cost)}/mo</span>`:'');
+    return{g,html}});
+  chartHover('gurChart',(G,px)=>{const pr=G.p0+(px-G.pl)/(G.W-G.pl-G.pr)*(G.p1-G.p0);if(pr<G.p0||pr>G.p1)return null;const v=G.f(pr);
+    const g=`<line x1="${px}" x2="${px}" y1="${G.pt}" y2="${G.H-G.pb}" stroke="${cv('--text')}" stroke-opacity=".3"/><circle cx="${px}" cy="${G.y(v)}" r="5" fill="${cv('--amber')}" stroke="${cv('--surface')}" stroke-width="2"/>`;
+    const html=`<b>Average price ₹${Math.round(pr)}/kg</b><hr>`+TR('Season profit',inr(v),v>=0?'#a3c96d':'#ec8d6d')+TR('Per month',inr(v/12))+TR('vs your current',(v-R.profit>=0?'+':'')+inr(v-R.profit));
+    return{g,html}});
+
+  /* ---------- clickable navigation ---------- */
+  document.addEventListener('click',e=>{const el=e.target.closest('[data-go]');if(!el||e.target.closest('input,select,button:not([data-go]),.info,a:not([data-go])'))return;e.preventDefault();const go=el.dataset.go;
+    if(go.startsWith('phase:')){curPhase=+go.split(':')[1];LS.set('ka-phase',curPhase);renderTabs();buildPhase();$('#phases').scrollIntoView({behavior:'smooth'});return}
+    const t=$(go);if(!t)return;(t.closest('section')&&go!=='#incStack'&&go!=='#flowChart'?t:t.closest('.card')||t).scrollIntoView({behavior:'smooth',block:go==='#flowChart'||go==='#incStack'?'center':'start'})});
 
   /* ---------- binding ---------- */
   function populate(){
@@ -847,28 +976,39 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
     $('#hs-slow').textContent=R.slowAge?'age ~'+R.slowAge:'60+';$('#hs-slow-s').textContent='target ≈ '+short(R.slowT(R.slowAge||60));
     $('#hs-full').textContent=R.fullAge?'age ~'+R.fullAge:'60+';$('#hs-full-s').textContent='target ≈ '+short(R.fullT(R.fullAge||60));
   }
-  function tile(k,v,s,cls){return`<div class="tile ${cls||''}"><div class="k">${k}</div><div class="v">${v}</div><div class="s">${s}</div></div>`}
+  function tile(k,v,s,cls,go,tip){return`<div class="tile ${cls||''}" ${go?`data-go="${go}"`:''}><div class="k">${k}${tip?`<span class="info" tabindex="0" data-tip="${esc(tip)}">i</span>`:''}<span class="go">${go?'details →':''}</span></div><div class="v">${v}</div><div class="s">${s}</div></div>`}
   function renderOverview(){
     const lasts=R.lastsAge?`runs out at ${R.lastsAge}`:`lasts beyond ${R.H}`;
     $('#tiles').innerHTML=
-      tile('Slow-life age',R.slowAge?R.slowAge:'60+',R.slowAge?`${yrsTo(R.slowAge)} · target ${short(R.slowT(R.slowAge))}`:'not reached by 60',R.slowAge&&R.slowAge<=40?'good':'')+
-      tile('Full-freedom age',R.fullAge?R.fullAge:'60+',R.fullAge?`${yrsTo(R.fullAge)} · target ${short(R.fullT(R.fullAge))}`:'not reached by 60')+
-      tile('Your switch age',R.sw,`money ${lasts}`,R.lastsAge?'bad':'good')+
-      tile('Monthly income (full scale)',inr(R.incFull),`vs family cost ${inr(R.costFinal)}`,R.incFull>=R.costFinal?'good':'')+
-      tile('Gur season profit',short(R.profit),`${R.sold.toFixed(1)} t sold · ${inr(R.profit/12)}/month`,R.profit<0?'bad':'')+
-      tile('Savings at age 60',short(R.corpus60),`with a switch at ${R.sw}`,R.corpus60<0?'bad':'');
+      tile('Slow-life age',R.slowAge?R.slowAge:'60+',R.slowAge?`${yrsTo(R.slowAge)} · target ${short(R.slowT(R.slowAge))}`:'not reached by 60',R.slowAge&&R.slowAge<=40?'good':'','#money','Earliest age (if you kept working) when savings are enough to leave the job and live on farm, gur and project income, with savings covering any gap.')+
+      tile('Full-freedom age',R.fullAge?R.fullAge:'60+',R.fullAge?`${yrsTo(R.fullAge)} · target ${short(R.fullT(R.fullAge))}`:'not reached by 60','','#money','Earliest age when savings alone could pay the full family cost forever, even with zero other income.')+
+      tile('Your switch age',R.sw,`money ${lasts}`,R.lastsAge?'bad':'good','#money','The age you plan to leave the job. Change it with the slider in the Money section.')+
+      tile('Monthly income (full scale)',inr(R.incFull),`vs family cost ${inr(R.costFinal)}`,R.incFull>=R.costFinal?'good':'','#incStack','Gur + vegetables + orchard + dairy + own projects, once everything is running at full scale.')+
+      tile('Gur season profit',short(R.profit),`${R.sold.toFixed(1)} t sold · ${inr(R.profit/12)}/month`,R.profit<0?'bad':'','#gur','Revenue from all sales channels minus cane, making, packing and fixed costs for one season.')+
+      tile('Savings at age 60',short(R.corpus60),`with a switch at ${R.sw}`,R.corpus60<0?'bad':'','#flowChart','Projected savings at 60 after all withdrawals and one-time costs, in today’s money.');
     // income stack
     const parts=[['Gur',R.gurM,COL.gur],['Vegetables',R.vegM,COL.veg],['Orchard',R.orchM,COL.orch],['Dairy',R.dairyM,COL.dairy],['Own projects',R.projM,COL.proj]].filter(p=>p[1]>0);
     const tot=Math.max(R.incFull,R.costFinal,1), sum=parts.reduce((t,p)=>t+p[1],0)||1, diff=R.incFull-R.costFinal;
-    let h='<div class="stack">'+parts.map(p=>`<div style="flex:0 0 ${p[1]/tot*100}%;background:${p[2]}" title="${p[0]}: ${inr(p[1])}">${p[1]/tot>=.2?p[0]:''}</div>`).join('')+'</div>';
+    const GO={Gur:'#gur',Vegetables:'#land',Orchard:'#land',Dairy:'#land','Own projects':'#land'};
+    let h='<div class="stack">'+parts.map(p=>`<div style="flex:0 0 ${p[1]/tot*100}%;background:${p[2]}" data-tip="<b>${p[0]}</b><br>${inr(p[1])} a month · ${Math.round(p[1]/sum*100)}% of income">${p[1]/tot>=.2?p[0]:''}</div>`).join('')+'</div>';
     {const pc=Math.min(100,R.costFinal/tot*100);h+=`<div class="costline"><span style="left:${pc}%;transform:translateX(${pc>70?'-100%':pc<30?'0':'-50%'})">▲ family cost ${inr(R.costFinal)}</span></div>`}
-    h+='<div class="flow" style="margin-top:14px">'+parts.map(p=>`<div class="frow"><span style="display:flex;align-items:center;gap:10px"><i style="width:10px;height:10px;border-radius:3px;background:${p[2]};display:inline-block"></i>${p[0]}</span><span style="display:flex;gap:14px;align-items:baseline"><span class="hint" style="margin:0">${Math.round(p[1]/sum*100)}%</span><b>${inr(p[1])}</b></span></div>`).join('')+
+    h+='<div class="flow" style="margin-top:14px">'+parts.map(p=>`<div class="frow" data-go="${GO[p[0]]}"><span style="display:flex;align-items:center;gap:10px"><i style="width:10px;height:10px;border-radius:3px;background:${p[2]};display:inline-block"></i>${p[0]}</span><span style="display:flex;gap:14px;align-items:baseline"><span class="hint" style="margin:0">${Math.round(p[1]/sum*100)}%</span><b>${inr(p[1])}</b></span></div>`).join('')+
       `<div class="frow"><span><b>Total income</b></span><b>${inr(R.incFull)}</b></div>`+
-      `<div class="frow"><span>Family cost (${st.money.costMode==='manual'?'fixed':'family stage'})</span><b>${inr(R.costFinal)}</b></div>`+
+      `<div class="frow" data-go="#budget"><span>Family cost (${st.money.costMode==='manual'?'fixed':'family stage'})</span><b>${inr(R.costFinal)}</b></div>`+
       `<div class="frow total ${diff<0?'neg':''}"><span>${diff>=0?'Surplus each month':'Gap savings must cover'}</span><b style="color:${diff>=0?'var(--green)':'var(--rose)'}">${diff>=0?'+':'−'}${inr(Math.abs(diff))}</b></div></div>`;
     h+=st.money.incMode==='manual'?'<p class="hint">Income is set manually in the Money section, so these parts are shown for reference only.</p>':`<p class="hint">Full scale from age ${num(st.ramp.start)+Math.max(1,num(st.ramp.years))-1}; it builds up from age ${num(st.ramp.start)}. Orchard income starts at ${num(st.land.orchStart)}.</p>`;
+
+    {const g=R.gapM,yrs=12;let v,cls,rows='';
+      rows+=`<div class="frow" data-go="#money"><span>Savings when you switch (age ${R.sw})</span><b>${short(R.corpusSwitch)}</b></div>`;
+      rows+=`<div class="frow"><span>They earn above inflation (${num(st.money.rPost)}% a year)</span><b>≈ ${inr(R.retM)}/month</b></div>`;
+      rows+=`<div class="frow"><span>Safe withdrawal limit (${num(st.money.swr)}% a year)</span><b>≈ ${inr(R.safeM)}/month</b></div>`;
+      if(g<=0){v=`No gap. The surplus of ${inr(-g)} a month can go back into savings, and the returns of about ${inr(R.retM)} a month keep growing your savings.`;cls='ok'}
+      else if(R.retM>=g){v=`Covered by returns. The ${inr(g)} gap (${short(g*12)} a year) is paid by withdrawing from savings, but your savings earn about ${inr(R.retM)} a month, more than the gap. So you only spend part of the returns and your savings keep growing.`;cls='ok'}
+      else if(R.safeM>=g){v=`Covered within the safe limit. Returns (${inr(R.retM)}/month) don't cover all of the ${inr(g)} gap, so savings shrink slowly, but the withdrawal stays below the safe limit of ${inr(R.safeM)}/month.`;cls='warn'}
+      else{v=`Not covered safely. The ${inr(g)} gap is more than the safe limit of ${inr(R.safeM)}/month, so savings ${R.lastsAge?'run out around age '+R.lastsAge:'shrink fast'}. Raise income, lower costs, or switch later.`;cls='bad'}
+      $('#coverBox').innerHTML=`<div class="cover" style="margin:0;border:none;background:none;padding:0"><h5>How the monthly gap is covered<span class="info" tabindex="0" data-tip="After you leave the job, any month where family costs are more than your farm, gur and project income is paid from savings. Savings keep earning returns at the same time.">i</span></h5><div class="cover-grid">${rows}</div><p class="verdict ${cls}">${v}</p><p class="hint" style="margin-top:6px">One-time costs (wedding, home, education) also come out of savings in the year they happen. <a href="#flowChart" data-go="#flowChart" style="color:var(--accent);font-weight:600">See every year’s added, returns and withdrawals →</a></p></div>`}
     $('#incStack').innerHTML=h;
-    $('#gateList').innerHTML=st.phases.map((p,i)=>{const g=R.gates[p.gate];return`<div class="grow"><div><b>${esc(p.n)} · ${esc(p.t)}</b><div class="hint" style="margin:2px 0 0">${esc(g.text)}</div></div><div class="pills">${planPill(g)}${statusPill(i)}</div></div>`}).join('');
+    $('#gateList').innerHTML=st.phases.map((p,i)=>{const g=R.gates[p.gate];return`<div class="grow" data-go="phase:${i}"><div><b>${esc(p.n)} · ${esc(p.t)}</b> <span class="go" style="float:none">open →</span><div class="hint" style="margin:2px 0 0">${esc(g.text)}</div></div><div class="pills">${planPill(g)}${statusPill(i)}</div></div>`}).join('');
   }
   function renderMoney(){
     $('#m1').textContent=short(R.slowT(R.sw));$('#m1s').textContent=`needed at age ${R.sw}`;
@@ -876,7 +1016,7 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
     $('#m3').textContent=R.lastsAge?'age '+R.lastsAge:R.H+'+';$('#m3s').textContent=R.lastsAge?'savings run out':'savings never run out';
     $('#costManualWrap').style.display=st.money.costMode==='manual'?'':'none';
     $('#incManualWrap').style.display=st.money.incMode==='manual'?'':'none';
-    drawLife();
+    drawLife();drawFlow();
   }
   function drawLife(){
     const svg=$('#lifeChart');if(!svg)return;const W=Math.max(320,Math.round(svg.clientWidth||700)),H=Math.max(300,Math.round(svg.clientHeight||440));svg.setAttribute('viewBox',`0 0 ${W} ${H}`);const pl=56,pr=14,pt=26,pb=30;
@@ -896,7 +1036,8 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
     g+=`<defs><linearGradient id="lg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="${c('--accent')}" stop-opacity=".25"/><stop offset="1" stop-color="${c('--accent')}" stop-opacity="0"/></linearGradient></defs>`;
     g+=`<polygon points="${x(a0)},${y(Math.max(0,min))} ${pts} ${x(a1)},${y(Math.max(0,min))}" fill="url(#lg)"/><polyline points="${pts}" fill="none" stroke="${c('--accent')}" stroke-width="2.6" stroke-linejoin="round"/>`;
     st.oneTime.forEach(o=>{const a=Math.round(num(o.age));if(a<a0||a>a1)return;const p=L.find(p=>p.age===a);if(!p)return;g+=`<circle cx="${x(a)}" cy="${y(p.c)}" r="5" fill="${c('--rose')}" stroke="${c('--surface')}" stroke-width="2"><title>${esc(o.n)}: ${short(num(o.a))} at age ${a}</title></circle>`});
-    svg.innerHTML=g;
+    g+='<g class="hov"></g>';svg.innerHTML=g;
+    svg._geo={x,y,a0,a1,pl,pr,pt,pb,W,H};
   }
   function renderGur(){
     const r=R;
@@ -915,7 +1056,7 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
     $('#gurCompare').innerHTML=`Compared with selling cane to the mill and renting the unit for ${inr(num(st.gur.rent))}: running it yourself is <b style="color:${diff>=0?'var(--green)':'var(--rose)'}">${diff>=0?'+':''}${inr(diff)}</b> a season.`;
     const CHN={direct:['Direct to NCR buyers',COL.gur],outlet:['Highway outlet',COL.veg],mandi:['Mandi',COL.orch]};
     const ss=r.rows.reduce((t,x)=>t+x.kg,0)||1;
-    $('#mixBar').innerHTML=r.rows.map(x=>`<div style="flex:0 0 ${x.kg/ss*100}%;background:${CHN[x.k][1]}" title="${CHN[x.k][0]}"></div>`).join('');
+    $('#mixBar').innerHTML=r.rows.map(x=>`<div style="flex:0 0 ${x.kg/ss*100}%;background:${CHN[x.k][1]}" data-tip="<b>${CHN[x.k][0]}</b><br>${(x.kg/1000).toFixed(1)} t sold · revenue ${short(x.r)}<br>after packing ${short(x.r-x.p)}"></div>`).join('');
     $('#mixLegend').innerHTML=r.rows.map(x=>`<span><i style="background:${CHN[x.k][1]}"></i>${CHN[x.k][0]}: ${(x.kg/1000).toFixed(1)} t · ${short(x.r-x.p)}</span>`).join('');
     const tot=['direct','outlet','mandi'].reduce((t,k)=>t+num(st.gur.ch[k].share),0);
     $('#shareWarn').textContent=tot!==100?`Shares add up to ${tot}% — they are scaled to 100%.`:'';
@@ -931,7 +1072,8 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
     g+=`<line x1="${x(p0)}" y1="${y(f(p0))}" x2="${x(p1)}" y2="${y(f(p1))}" stroke="${c('--amber')}" stroke-width="2.6"/>`;
     if(R.breakEven>p0&&R.breakEven<p1)g+=`<circle cx="${x(R.breakEven)}" cy="${y(0)}" r="5" fill="${c('--rose')}"/><text x="${x(R.breakEven)}" y="${y(0)-10}" text-anchor="middle" style="fill:${c('--rose')};font-weight:600">break-even ₹${Math.round(R.breakEven)}</text>`;
     if(R.avgPrice>p0&&R.avgPrice<p1)g+=`<circle cx="${x(R.avgPrice)}" cy="${y(R.profit)}" r="6" fill="${c('--green')}" stroke="${c('--surface')}" stroke-width="2"/><text x="${x(R.avgPrice)+10}" y="${y(R.profit)+4}" style="fill:${c('--green')};font-weight:600">you: ₹${Math.round(R.avgPrice)}/kg</text>`;
-    svg.innerHTML=g;
+    g+='<g class="hov"></g>';svg.innerHTML=g;
+    svg._geo={x,y,p0,p1,f,pl,pr,pt,pb,W,H};
   }
   const LAND=[{k:'cane',n:'Sugarcane',why:'Feeds your own kolhu',c:'#7a8f3a'},{k:'veg',n:'Vegetables & seasonal',why:'Family food + outlet stock',c:'#c6861a'},{k:'fodder',n:'Fodder',why:'Berseem / maize for the cows',c:'#a9b878'},{k:'orchard',n:'Orchard & boundary',why:'Guava, lemon, amla, jamun',c:'#4a6d28'},{k:'base',n:'Base area',why:'Kolhu, shed, compost, outlet',c:'#8a5a35'}];
   function buildLand(){
@@ -939,7 +1081,7 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
   }
   function renderLand(){
     const used=LAND.reduce((t,l)=>t+num(st.land[l.k]),0);
-    $('#landBar').innerHTML=LAND.map(l=>`<div class="seg" style="flex:${Math.max(num(st.land[l.k]),.0001)};background:${l.c}" title="${l.n}: ${num(st.land[l.k])} bigha">${num(st.land[l.k])>=2?num(st.land[l.k]):''}</div>`).join('');
+    $('#landBar').innerHTML=LAND.map(l=>`<div class="seg" style="flex:${Math.max(num(st.land[l.k]),.0001)};background:${l.c}" data-tip="<b>${l.n}</b><br>${num(st.land[l.k])} bigha ≈ ${(num(st.land[l.k])*BIGHA_AC).toFixed(2)} acres<br>${l.why}">${num(st.land[l.k])>=2?num(st.land[l.k]):''}</div>`).join('');
     LAND.forEach(l=>{const e=document.querySelector(`[data-ac="${l.k}"]`);if(e)e.textContent=(num(st.land[l.k])*BIGHA_AC).toFixed(2)+' ac'});
     $('#landUsed').textContent=used;$('#landUsed').classList.toggle('warn',used!==30);
     $('#landGur').textContent=`${R.ownCaneT.toFixed(0)} t cane → ~${(R.ownCaneT*num(st.gur.recovery)/100).toFixed(1)} t gur / season`;
@@ -1106,13 +1248,14 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
   $('.brand').addEventListener('click',e=>{e.preventDefault();window.scrollTo({top:0,behavior:'smooth'});history.replaceState(null,'',location.pathname+location.search)});
   /* theme / reveal / nav */
   const root=document.documentElement;root.setAttribute('data-theme',LS.get('fp-theme','light'));
-  $('#themeBtn').onclick=()=>{const t=root.getAttribute('data-theme')==='dark'?'light':'dark';root.setAttribute('data-theme',t);LS.set('fp-theme',t);drawLife();drawGurChart()};
+  $('#themeBtn').onclick=()=>{const t=root.getAttribute('data-theme')==='dark'?'light':'dark';root.setAttribute('data-theme',t);LS.set('fp-theme',t);drawLife();drawGurChart();drawFlow()};
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.08});
   $$('.reveal').forEach(el=>io.observe(el));
   const links=$$('#links a');
   const secIO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id))}),{rootMargin:'-45% 0px -50% 0px'});
   $$('section[id]').forEach(s=>secIO.observe(s));
-  window.addEventListener('resize',()=>{drawLife();drawGurChart()});
+  window.addEventListener('resize',()=>{drawLife();drawGurChart();drawFlow()});
+  $('#yTable').closest('details').addEventListener('toggle',e=>{if(e.target.open)renderYTable()});
 
   rebuildAll();
 })();
