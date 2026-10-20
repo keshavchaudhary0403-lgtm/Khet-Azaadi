@@ -53,7 +53,7 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:"Karla",ui-sans
 :root[data-theme="dark"] .grain{mix-blend-mode:screen;opacity:.25}
 .furrow{height:14px;margin:0 auto;max-width:1180px;background:repeating-linear-gradient(90deg,var(--line-2) 0 2px,transparent 2px 14px);-webkit-mask:linear-gradient(90deg,transparent,#000 15%,#000 85%,transparent);mask:linear-gradient(90deg,transparent,#000 15%,#000 85%,transparent);opacity:.7}
 a{color:inherit}
-.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.wrap{max-width:1380px;margin:0 auto;padding:0 32px}
 
 /* Nav */
 .nav{position:sticky;top:0;z-index:50;backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);background:color-mix(in srgb,var(--bg) 78%,transparent);border-bottom:1px solid var(--line)}
@@ -296,7 +296,7 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
 .stack div{display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:600;min-width:0;overflow:hidden;white-space:nowrap}
 .costline{position:relative;height:18px}
 .costline span{position:absolute;top:0;transform:translateX(-50%);font-size:11.5px;color:var(--rose);font-weight:600;white-space:nowrap}
-.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:end}
 .fgrid .field{min-width:0}
 .group-t{font-family:"Caveat",cursive;font-size:22px;font-weight:700;color:var(--amber);margin:8px 0 0;grid-column:1/-1;line-height:1}
 .toggle{display:flex;align-items:center;gap:10px;font-size:13.5px;cursor:pointer;user-select:none;grid-column:1/-1}
@@ -667,8 +667,16 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
   const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   const getP=(o,p)=>p.split('.').reduce((a,k)=>a==null?a:a[k],o);
   const setP=(o,p,v)=>{const ks=p.split('.');let a=o;ks.slice(0,-1).forEach(k=>a=a[k]);a[ks[ks.length-1]]=v};
-  const num=v=>{v=+v;return isFinite(v)?v:0};
+  const num=v=>{v=+String(v==null?'':v).replace(/,/g,'');return isFinite(v)?v:0};
   const AGE0=29, BIGHA_AC=0.1563;
+
+
+  /* ---------- Indian number formatting in inputs ---------- */
+  const fmtIN=raw=>{let t=String(raw).replace(/[^\d.\-]/g,'');const neg=t.startsWith('-');t=t.replace(/-/g,'');const dot=t.indexOf('.');let i=dot<0?t:t.slice(0,dot),d=dot<0?null:t.slice(dot+1).replace(/\./g,'');i=i.replace(/^0+(?=\d)/,'');const f=i?Number(i).toLocaleString('en-IN'):(d!=null?'0':'');return (neg?'-':'')+f+(d!=null?'.'+d:'')};
+  function enhanceNum(el){if(el.dataset.numfmt)return;el.dataset.numfmt='1';el.type='text';el.inputMode='decimal';el.autocomplete='off';if(el.value!=='')el.value=fmtIN(el.value)}
+  function enhanceAll(root){(root||document).querySelectorAll('input[type=number]').forEach(enhanceNum)}
+  document.addEventListener('input',e=>{const el=e.target;if(!el.dataset||!el.dataset.numfmt)return;const pos=el.selectionStart,before=el.value.slice(0,pos).replace(/[^\d.]/g,'').length;const nv=fmtIN(el.value);if(nv===el.value)return;el.value=nv;let c=0,k=0;while(k<nv.length&&c<before){if(/[\d.]/.test(nv[k]))c++;k++}try{el.setSelectionRange(k,k)}catch(_){}},true);
+  new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(n=>{if(n.nodeType!==1)return;if(n.matches&&n.matches('input[type=number]'))enhanceNum(n);else if(n.querySelectorAll)enhanceAll(n)}))).observe(document.body,{childList:true,subtree:true});
 
   /* ---------- defaults ---------- */
   const T=t=>({t,d:false});
@@ -806,14 +814,14 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
 
   /* ---------- binding ---------- */
   function populate(){
-    $$('[data-path]').forEach(el=>{const v=getP(st,el.dataset.path);if(el.type==='checkbox')el.checked=!!v;else if(v!=null)el.value=v});
+    enhanceAll();$$('[data-path]').forEach(el=>{const v=getP(st,el.dataset.path);if(el.type==='checkbox')el.checked=!!v;else if(v!=null)el.value=el.dataset.numfmt?fmtIN(v):v});
     paintRanges();
   }
   function paintRanges(){$$('input[type=range]').forEach(r=>{const p=(r.value-r.min)/(r.max-r.min)*100;r.style.setProperty('--p',p+'%')});
     $$('[data-show]').forEach(el=>{const v=getP(st,el.dataset.show);const f=el.dataset.fmt;el.textContent=f==='inr'?inr(v):f==='age'?'age '+v:v})}
   document.addEventListener('input',e=>{
     const el=e.target.closest('[data-path]');if(!el)return;
-    let v=el.type==='checkbox'?el.checked:(el.type==='number'||el.type==='range')?num(el.value):el.value;
+    let v=el.type==='checkbox'?el.checked:(el.type==='number'||el.type==='range'||el.dataset.numfmt)?num(el.value):el.value;
     setP(st,el.dataset.path,v);
     if(el.dataset.preset){const p=$(el.dataset.preset);if(p)p.value='custom'}
     if(el.dataset.path==='budget.stage')buildBudget();
