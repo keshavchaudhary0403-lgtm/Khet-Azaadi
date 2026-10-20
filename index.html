@@ -144,8 +144,12 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 .phase-tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
 .phase-tabs::-webkit-scrollbar{display:none}
 .ptab{flex:1 0 170px;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:16px;padding:14px 16px;cursor:pointer;color:var(--text);font:inherit;transition:.25s;position:relative;overflow:hidden}
-.ptab:hover{border-color:var(--line-2);transform:translateY(-2px)}
-.ptab.on{border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 14%,transparent)}
+.ptab:hover{border-color:var(--line-2);background:var(--surface-2)}
+.ptab.on{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);background:var(--green-soft)}
+.phase-tabs{padding:2px 2px 6px}
+.ptab .pn{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.ptab .pn .pill{font-family:"Karla",sans-serif;font-size:11px;padding:2px 8px;line-height:1.3}
+.ptab.on .pn .pill{background:var(--surface)}
 .ptab .pn{font-family:"Caveat",cursive;font-size:19px;font-weight:700;color:var(--amber);line-height:1}
 .ptab .pt{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:17px;margin:2px 0}
 .ptab .pd{font-size:12px;color:var(--muted)}
@@ -422,7 +426,7 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
       <p class="hint">Edits save automatically to the selected scenario. To test a new approach, first “Save as new”, then change that copy — your original stays as it was. Export keeps a backup file you can import on another device.</p>
     </div>
     <div class="tiles" id="tiles"></div>
-    <div class="grid-2" style="margin-top:16px">
+    <div class="grid-2" style="margin-top:16px;align-items:start">
       <div class="card reveal"><div class="lbl">Monthly income at full scale vs family cost</div><div id="incStack"></div></div>
       <div class="card reveal"><div class="lbl" style="margin-bottom:10px">Phase milestones under this scenario</div><div id="gateList"></div></div>
     </div>
@@ -829,11 +833,14 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
       tile('Savings at age 60',short(R.corpus60),`with a switch at ${R.sw}`,R.corpus60<0?'bad':'');
     // income stack
     const parts=[['Gur',R.gurM,COL.gur],['Vegetables',R.vegM,COL.veg],['Orchard',R.orchM,COL.orch],['Dairy',R.dairyM,COL.dairy],['Own projects',R.projM,COL.proj]].filter(p=>p[1]>0);
-    const tot=Math.max(R.incFull,R.costFinal,1);
-    let h='<div class="stack">'+parts.map(p=>`<div style="flex:0 0 ${p[1]/tot*100}%;background:${p[2]}" title="${p[0]}: ${inr(p[1])}">${p[1]/tot>.1?p[0]:''}</div>`).join('')+'</div>';
+    const tot=Math.max(R.incFull,R.costFinal,1), sum=parts.reduce((t,p)=>t+p[1],0)||1, diff=R.incFull-R.costFinal;
+    let h='<div class="stack">'+parts.map(p=>`<div style="flex:0 0 ${p[1]/tot*100}%;background:${p[2]}" title="${p[0]}: ${inr(p[1])}">${p[1]/tot>=.2?p[0]:''}</div>`).join('')+'</div>';
     {const pc=Math.min(100,R.costFinal/tot*100);h+=`<div class="costline"><span style="left:${pc}%;transform:translateX(${pc>70?'-100%':pc<30?'0':'-50%'})">▲ family cost ${inr(R.costFinal)}</span></div>`}
-    h+='<div class="legend" style="margin-top:10px">'+parts.map(p=>`<span><i style="background:${p[2]}"></i>${p[0]} ${inr(p[1])}</span>`).join('')+'</div>';
-    if(st.money.incMode==='manual')h+='<p class="hint">Income is set manually in the Money section, so these parts are shown for reference only.</p>';
+    h+='<div class="flow" style="margin-top:14px">'+parts.map(p=>`<div class="frow"><span style="display:flex;align-items:center;gap:10px"><i style="width:10px;height:10px;border-radius:3px;background:${p[2]};display:inline-block"></i>${p[0]}</span><span style="display:flex;gap:14px;align-items:baseline"><span class="hint" style="margin:0">${Math.round(p[1]/sum*100)}%</span><b>${inr(p[1])}</b></span></div>`).join('')+
+      `<div class="frow"><span><b>Total income</b></span><b>${inr(R.incFull)}</b></div>`+
+      `<div class="frow"><span>Family cost (${st.money.costMode==='manual'?'fixed':'family stage'})</span><b>${inr(R.costFinal)}</b></div>`+
+      `<div class="frow total"><span>${diff>=0?'Surplus each month':'Gap savings must cover'}</span><b style="color:${diff>=0?'var(--green)':'var(--rose)'}">${diff>=0?'+':'−'}${inr(Math.abs(diff))}</b></div></div>`;
+    h+=st.money.incMode==='manual'?'<p class="hint">Income is set manually in the Money section, so these parts are shown for reference only.</p>':`<p class="hint">Full scale from age ${num(st.ramp.start)+Math.max(1,num(st.ramp.years))-1}; it builds up from age ${num(st.ramp.start)}. Orchard income starts at ${num(st.land.orchStart)}.</p>`;
     $('#incStack').innerHTML=h;
     $('#gateList').innerHTML=st.phases.map(p=>{const g=R.gates[p.gate];return`<div class="grow"><div><b>${esc(p.n)} · ${esc(p.t)}</b><div class="hint" style="margin:2px 0 0">${esc(g.text)}</div></div><span class="pill ${g.ok?'ok':'no'}">${g.ok?'✓ met':g.manual?'○ to do':'✗ not yet'}</span></div>`}).join('');
   }
@@ -920,7 +927,7 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
   let curPhase=LS.get('ka-phase',0);if(curPhase>=st.phases.length)curPhase=0;
   const prog=i=>{let t=0,d=0;Object.values(st.phases[i].items).forEach(a=>a.forEach(x=>{t++;if(x.d)d++}));return[d,t]};
   function renderTabs(){
-    $('#phaseTabs').innerHTML=st.phases.map((p,i)=>{const[d,t]=prog(i);const g=R.gates[p.gate];return`<button class="ptab ${i===curPhase?'on':''}" data-i="${i}"><div class="pn">${esc(p.n)} <span class="pill ${g.ok?'ok':'no'}" style="font-family:Karla,sans-serif;font-size:10.5px;padding:1px 8px;margin-left:4px;vertical-align:3px">${g.ok?'✓ met':'not yet'}</span></div><div class="pt">${esc(p.t)}</div><div class="pd">${esc(p.d.split(' · ')[0])}</div><div class="bar" style="width:${t?d/t*100:0}%"></div></button>`}).join('');
+    $('#phaseTabs').innerHTML=st.phases.map((p,i)=>{const[d,t]=prog(i);const g=R.gates[p.gate];return`<button class="ptab ${i===curPhase?'on':''}" data-i="${i}"><div class="pn">${esc(p.n)} <span class="pill ${g.ok?'ok':'no'}">${g.ok?'✓ met':'not yet'}</span></div><div class="pt">${esc(p.t)}</div><div class="pd">${esc(p.d.split(' · ')[0])}</div><div class="bar" style="width:${t?d/t*100:0}%"></div></button>`}).join('');
     $$('.ptab').forEach(b=>b.onclick=()=>{curPhase=+b.dataset.i;LS.set('ka-phase',curPhase);renderTabs();buildPhase()});
   }
   function buildPhase(){
