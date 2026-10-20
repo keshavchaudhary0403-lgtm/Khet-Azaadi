@@ -127,7 +127,7 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 .chip i{width:7px;height:7px;border-radius:50%;background:currentColor;display:inline-block}
 
 /* Calculator */
-.calc{display:grid;grid-template-columns:minmax(360px,440px) 1fr;gap:20px;align-items:start}
+.calc{display:grid;grid-template-columns:minmax(360px,440px) 1fr;gap:20px}
 .calc .controls{display:flex;flex-direction:column;gap:18px}.calc .controls .field{flex:none}
 .results{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
 .res{background:var(--surface-2);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
@@ -349,6 +349,15 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
 @media (max-width:640px){.tiles{grid-template-columns:1fr}.fgrid{grid-template-columns:1fr}.trow{grid-template-columns:1fr;gap:4px}.trow .hint{text-align:left!important}.scen .acts .btn{flex:1}}
 
 .brand:hover{opacity:.8}.brand:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:8px}
+
+/* equal-height cards */
+.grid-2,.gur,.calc{align-items:stretch}
+.grid-2>.card,.gur>.card,.calc>.card{display:flex;flex-direction:column}
+.card.fill .fill-list{flex:1;display:flex;flex-direction:column;gap:8px}
+.card.fill .fill-list .grow{flex:1;margin-bottom:0}
+.grow-chart{flex:1;display:flex;min-height:340px}
+.grow-chart svg{width:100%;height:auto;flex:1;min-height:340px;display:block}
+.frow.total.neg{background:var(--rose-soft);border-color:color-mix(in srgb,var(--rose) 35%,transparent)}
 </style>
 </head>
 <body>
@@ -435,9 +444,9 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
       <p class="hint">Edits save automatically to the selected scenario. To test a new approach, first “Save as new”, then change that copy — your original stays as it was. Export keeps a backup file you can import on another device.</p>
     </div>
     <div class="tiles" id="tiles"></div>
-    <div class="grid-2" style="margin-top:16px;align-items:start">
+    <div class="grid-2" style="margin-top:16px">
       <div class="card reveal"><div class="lbl">Monthly income at full scale vs family cost</div><div id="incStack"></div></div>
-      <div class="card reveal"><div class="lbl" style="margin-bottom:10px">Phases · plan check and your progress</div><div id="gateList"></div></div>
+      <div class="card reveal fill"><div class="lbl" style="margin-bottom:10px">Phases · plan check and your progress</div><div id="gateList" class="fill-list"></div></div>
     </div>
   </div>
 </section>
@@ -469,13 +478,13 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
           <label class="toggle"><input type="checkbox" data-path="money.saveFarmIncome"> Save farm & gur income too while still working</label>
         </div>
       </div>
-      <div class="card reveal">
+      <div class="card reveal fill">
         <div class="results">
           <div class="res"><div class="k">Slow-life target at switch</div><div class="v" id="m1">—</div><div class="s" id="m1s"></div></div>
           <div class="res"><div class="k">Savings at switch</div><div class="v" id="m2">—</div><div class="s" id="m2s"></div></div>
           <div class="res"><div class="k">Money lasts until</div><div class="v" id="m3">—</div><div class="s" id="m3s"></div></div>
         </div>
-        <div class="chartbox"><svg class="chart" id="lifeChart" viewBox="0 0 700 440" preserveAspectRatio="none" style="height:440px"></svg></div>
+        <div class="chartbox grow-chart"><svg class="chart" id="lifeChart" viewBox="0 0 700 440"></svg></div>
         <div class="legend">
           <span><i style="background:var(--accent)"></i>Savings with your switch age</span>
           <span><i style="background:var(--faint)"></i>If you never switch</span>
@@ -517,7 +526,7 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
         <div class="flow" id="gurFlow"></div>
         <div class="compare" id="gurCompare"></div>
         <div class="lbl" style="margin-top:18px">Profit at different average selling prices</div>
-        <div class="chartbox"><svg id="gurChart" viewBox="0 0 700 240" preserveAspectRatio="none" style="width:100%;height:240px;display:block"></svg></div>
+        <div class="chartbox grow-chart" style="min-height:240px"><svg id="gurChart" viewBox="0 0 700 240" style="min-height:240px"></svg></div>
       </div>
     </div>
   </div>
@@ -856,7 +865,7 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
     h+='<div class="flow" style="margin-top:14px">'+parts.map(p=>`<div class="frow"><span style="display:flex;align-items:center;gap:10px"><i style="width:10px;height:10px;border-radius:3px;background:${p[2]};display:inline-block"></i>${p[0]}</span><span style="display:flex;gap:14px;align-items:baseline"><span class="hint" style="margin:0">${Math.round(p[1]/sum*100)}%</span><b>${inr(p[1])}</b></span></div>`).join('')+
       `<div class="frow"><span><b>Total income</b></span><b>${inr(R.incFull)}</b></div>`+
       `<div class="frow"><span>Family cost (${st.money.costMode==='manual'?'fixed':'family stage'})</span><b>${inr(R.costFinal)}</b></div>`+
-      `<div class="frow total"><span>${diff>=0?'Surplus each month':'Gap savings must cover'}</span><b style="color:${diff>=0?'var(--green)':'var(--rose)'}">${diff>=0?'+':'−'}${inr(Math.abs(diff))}</b></div></div>`;
+      `<div class="frow total ${diff<0?'neg':''}"><span>${diff>=0?'Surplus each month':'Gap savings must cover'}</span><b style="color:${diff>=0?'var(--green)':'var(--rose)'}">${diff>=0?'+':'−'}${inr(Math.abs(diff))}</b></div></div>`;
     h+=st.money.incMode==='manual'?'<p class="hint">Income is set manually in the Money section, so these parts are shown for reference only.</p>':`<p class="hint">Full scale from age ${num(st.ramp.start)+Math.max(1,num(st.ramp.years))-1}; it builds up from age ${num(st.ramp.start)}. Orchard income starts at ${num(st.land.orchStart)}.</p>`;
     $('#incStack').innerHTML=h;
     $('#gateList').innerHTML=st.phases.map((p,i)=>{const g=R.gates[p.gate];return`<div class="grow"><div><b>${esc(p.n)} · ${esc(p.t)}</b><div class="hint" style="margin:2px 0 0">${esc(g.text)}</div></div><div class="pills">${planPill(g)}${statusPill(i)}</div></div>`}).join('');
@@ -870,7 +879,7 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
     drawLife();
   }
   function drawLife(){
-    const svg=$('#lifeChart');if(!svg)return;const W=700,H=440,pl=56,pr=14,pt=26,pb=30;
+    const svg=$('#lifeChart');if(!svg)return;const W=Math.max(320,Math.round(svg.clientWidth||700)),H=Math.max(300,Math.round(svg.clientHeight||440));svg.setAttribute('viewBox',`0 0 ${W} ${H}`);const pl=56,pr=14,pt=26,pb=30;
     const cs=getComputedStyle(document.documentElement);const c=n=>cs.getPropertyValue(n).trim();
     const a0=AGE0,a1=R.H,L=R.life;const nv=R.never.filter(p=>p.age<=Math.min(a1,55));
     const vals=L.map(p=>p.c).concat(nv.map(p=>p.c),L.map(p=>R.slowT(p.age)));
@@ -913,7 +922,7 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
     drawGurChart();
   }
   function drawGurChart(){
-    const svg=$('#gurChart');const W=700,H=240,pl=60,pr=14,pt=16,pb=30;const cs=getComputedStyle(document.documentElement);const c=n=>cs.getPropertyValue(n).trim();
+    const svg=$('#gurChart');const W=Math.max(320,Math.round(svg.clientWidth||700)),H=Math.max(220,Math.round(svg.clientHeight||240));svg.setAttribute('viewBox',`0 0 ${W} ${H}`);const pl=60,pr=14,pt=16,pb=30;const cs=getComputedStyle(document.documentElement);const c=n=>cs.getPropertyValue(n).trim();
     const p0=30,p1=180,f=p=>R.soldKg*p-R.totalCost;const ys=[f(p0),f(p1),0];const max=Math.max(...ys)*1.1,min=Math.min(...ys)*1.1;
     const x=p=>pl+(p-p0)/(p1-p0)*(W-pl-pr),y=v=>pt+(max-v)/(max-min||1)*(H-pt-pb);
     let g='';for(let i=0;i<=4;i++){const v=min+(max-min)/4*i;g+=`<line x1="${pl}" x2="${W-pr}" y1="${y(v)}" y2="${y(v)}" stroke="${c('--line')}"/><text x="${pl-8}" y="${y(v)+4}" text-anchor="end">${short(v).replace('₹','')}</text>`}
