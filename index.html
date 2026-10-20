@@ -127,7 +127,7 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 .chip i{width:7px;height:7px;border-radius:50%;background:currentColor;display:inline-block}
 
 /* Calculator */
-.calc{display:grid;grid-template-columns:340px 1fr;gap:18px}
+.calc{display:grid;grid-template-columns:minmax(360px,440px) 1fr;gap:20px;align-items:start}
 .calc .controls{display:flex;flex-direction:column;gap:18px}.calc .controls .field{flex:none}
 .results{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
 .res{background:var(--surface-2);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
@@ -460,10 +460,10 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
           <div class="field"><label>Safe withdrawal rate (%)</label><input class="input" type="number" step="0.25" data-path="money.swr" ></div>
           <p class="hint" style="grid-column:1/-1;margin:0">Rough guide: FD only ≈ 1.5%, balanced ≈ 3.5%, equity-heavy ≈ 5% above inflation.</p>
           <div class="group-t">costs & income</div>
-          <div class="field"><label>Family cost comes from</label><div class="select"><select data-path="money.costMode"><option value="budget">Household budget (by life stage)</option><option value="manual">A fixed number</option></select></div></div>
-          <div class="field" id="costManualWrap"><label>Fixed monthly cost (₹)</label><input class="input" type="number" step="1000" data-path="money.costManual" ></div>
-          <div class="field"><label>Other income comes from</label><div class="select"><select data-path="money.incMode"><option value="linked">Gur + land + dairy + projects</option><option value="manual">A fixed number</option></select></div></div>
-          <div class="field" id="incManualWrap"><label>Fixed monthly income (₹)</label><input class="input" type="number" step="1000" data-path="money.incManual" ></div>
+          <div class="field" style="grid-column:1/-1"><label>Family cost comes from</label><div class="select"><select data-path="money.costMode"><option value="budget">Household budget (by life stage)</option><option value="manual">A fixed number</option></select></div></div>
+          <div class="field" id="costManualWrap" style="grid-column:1/-1"><label>Fixed monthly cost (₹)</label><input class="input" type="number" step="1000" data-path="money.costManual" ></div>
+          <div class="field" style="grid-column:1/-1"><label>Other income comes from</label><div class="select"><select data-path="money.incMode"><option value="linked">Gur + land + dairy + projects</option><option value="manual">A fixed number</option></select></div></div>
+          <div class="field" id="incManualWrap" style="grid-column:1/-1"><label>Fixed monthly income (₹)</label><input class="input" type="number" step="1000" data-path="money.incManual" ></div>
           <div class="field"><label>Farm income starts at age</label><input class="input" type="number" step="1" data-path="ramp.start" ></div>
           <div class="field"><label>Years to reach full scale</label><input class="input" type="number" step="1" data-path="ramp.years" ></div>
           <label class="toggle"><input type="checkbox" data-path="money.saveFarmIncome"> Save farm & gur income too while still working</label>
@@ -475,7 +475,7 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
           <div class="res"><div class="k">Savings at switch</div><div class="v" id="m2">—</div><div class="s" id="m2s"></div></div>
           <div class="res"><div class="k">Money lasts until</div><div class="v" id="m3">—</div><div class="s" id="m3s"></div></div>
         </div>
-        <div class="chartbox"><svg class="chart" id="lifeChart" viewBox="0 0 700 330" preserveAspectRatio="none" style="height:330px"></svg></div>
+        <div class="chartbox"><svg class="chart" id="lifeChart" viewBox="0 0 700 440" preserveAspectRatio="none" style="height:440px"></svg></div>
         <div class="legend">
           <span><i style="background:var(--accent)"></i>Savings with your switch age</span>
           <span><i style="background:var(--faint)"></i>If you never switch</span>
@@ -870,7 +870,7 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
     drawLife();
   }
   function drawLife(){
-    const svg=$('#lifeChart');if(!svg)return;const W=700,H=330,pl=56,pr=14,pt=26,pb=30;
+    const svg=$('#lifeChart');if(!svg)return;const W=700,H=440,pl=56,pr=14,pt=26,pb=30;
     const cs=getComputedStyle(document.documentElement);const c=n=>cs.getPropertyValue(n).trim();
     const a0=AGE0,a1=R.H,L=R.life;const nv=R.never.filter(p=>p.age<=Math.min(a1,55));
     const vals=L.map(p=>p.c).concat(nv.map(p=>p.c),L.map(p=>R.slowT(p.age)));
