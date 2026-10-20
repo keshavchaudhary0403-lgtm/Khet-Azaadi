@@ -538,7 +538,7 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
       <div class="card reveal">
         <div class="fgrid">
           <div class="group-t">yields & income</div>
-          <div class="field"><label>Cane yield (tonnes / acre)</label><input class="input" type="number" step="1" data-path="land.yieldT" ></div>
+          <div class="field"><label>Cane yield (tonnes / acre) <span class="est">district avg ≈ 24</span></label><input class="input" type="number" step="0.5" min="0" data-path="land.yieldT"></div>
           <div class="field"><label>Vegetables net (₹ / bigha / year)</label><input class="input" type="number" step="1000" data-path="land.vegInc" ></div>
           <div class="field"><label>Orchard net (₹ / bigha / year)</label><input class="input" type="number" step="1000" data-path="land.orchInc" ></div>
           <div class="field"><label>Orchard starts earning at age</label><input class="input" type="number" step="1" data-path="land.orchStart" ></div>
@@ -674,7 +674,7 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
   const T=t=>({t,d:false});
   function defaults(){return{
     money:{start:3500000,save:75000,saveGrowth:2,rPre:3.5,rPost:3,swr:3.5,switchAge:34,horizon:85,saveFarmIncome:true,costMode:'budget',costManual:40000,incMode:'linked',incManual:20000},
-    land:{cane:24,veg:2,fodder:3,orchard:0,base:1,yieldT:32,vegInc:18000,orchInc:12000,orchStart:34},
+    land:{cane:24,veg:2,fodder:3,orchard:0,base:1,yieldT:24,vegInc:18000,orchInc:12000,orchStart:34},
     dairy:{cows:2,litres:7,price:50,feed:6000},
     gur:{useShare:100,boughtCane:0,canePrice:395,ownAtMill:true,recovery:10,making:6,wastage:3,fixed:30000,rent:100000,
       ch:{direct:{share:60,price:100,pack:15},outlet:{share:25,price:90,pack:3},mandi:{share:15,price:40,pack:1}}},
@@ -747,7 +747,7 @@ footer{padding:40px 0 60px;color:var(--faint);font-size:12.5px;text-align:center
   /* ---------- scenario store ---------- */
   let store=LS.get('ka-store',null);
   if(!store||!store.list){store={cur:'Base plan',list:{'Base plan':defaults()}}}
-  for(const k in store.list){store.list[k]=merge(defaults(),store.list[k]);const x=store.list[k];if(x.p0done&&x.phases[0]&&x.phases[0].done==null)x.phases[0].done=true;x.phases.forEach(ph=>{if(ph.done==null)ph.done=false})}
+  for(const k in store.list){store.list[k]=merge(defaults(),store.list[k]);const x=store.list[k];if(x.p0done&&x.phases[0]&&x.phases[0].done==null)x.phases[0].done=true;x.phases.forEach(ph=>{if(ph.done==null)ph.done=false});if(!x.yieldFix){if(x.land.yieldT===32)x.land.yieldT=24;x.yieldFix=true}}
   if(!store.list[store.cur])store.cur=Object.keys(store.list)[0];
   let st=store.list[store.cur];
   const persist=()=>{store.list[store.cur]=st;LS.set('ka-store',store)};
