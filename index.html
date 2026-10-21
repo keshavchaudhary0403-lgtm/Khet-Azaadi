@@ -559,7 +559,7 @@ details.ytable[open] summary::before{content:"▾ ";}
       <div class="card reveal">
         <div class="fgrid">
           <div class="group-t">yields & income</div>
-          <div class="field"><label>Cane yield (tonnes / acre) <span class="est">district avg ≈ 24</span></label><input class="input" type="number" step="0.5" min="0" data-path="land.yieldT"></div>
+          <div class="field"><label>Cane yield (quintal / acre) <span class="est">district avg ≈ 240</span></label><input class="input" type="number" step="5" min="0" data-path="land.yieldQ"></div>
           <div class="field"><label>Vegetables net (₹ / bigha / year)</label><input class="input" type="number" step="1000" data-path="land.vegInc" ></div>
           <div class="field"><label>Orchard net (₹ / bigha / year)</label><input class="input" type="number" step="1000" data-path="land.orchInc" ></div>
           <div class="field"><label>Orchard starts earning at age</label><input class="input" type="number" step="1" data-path="land.orchStart" ></div>
@@ -590,7 +590,7 @@ details.ytable[open] summary::before{content:"▾ ";}
         <div class="fgrid">
           <div class="group-t">production</div>
           <div class="field"><label>Own cane sent to kolhu (%)</label><input class="input" type="number" step="5" data-path="gur.useShare" data-preset="#gurPreset" ></div>
-          <div class="field"><label>Extra cane bought (tonnes)</label><input class="input" type="number" step="5" data-path="gur.boughtCane" data-preset="#gurPreset" ></div>
+          <div class="field"><label>Extra cane bought (quintal)</label><input class="input" type="number" step="50" data-path="gur.boughtCaneQ" data-preset="#gurPreset" ></div>
           <div class="field"><label>Gur recovery (%)<span class="info" tabindex="0" data-tip="Kilos of gur you get from 100 kg of cane. Around 10% is typical; good cane and a good kolhu can reach 11–12%.">i</span></label><input class="input" type="number" step="0.5" data-path="gur.recovery" data-preset="#gurPreset" ></div>
           <div class="field"><label>Loss / unsold (%)<span class="info" tabindex="0" data-tip="Gur lost to moisture, breakage or stock that doesn’t sell.">i</span></label><input class="input" type="number" step="1" data-path="gur.wastage" data-preset="#gurPreset" ></div>
           <div class="group-t">costs</div>
@@ -784,6 +784,7 @@ details.ytable[open] summary::before{content:"▾ ";}
   const setP=(o,p,v)=>{const ks=p.split('.');let a=o;ks.slice(0,-1).forEach(k=>a=a[k]);a[ks[ks.length-1]]=v};
   const num=v=>{v=+String(v==null?'':v).replace(/,/g,'');return isFinite(v)?v:0};
   const AGE0=29, BIGHA_AC=0.1563;
+  const qtl=t=>Math.round(t*10).toLocaleString('en-IN')+' qtl';
 
 
   /* ---------- Indian number formatting in inputs ---------- */
@@ -797,9 +798,9 @@ details.ytable[open] summary::before{content:"▾ ";}
   const T=t=>({t,d:false});
   function defaults(){return{
     money:{start:3500000,save:75000,saveGrowth:2,rPre:3.5,rPost:3,swr:3.5,switchAge:34,horizon:85,saveFarmIncome:true,costMode:'budget',costManual:40000,incMode:'linked',incManual:20000},
-    land:{total:30,cane:24,veg:2,fodder:3,orchard:0,base:1,yieldT:24,vegInc:18000,orchInc:12000,orchStart:34},
+    land:{total:30,cane:24,veg:2,fodder:3,orchard:0,base:1,yieldQ:240,vegInc:18000,orchInc:12000,orchStart:34},
     dairy:{cows:2,litres:7,price:50,feed:6000},
-    gur:{useShare:100,boughtCane:0,canePrice:395,ownAtMill:true,recovery:10,making:6,wastage:3,fixed:30000,rent:100000,
+    gur:{useShare:100,boughtCaneQ:0,canePrice:395,ownAtMill:true,recovery:10,making:6,wastage:3,fixed:30000,rent:100000,
       ch:{direct:{share:60,price:100,pack:15},outlet:{share:25,price:90,pack:3},mandi:{share:15,price:40,pack:1}}},
     ramp:{start:30,years:3},
     projects:{monthly:5000,start:30},
@@ -814,19 +815,19 @@ details.ytable[open] summary::before{content:"▾ ";}
       {n:'Phase 0',t:'Test',d:'Oct 2026 – Mar 2027 · Age 29',sum:'Prove people will buy your gur, with almost no risk.',gate:'p0',done:false,items:{
         job:[T('Keep the job; save ~₹75,000 every month'),T('Savings grow from ₹35L toward ~₹40L')],
         farm:[T('Sit with father: note current cane yield, costs and where it sells (mill / kolhu)'),T('Get a soil test done through KVK Bulandshahr'),T('Put the rent arrangement with cousins in writing'),T('Work this season alongside father to learn the field calendar')],
-        gur:[T('Rent the unit to the contractor as usual'),T('Get 1–2 tonnes made chemical-free from our own cane'),T('Pick a brand name and simple packaging'),T('Get FSSAI registration')],
+        gur:[T('Rent the unit to the contractor as usual'),T('Get 10–20 quintal made chemical-free from our own cane'),T('Pick a brand name and simple packaging'),T('Get FSSAI registration')],
         tech:[T('Build a simple order page + WhatsApp ordering'),T('Build the gur brand site yourself, learning as you go')],
         life:[T('Agree roles with father: he leads the fields, you build sales'),T('Check maternity cover and waiting period on health policy')]}},
       {n:'Phase 1',t:'Build the base',d:'2027 – 28 · Age 30–31',sum:'Your own cane, your own unit, your own buyers.',gate:'rent',done:false,items:{
         job:[T('Still full-time; savings reach ~₹55–60L')],
         farm:[T('Keep ~20 bigha of cane; free ~4 bigha as old ratoons finish'),T('Set up the fodder plot (berseem / maize)'),T('Buy 2 cows; start compost and vermicompost'),T('Plant orchard and boundary trees in the monsoon')],
-        gur:[T('Run the unit yourself for 2027–28'),T('Send our own cane to our kolhu instead of the mill'),T('Aim for 5–8 tonnes, mostly sold direct')],
+        gur:[T('Run the unit yourself for 2027–28'),T('Send our own cane to our kolhu instead of the mill'),T('Aim for 50–80 quintal, mostly sold direct')],
         tech:[T('Build the farm + kolhu manager app (batches, stock, labour, sales)'),T('Set up camera monitoring for kolhu, stock and cattle'),T('Teach yourself one new skill each season')],
         life:[T('Talk through this plan with your future partner')]}},
       {n:'Phase 2',t:'Grow & add value',d:'2028 – 30 · Age 31–33',sum:'Premium products, a highway outlet, steady repeat buyers.',gate:'income',done:false,items:{
         job:[T('Move to remote or reduced hours if possible')],
         farm:[T('Shift cane to natural / organic methods'),T('Start PGS-India organic certification (~3 years)'),T('Expect a small yield dip during the switch')],
-        gur:[T('Scale to 10+ tonnes a season'),T('Add gur powder, flavoured gur and shakkar'),T('Open a temporary roadside outlet on the highway'),T('Check CLU rules before any permanent building')],
+        gur:[T('Scale to 100+ quintal a season'),T('Add gur powder, flavoured gur and shakkar'),T('Open a temporary roadside outlet on the highway'),T('Check CLU rules before any permanent building')],
         tech:[T('Launch monthly gur / ghee subscriptions'),T('Run kolhu and farm content videos'),T('Offer the kolhu app to a few nearby units')],
         life:[T("Add spouse to health cover; plan for kids' education fund")]}},
       {n:'Phase 3',t:'Switch',d:'2030 – 32 · Age 33–35',sum:'Leave the race. Live in the village and work by season.',gate:'switch',done:false,items:{
@@ -870,7 +871,8 @@ details.ytable[open] summary::before{content:"▾ ";}
   /* ---------- scenario store ---------- */
   let store=LS.get('ka-store',null);
   if(!store||!store.list){store={cur:'Base plan',list:{'Base plan':defaults()}}}
-  for(const k in store.list){store.list[k]=merge(defaults(),store.list[k]);const x=store.list[k];if(x.p0done&&x.phases[0]&&x.phases[0].done==null)x.phases[0].done=true;x.phases.forEach(ph=>{if(ph.done==null)ph.done=false});if(!x.yieldFix){if(x.land.yieldT===32)x.land.yieldT=24;x.yieldFix=true}}
+  const rawStore=JSON.parse(JSON.stringify(store));for(const k in store.list){store.list[k]=merge(defaults(),store.list[k]);const x=store.list[k];if(x.p0done&&x.phases[0]&&x.phases[0].done==null)x.phases[0].done=true;x.phases.forEach(ph=>{if(ph.done==null)ph.done=false});if(!x.yieldFix){if(x.land.yieldT===32)x.land.yieldT=24;x.yieldFix=true}
+      if(!x.qFix){const raw=(rawStore&&rawStore.list&&rawStore.list[k])||{};if(raw.land&&raw.land.yieldT!=null&&raw.land.yieldQ==null)x.land.yieldQ=Math.round(num(x.land.yieldT===32?24:raw.land.yieldT)*10);if(raw.gur&&raw.gur.boughtCane!=null&&raw.gur.boughtCaneQ==null)x.gur.boughtCaneQ=num(raw.gur.boughtCane)*10;delete x.land.yieldT;delete x.gur.boughtCane;const Q=t=>t.replace(/1–2 tonnes/g,'10–20 quintal').replace(/5–8 tonnes/g,'50–80 quintal').replace(/10\+ tonnes/g,'100+ quintal');x.phases.forEach(ph=>Object.values(ph.items).forEach(a=>a.forEach(it=>it.t=Q(it.t))));x.qFix=true}}
   if(!store.list[store.cur])store.cur=Object.keys(store.list)[0];
   let st=store.list[store.cur];
   const persist=()=>{store.list[store.cur]=st;LS.set('ka-store',store)};
@@ -878,10 +880,10 @@ details.ytable[open] summary::before{content:"▾ ";}
   /* ---------- model ---------- */
   function compute(s){
     const L=s.land,G=s.gur,D=s.dairy,M=s.money,B=s.budget;
-    const caneAc=num(L.cane)*BIGHA_AC, ownCaneT=caneAc*num(L.yieldT), usedOwnT=ownCaneT*num(G.useShare)/100;
-    const totalCaneT=usedOwnT+num(G.boughtCane), rec=Math.max(num(G.recovery),.1)/100;
+    const caneAc=num(L.cane)*BIGHA_AC, ownCaneT=caneAc*num(L.yieldQ)/10, usedOwnT=ownCaneT*num(G.useShare)/100;
+    const totalCaneT=usedOwnT+num(G.boughtCaneQ)/10, rec=Math.max(num(G.recovery),.1)/100;
     const produced=totalCaneT*rec, sold=produced*(1-num(G.wastage)/100), soldKg=sold*1000;
-    const caneCost=((G.ownAtMill?usedOwnT:0)+num(G.boughtCane))*10*num(G.canePrice);
+    const caneCost=((G.ownAtMill?usedOwnT:0)+num(G.boughtCaneQ)/10)*10*num(G.canePrice);
     const makingCost=produced*1000*num(G.making);
     const CH=['direct','outlet','mandi'];const shareSum=CH.reduce((a,k)=>a+num(G.ch[k].share),0)||1;
     let revenue=0,pack=0;const rows=CH.map(k=>{const c=G.ch[k];const kg=soldKg*num(c.share)/shareSum;const r=kg*num(c.price),p=kg*num(c.pack);revenue+=r;pack+=p;return{k,kg,r,p}});
@@ -919,7 +921,7 @@ details.ytable[open] summary::before{content:"▾ ";}
     const gapM=costFinal-incFull, retM=corpusSwitch*num(M.rPost)/100/12, safeM=corpusSwitch*swr/12;
     const farmM=gurM+vegM+orchM+dairyM;
     const gates={
-      p0:{ok:null,manual:true,text:'No number check for this phase. Mark it completed once 1–2 tonnes have sold to real buyers and FSSAI is done.'},
+      p0:{ok:null,manual:true,text:'No number check for this phase. Mark it completed once 10–20 quintal have sold to real buyers and FSSAI is done.'},
       rent:{ok:extraVsMill>num(G.rent),text:`Gur adds ${short(extraVsMill)} a season vs contractor rent ${short(num(G.rent))}.`},
       income:{ok:farmM>=num(s.gates.income),text:`Farm + gur + dairy ≈ ${inr(farmM)}/month vs target ${inr(num(s.gates.income))}.`},
       switch:{ok:corpusSwitch>=slowT(sw),text:`At age ${sw}: savings ${short(corpusSwitch)} vs slow-life target ${short(slowT(sw))}.`},
@@ -1071,7 +1073,7 @@ details.ytable[open] summary::before{content:"▾ ";}
       tile('Full-freedom age',R.fullAge?R.fullAge:'60+',R.fullAge?`${yrsTo(R.fullAge)} · target ${short(R.fullT(R.fullAge))}`:'not reached by 60','','#freedom','Earliest age when savings alone could pay the full family cost forever, even with zero other income.')+
       tile('Your switch age',R.sw,`money ${lasts}`,R.lastsAge?'bad':'good','#start','The age you plan to leave the job. Change it with the slider in Starting point.')+
       tile('Monthly gap after switch',(R.gapM>0?'−':'+')+inr(Math.abs(R.gapM)),R.gapM>0?`paid from savings · returns ≈ ${inr(R.retM)}/mo`:'income covers all costs',R.gapM>0&&R.retM<R.gapM?'bad':'good','#coverBox','Monthly family cost minus monthly income at full scale. A gap is paid from savings; step 4 shows how.')+
-      tile('Gur season profit',short(R.profit),`${R.sold.toFixed(1)} t sold · ${inr(R.profit/12)}/month`,R.profit<0?'bad':'','#gur','Revenue from all sales channels minus cane, making, packing and fixed costs for one season.')+
+      tile('Gur season profit',short(R.profit),`${qtl(R.sold)} sold · ${inr(R.profit/12)}/month`,R.profit<0?'bad':'','#gur','Revenue from all sales channels minus cane, making, packing and fixed costs for one season.')+
       tile('Savings at age 60',short(R.corpus60),`with a switch at ${R.sw}`,R.corpus60<0?'bad':'','#flowChart','Projected savings at 60 after all withdrawals and one-time costs, in today’s money.');
     // income stack
     const parts=[['Gur',R.gurM,COL.gur],['Vegetables',R.vegM,COL.veg],['Orchard',R.orchM,COL.orch],['Dairy',R.dairyM,COL.dairy],['Own projects',R.projM,COL.proj]].filter(p=>p[1]>0);
@@ -1128,8 +1130,8 @@ details.ytable[open] summary::before{content:"▾ ";}
   function renderGur(){
     const r=R;
     $('#gurFlow').innerHTML=`
-      <div class="frow"><span>Own cane sent to kolhu</span><b>${r.usedOwnT.toFixed(0)} t of ${r.ownCaneT.toFixed(0)} t</b></div>
-      <div class="frow"><span>Gur made → sold (after ${num(st.gur.wastage)}% loss)</span><b>${r.produced.toFixed(1)} t → ${r.sold.toFixed(1)} t</b></div>
+      <div class="frow"><span>Own cane sent to kolhu</span><b>${qtl(r.usedOwnT)} of ${qtl(r.ownCaneT)}</b></div>
+      <div class="frow"><span>Gur made → sold (after ${num(st.gur.wastage)}% loss)</span><b>${qtl(r.produced)} → ${qtl(r.sold)}</b></div>
       <div class="frow"><span>Sales revenue (avg ${inr(r.avgPrice)}/kg)</span><b>${inr(r.revenue)}</b></div>
       <div class="frow"><span>Cane cost${st.gur.ownAtMill?' (own cane at mill price)':' (bought cane only)'}</span><b>− ${inr(r.caneCost)}</b></div>
       <div class="frow"><span>Making cost</span><b>− ${inr(r.makingCost)}</b></div>
@@ -1142,8 +1144,8 @@ details.ytable[open] summary::before{content:"▾ ";}
     $('#gurCompare').innerHTML=`Compared with selling cane to the mill and renting the unit for ${inr(num(st.gur.rent))}: running it yourself is <b style="color:${diff>=0?'var(--green)':'var(--rose)'}">${diff>=0?'+':''}${inr(diff)}</b> a season.`;
     const CHN={direct:['Direct to NCR buyers',COL.gur],outlet:['Highway outlet',COL.veg],mandi:['Mandi',COL.orch]};
     const ss=r.rows.reduce((t,x)=>t+x.kg,0)||1;
-    $('#mixBar').innerHTML=r.rows.map(x=>`<div style="flex:0 0 ${x.kg/ss*100}%;background:${CHN[x.k][1]}" data-tip="<b>${CHN[x.k][0]}</b><br>${(x.kg/1000).toFixed(1)} t sold · revenue ${short(x.r)}<br>after packing ${short(x.r-x.p)}"></div>`).join('');
-    $('#mixLegend').innerHTML=r.rows.map(x=>`<span><i style="background:${CHN[x.k][1]}"></i>${CHN[x.k][0]}: ${(x.kg/1000).toFixed(1)} t · ${short(x.r-x.p)}</span>`).join('');
+    $('#mixBar').innerHTML=r.rows.map(x=>`<div style="flex:0 0 ${x.kg/ss*100}%;background:${CHN[x.k][1]}" data-tip="<b>${CHN[x.k][0]}</b><br>${qtl(x.kg/1000)} sold · revenue ${short(x.r)}<br>after packing ${short(x.r-x.p)}"></div>`).join('');
+    $('#mixLegend').innerHTML=r.rows.map(x=>`<span><i style="background:${CHN[x.k][1]}"></i>${CHN[x.k][0]}: ${qtl(x.kg/1000)} · ${short(x.r-x.p)}</span>`).join('');
     const tot=['direct','outlet','mandi'].reduce((t,k)=>t+num(st.gur.ch[k].share),0);
     $('#shareWarn').textContent=tot!==100?`Shares add up to ${tot}% — they are scaled to 100%.`:'';
     drawGurChart();
@@ -1170,7 +1172,7 @@ details.ytable[open] summary::before{content:"▾ ";}
     $('#landBar').innerHTML=(()=>{const LT=num(st.land.total),free=Math.max(0,LT-used);return LAND.map(l=>`<div class="seg" style="flex:${Math.max(num(st.land[l.k]),.0001)};background:${l.c}" data-tip="<b>${l.n}</b><br>${num(st.land[l.k])} bigha ≈ ${(num(st.land[l.k])*BIGHA_AC).toFixed(2)} acres<br>${l.why}">${num(st.land[l.k])>=2?num(st.land[l.k]):''}</div>`).join('')+(free>0?`<div class="seg" style="flex:${free};background:var(--surface-3);color:var(--muted)" data-tip="<b>Not assigned</b><br>${free} bigha free to plan">${free>=2?free:''}</div>`:'')})();
     LAND.forEach(l=>{const e=document.querySelector(`[data-ac="${l.k}"]`);if(e)e.textContent=(num(st.land[l.k])*BIGHA_AC).toFixed(2)+' ac'});
     const LT=num(st.land.total);$('#landUsed').textContent=used;$('#landUsed').classList.toggle('warn',used!==LT);$('#landLeft').textContent=used<LT?`· ${LT-used} bigha not assigned`:used>LT?`· ${used-LT} bigha more than you have`:'· all assigned';$('#landLeft').classList.toggle('warn',used>LT);
-    $('#landGur').textContent=`${R.ownCaneT.toFixed(0)} t cane → ~${(R.ownCaneT*num(st.gur.recovery)/100).toFixed(1)} t gur / season`;
+    $('#landGur').textContent=`${qtl(R.ownCaneT)} cane → ~${qtl(R.ownCaneT*num(st.gur.recovery)/100)} gur / season`;
     $('#landSum').innerHTML=`<div class="frow"><span>Vegetables</span><b>${inr(R.vegM)}/month</b></div><div class="frow"><span>Orchard (from age ${num(st.land.orchStart)})</span><b>${inr(R.orchM)}/month</b></div>`;
     const fodNeed=num(st.dairy.cows)*1;
     $('#dairySum').innerHTML=`<div class="frow total"><span>Dairy profit</span><b>${inr(R.dairyM)}/month</b></div>`+(num(st.land.fodder)<fodNeed?`<p class="hint warn">Rough guide: about 1 bigha of fodder per cow. You have ${num(st.land.fodder)} bigha for ${num(st.dairy.cows)} cows.</p>`:'');
@@ -1268,7 +1270,7 @@ details.ytable[open] summary::before{content:"▾ ";}
     ['Family living costs',(s,f)=>{Object.values(s.budget.rows).forEach(rs=>rs.forEach(r=>r[1]*=f));s.money.costManual*=f}],
     ['Gur selling prices',(s,f)=>{Object.values(s.gur.ch).forEach(c=>c.price*=f)}],
     ['Cane area (bigha)',(s,f)=>{s.land.cane*=f}],
-    ['Cane yield per acre',(s,f)=>{s.land.yieldT*=f}],
+    ['Cane yield per acre',(s,f)=>{s.land.yieldQ*=f}],
     ['Gur recovery %',(s,f)=>{s.gur.recovery*=f}],
     ['Cane price (mill)',(s,f)=>{s.gur.canePrice*=f}],
     ['Return while working',(s,f)=>{s.money.rPre*=f}],
@@ -1312,7 +1314,7 @@ details.ytable[open] summary::before{content:"▾ ";}
   const LANDP={today:{cane:24,veg:2,fodder:3,orchard:0,base:1},plan:{cane:20,veg:4,fodder:3,orchard:2,base:1},cane:{cane:26,veg:1,fodder:2,orchard:0,base:1},diverse:{cane:15,veg:6,fodder:3,orchard:5,base:1}};
   $('#landPreset').onchange=e=>{const p=LANDP[e.target.value];if(!p)return;Object.assign(st.land,p);buildLand();populate();refresh()};
   const GURP={
-    test:{useShare:12,boughtCane:0,ch:{direct:{share:90},outlet:{share:0},mandi:{share:10}}},
+    test:{useShare:12,boughtCaneQ:0,ch:{direct:{share:90},outlet:{share:0},mandi:{share:10}}},
     own:{useShare:50,ch:{direct:{share:70},outlet:{share:15},mandi:{share:15}}},
     full:{useShare:100,ch:{direct:{share:60},outlet:{share:25},mandi:{share:15}}},
     mandi:{useShare:100,ch:{direct:{share:0},outlet:{share:0},mandi:{share:100}}},
