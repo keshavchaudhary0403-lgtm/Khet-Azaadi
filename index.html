@@ -593,7 +593,7 @@ body{padding-bottom:80px}
           <label class="btn file-btn">Import<input type="file" id="scenImp" accept="application/json"></label>
         </div>
       </div>
-      <p class="hint">Edits save automatically to the selected scenario. “Reset to defaults” brings back the original numbers. To test a new approach, first “Save as new”, then change that copy — your original stays as it was. Export keeps a backup file you can import on another device.</p>
+      <p class="hint">“Default plan” always keeps the original numbers and can’t be deleted — if you change anything while it is selected, your edits are saved as a new “My plan”. Other scenarios save edits automatically. To test a new approach, first “Save as new”, then change that copy — your original stays as it was. Export keeps a backup file you can import on another device.</p>
     </div>
       <div class="card reveal fill"><div class="lbl" style="margin-bottom:10px">Phases · plan check and your progress</div><div id="gateList" class="fill-list"></div></div>
     </div>
@@ -934,13 +934,22 @@ body{padding-bottom:80px}
 
   /* ---------- scenario store ---------- */
   let store=LS.get('ka-store',null);
-  if(!store||!store.list){store={cur:'Base plan',list:{'Base plan':defaults()}}}
+  const DEF='Default plan';
+  if(!store||!store.list){store={cur:DEF,list:{}}}
   const rawStore=JSON.parse(JSON.stringify(store));for(const k in store.list){store.list[k]=merge(defaults(),store.list[k]);const x=store.list[k];if(x.p0done&&x.phases[0]&&x.phases[0].done==null)x.phases[0].done=true;x.phases.forEach(ph=>{if(ph.done==null)ph.done=false});if(!x.yieldFix){if(x.land.yieldT===32)x.land.yieldT=24;x.yieldFix=true}
       if(!x.qFix){const raw=(rawStore&&rawStore.list&&rawStore.list[k])||{};if(raw.land&&raw.land.yieldT!=null&&raw.land.yieldQ==null)x.land.yieldQ=Math.round(num(x.land.yieldT===32?24:raw.land.yieldT)*10);if(raw.gur&&raw.gur.boughtCane!=null&&raw.gur.boughtCaneQ==null)x.gur.boughtCaneQ=num(raw.gur.boughtCane)*10;delete x.land.yieldT;delete x.gur.boughtCane;const Q=t=>t.replace(/1–2 tonnes/g,'10–20 quintal').replace(/5–8 tonnes/g,'50–80 quintal').replace(/10\+ tonnes/g,'100+ quintal');x.phases.forEach(ph=>Object.values(ph.items).forEach(a=>a.forEach(it=>it.t=Q(it.t))));x.qFix=true}
       {const raw=(rawStore&&rawStore.list&&rawStore.list[k])||{};const rm=raw.money||{},rl=raw.land||{};if(rm.nPre==null&&rm.rPre!=null)x.money.nPre=Math.round(((1+num(rm.rPre)/100)*1.055-1)*1000)/10;if(rm.nPost==null&&rm.rPost!=null)x.money.nPost=Math.round(((1+num(rm.rPost)/100)*1.055-1)*1000)/10;if(rl.yieldQB==null){const q=x.land.yieldQ!=null?num(x.land.yieldQ):(rl.yieldQ!=null?num(rl.yieldQ):null);if(q!=null)x.land.yieldQB=Math.round(q*0.1563*10)/10}delete x.money.rPre;delete x.money.rPost;delete x.land.yieldQ}}
-  if(!store.list[store.cur])store.cur=Object.keys(store.list)[0];
+  {const keepD=store.list[DEF]||store.list['Base plan'];const d=defaults();if(keepD){d.phases=keepD.phases;d.calendar=keepD.calendar;d.rules=keepD.rules}
+    const rest={};for(const k in store.list)if(k!==DEF)rest[k]=store.list[k];store.list=Object.assign({[DEF]:d},rest)}
+  if(!store.list[store.cur])store.cur=DEF;
   let st=store.list[store.cur];
-  const persist=()=>{store.list[store.cur]=st;LS.set('ka-store',store)};
+  const numKey=x=>{const c=clone(x);delete c.phases;delete c.calendar;delete c.rules;delete c.p0done;delete c.yieldFix;delete c.qFix;if(c.budget)delete c.budget.stage;return JSON.stringify(c)};
+  let DEFKEY=null;
+  const persist=()=>{
+    if(store.cur===DEF){if(DEFKEY===null)DEFKEY=numKey(defaults());
+      if(numKey(st)!==DEFKEY){let n='My plan',i=2;while(store.list[n])n='My plan '+(i++);const d=defaults();d.phases=clone(st.phases);d.calendar=clone(st.calendar);d.rules=clone(st.rules);
+        store.list[DEF]=d;store.list[n]=st;store.cur=n;LS.set('ka-store',store);if(typeof renderScen==='function'){renderScen();flash(`The Default plan stays unchanged — your edits are saved as “${n}”`)}return}}
+    store.list[store.cur]=st;LS.set('ka-store',store)};
 
   /* ---------- model ---------- */
   function compute(s){
@@ -1466,11 +1475,11 @@ body{padding-bottom:80px}
   }
 
   /* scenarios */
-  function renderScen(){$('#scenSel').innerHTML=Object.keys(store.list).map(n=>`<option ${n===store.cur?'selected':''}>${esc(n)}</option>`).join('');$('#scenDel').disabled=Object.keys(store.list).length<2}
+  function renderScen(){$('#scenSel').innerHTML=Object.keys(store.list).map(n=>`<option value="${esc(n)}" ${n===store.cur?'selected':''}>${esc(n)}${n===DEF?' (original numbers)':''}</option>`).join('');$('#scenDel').disabled=store.cur===DEF}
   function loadScen(n){persist();store.cur=n;st=store.list[n];LS.set('ka-store',store);rebuildAll()}
   $('#scenSel').onchange=e=>loadScen(e.target.value);
   $('#scenSave').onclick=()=>{let n=$('#scenName').value.trim();if(!n){n='Scenario '+(Object.keys(store.list).length+1)}let b=n,i=2;while(store.list[n])n=b+' '+(i++);persist();store.list[n]=clone(st);$('#scenName').value='';loadScen(n);flash('Saved as “'+n+'”')};
-  $('#scenDel').onclick=()=>{if(Object.keys(store.list).length<2)return;delete store.list[store.cur];store.cur=Object.keys(store.list)[0];st=store.list[store.cur];LS.set('ka-store',store);rebuildAll();flash('Scenario removed')};
+  $('#scenDel').onclick=()=>{if(store.cur===DEF)return;delete store.list[store.cur];store.cur=DEF;st=store.list[store.cur];LS.set('ka-store',store);rebuildAll();flash('Scenario removed')};
   function resetDefaults(){const keep={phases:st.phases,calendar:st.calendar,rules:st.rules};const d=defaults();Object.assign(d,clone(keep));const old=BASE?clone(st):null;store.list[store.cur]=st=d;LS.set('ka-store',store);rebuildAll();if(old){BASE=old;renderVerdict();renderDock()}flash('All numbers are back to the default settings')}
   function armReset(btn){if(btn.dataset.armed){delete btn.dataset.armed;clearTimeout(btn._t);btn.textContent=btn.dataset.label;resetDefaults();return}
     btn.dataset.label=btn.dataset.label||btn.textContent;btn.dataset.armed='1';btn.textContent='Click again to confirm';btn._t=setTimeout(()=>{delete btn.dataset.armed;btn.textContent=btn.dataset.label},3500)}
