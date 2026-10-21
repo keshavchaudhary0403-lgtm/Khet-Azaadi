@@ -406,6 +406,29 @@ details.ytable[open] summary::before{content:"▾ ";}
 .stat .suf{font-size:.7em;font-weight:500;color:var(--muted)}
 .tot-edit{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap}
 .tot-edit .input{width:72px;height:34px;padding:0 8px;text-align:center}
+
+/* flow layout */
+.subsec{margin-top:56px;scroll-margin-top:80px}
+.sub-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:18px}
+.sub-head h3{font-family:"Fraunces",Georgia,serif;font-variation-settings:"SOFT" 100;font-weight:500;font-size:clamp(24px,2.6vw,32px);letter-spacing:-.015em;margin:4px 0 0}
+.sub-head p{color:var(--muted);margin:6px 0 0;max-width:600px}
+.sub-head .num{font-size:19px}
+.links a .sn{display:inline-grid;place-items:center;width:17px;height:17px;border-radius:50%;background:var(--surface-3);color:var(--muted);font-size:10.5px;font-weight:700;margin-right:6px;vertical-align:1px}
+.links a.active .sn{background:var(--accent);color:#fff}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px;counter-reset:st}
+.step{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px 18px 16px;box-shadow:var(--shadow)}
+.step:not(:last-child)::after{content:"→";position:absolute;right:-13px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;background:var(--bg);border:1px solid var(--line);display:grid;place-items:center;font-size:12px;color:var(--muted);z-index:2}
+.step .sn{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-weight:700;font-size:12.5px;margin-right:8px}
+:root[data-theme="dark"] .step .sn,:root[data-theme="dark"] .links a.active .sn{color:#12160f}
+.step .st{font-weight:700;font-size:15px;display:flex;align-items:center}
+.step .sv{font-family:"Fraunces",Georgia,serif;font-size:24px;font-weight:600;margin-top:10px;letter-spacing:-.02em}
+.step .ss{font-size:12.5px;color:var(--faint)}
+.step.out{background:var(--green-soft);border-color:color-mix(in srgb,var(--green) 30%,transparent)}
+#freedom .results{margin-bottom:16px}
+.ftoggle{display:inline-flex;gap:8px;align-items:center;font-size:13px;cursor:pointer;user-select:none}
+.ftoggle input{accent-color:var(--green);width:16px;height:16px}
+@media (max-width:980px){.steps{grid-template-columns:1fr 1fr}.step:not(:last-child)::after{display:none}}
+@media (max-width:640px){.steps{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -415,14 +438,13 @@ details.ytable[open] summary::before{content:"▾ ";}
   <div class="wrap">
     <a class="brand" href="#top" aria-label="Khet &amp; Azaadi — back to top"><div class="brand-dot"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 52V16" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/><path d="M32 19C24 14 24.5 6 32 2c7.5 4 8 12 0 17z" fill="#5c8a2e"/><path d="M32 37c-8 1.5-16-3-19.5-12.5 9.5-1.5 17.5 3 19.5 12.5z" fill="#4a6d28"/><path d="M32 30c8 1.5 15.5-3 19.5-12.5-9.5-1.5-17.5 3-19.5 12.5z" fill="#6f9a3a"/><path d="M14 56c6-3 12-4.5 18-4.5S44 53 50 56" fill="none" stroke="#8a5a35" stroke-width="3" stroke-linecap="round"/></svg></div>Khet &amp; Azaadi</a>
     <div class="links" id="links">
-      <a href="#overview">Overview</a>
-      <a href="#money">Money</a>
-      <a href="#gur">Gur</a>
-      <a href="#land">Land</a>
-      <a href="#phases">Phases</a>
-      <a href="#calendar">Calendar</a>
-      <a href="#budget">Budget</a>
+      <a href="#summary">Summary</a>
+      <a href="#start"><span class="sn">1</span>Start</a>
+      <a href="#income"><span class="sn">2</span>Income</a>
+      <a href="#costs"><span class="sn">3</span>Costs</a>
+      <a href="#freedom"><span class="sn">4</span>Freedom</a>
       <a href="#whatif">What-if</a>
+      <a href="#phases">Plan</a>
       <a href="#rules">Rules</a>
     </div>
     <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">
@@ -466,18 +488,21 @@ details.ytable[open] summary::before{content:"▾ ";}
       </svg>
     </div>
     <div class="stats">
-      <div class="stat reveal" data-go="#money" style="--c:var(--amber)"><div class="k">Savings today <span class="go">→</span></div><div class="v stat-edit"><span class="pre">₹</span><input class="stat-in" type="number" step="50000" min="0" data-path="money.start" aria-label="Savings today"></div><div class="s" id="hs-save-s"></div></div>
+      <div class="stat reveal" data-go="#start" style="--c:var(--amber)"><div class="k">Savings today <span class="go">→</span></div><div class="v stat-edit"><span class="pre">₹</span><input class="stat-in" type="number" step="50000" min="0" data-path="money.start" aria-label="Savings today"></div><div class="s" id="hs-save-s"></div></div>
       <div class="stat reveal" data-go="#land" style="--c:var(--green)"><div class="k">Family land <span class="go">→</span></div><div class="v stat-edit"><input class="stat-in" type="number" step="1" min="0" data-path="land.total" aria-label="Family land in bigha" style="width:2.2em;flex:none"><span class="suf">bigha</span></div><div class="s" id="hs-land-s"></div></div>
-      <div class="stat reveal" data-go="#money" style="--c:var(--blue)"><div class="k">Slow life (some work) <span class="go">→</span></div><div class="v" id="hs-slow">—</div><div class="s" id="hs-slow-s"></div></div>
-      <div class="stat reveal" data-go="#money" style="--c:var(--rose)"><div class="k">Full freedom <span class="go">→</span></div><div class="v" id="hs-full">—</div><div class="s" id="hs-full-s"></div></div>
+      <div class="stat reveal" data-go="#freedom" style="--c:var(--blue)"><div class="k">Slow life (some work) <span class="go">→</span></div><div class="v" id="hs-slow">—</div><div class="s" id="hs-slow-s"></div></div>
+      <div class="stat reveal" data-go="#freedom" style="--c:var(--rose)"><div class="k">Full freedom <span class="go">→</span></div><div class="v" id="hs-full">—</div><div class="s" id="hs-full-s"></div></div>
     </div>
   </div>
 </header>
 
-<section id="overview">
+<section id="summary">
   <div class="wrap">
-    <div class="sec-head reveal"><div><div class="num">00 · overview</div><h2>Test every approach</h2><p>Every number below is editable. Change anything in any section and the whole plan updates. Save versions as scenarios and compare them.</p></div></div>
-    <div class="card reveal">
+    <div class="sec-head reveal"><div><div class="num">at a glance</div><h2>Your plan at a glance</h2><p>The plan flows in four steps: what you start with, what you earn, what you spend, and when that makes you free. Every number is editable and everything updates together.</p></div></div>
+    <div class="steps reveal" id="steps"></div>
+    <div class="tiles" id="tiles"></div>
+    <div class="grid-2" style="margin-top:16px">
+          <div class="card reveal"><div class="lbl" style="margin-bottom:10px">Scenarios · test different approaches</div>
       <div class="scen">
         <div class="field"><label for="scenSel">Scenario</label><div class="select"><select id="scenSel"></select></div></div>
         <div class="field"><label for="scenName">Save current as</label><input class="input" id="scenName" placeholder="e.g. Premium gur, switch at 36"></div>
@@ -491,117 +516,40 @@ details.ytable[open] summary::before{content:"▾ ";}
       </div>
       <p class="hint">Edits save automatically to the selected scenario. To test a new approach, first “Save as new”, then change that copy — your original stays as it was. Export keeps a backup file you can import on another device.</p>
     </div>
-    <div class="tiles" id="tiles"></div>
-    <div class="grid-2" style="margin-top:16px">
-      <div class="card reveal"><div class="lbl">Monthly income at full scale vs family cost</div><div id="incStack"></div></div>
       <div class="card reveal fill"><div class="lbl" style="margin-bottom:10px">Phases · plan check and your progress</div><div id="gateList" class="fill-list"></div></div>
     </div>
-    <div class="card reveal" id="coverBox" style="margin-top:16px"></div>
   </div>
 </section>
 
-<section id="money">
+<section id="start">
   <div class="wrap">
-    <div class="sec-head reveal"><div><div class="num">01 · paisa</div><h2>Savings over your whole life</h2><p>All figures in today's money (inflation-adjusted). Saving continues until your switch age; after that the farm, gur and projects pay the bills and savings cover any gap.</p></div></div>
-    <div class="calc">
-      <div class="card controls reveal">
-        <div class="fgrid">
+    <div class="sec-head reveal"><div><div class="num">step 1 · shuruaat</div><h2>Starting point</h2><p>What you have today, how much you keep saving, and how your savings grow. All figures are in today's money (inflation-adjusted).</p></div></div>
+    <div class="grid-2">
+      <div class="card reveal"><div class="fgrid">
           <div class="group-t">savings</div>
           <div class="field"><label>Current savings (₹)</label><input class="input" type="number" step="50000" data-path="money.start" ></div>
           <div class="field"><label>Monthly saving (₹)</label><input class="input" type="number" step="5000" data-path="money.save" ></div>
           <div class="field"><label>Saving grows / year (%)</label><input class="input" type="number" step="0.5" data-path="money.saveGrowth" ></div>
           <div class="field"><label>Plan until age</label><input class="input" type="number" step="1" data-path="money.horizon" ></div>
           <div class="field" style="grid-column:1/-1"><div class="range-row"><label class="lbl">Switch age (leave the job)</label><b data-show="money.switchAge"></b></div><input type="range" min="30" max="55" step="1" data-path="money.switchAge"></div>
+      </div></div>
+      <div class="card reveal"><div class="fgrid">
           <div class="group-t">returns</div>
           <div class="field"><label>Return while working (% above inflation)<span class="info" tabindex="0" data-tip="Growth of savings after removing inflation. 3.5% above inflation is roughly a balanced mix of FDs and equity funds. All amounts on this page are in today’s money.">i</span></label><input class="input" type="number" step="0.25" data-path="money.rPre" ></div>
           <div class="field"><label>Return after switch (%)<span class="info" tabindex="0" data-tip="Usually a little lower than while working, because you hold safer investments once you depend on them.">i</span></label><input class="input" type="number" step="0.25" data-path="money.rPost" ></div>
           <div class="field"><label>Safe withdrawal rate (%)<span class="info" tabindex="0" data-tip="The share of savings you can take out each year without running out over a very long life. 3.5% means ₹3.5 lakh a year per ₹1 crore saved.">i</span></label><input class="input" type="number" step="0.25" data-path="money.swr" ></div>
           <p class="hint" style="grid-column:1/-1;margin:0">Rough guide: FD only ≈ 1.5%, balanced ≈ 3.5%, equity-heavy ≈ 5% above inflation.</p>
-          <div class="group-t">costs & income</div>
-          <div class="field" style="grid-column:1/-1"><label>Family cost comes from</label><div class="select"><select data-path="money.costMode"><option value="budget">Household budget (by life stage)</option><option value="manual">A fixed number</option></select></div></div>
-          <div class="field" id="costManualWrap" style="grid-column:1/-1"><label>Fixed monthly cost (₹)</label><input class="input" type="number" step="1000" data-path="money.costManual" ></div>
-          <div class="field" style="grid-column:1/-1"><label>Other income comes from</label><div class="select"><select data-path="money.incMode"><option value="linked">Gur + land + dairy + projects</option><option value="manual">A fixed number</option></select></div></div>
-          <div class="field" id="incManualWrap" style="grid-column:1/-1"><label>Fixed monthly income (₹)</label><input class="input" type="number" step="1000" data-path="money.incManual" ></div>
-          <div class="field"><label>Farm income starts at age</label><input class="input" type="number" step="1" data-path="ramp.start" ></div>
-          <div class="field"><label>Years to reach full scale</label><input class="input" type="number" step="1" data-path="ramp.years" ></div>
-          <label class="toggle"><input type="checkbox" data-path="money.saveFarmIncome"> Save farm & gur income too while still working</label>
-        </div>
-      </div>
-      <div class="card reveal fill">
-        <div class="results">
-          <div class="res"><div class="k">Slow-life target at switch<span class="info" tabindex="0" data-tip="Savings needed when you leave the job so that, together with farm, gur and project income, you can cover family costs forever at the safe withdrawal rate, plus one-time costs still ahead.">i</span></div><div class="v" id="m1">—</div><div class="s" id="m1s"></div></div>
-          <div class="res"><div class="k">Savings at switch<span class="info" tabindex="0" data-tip="What your savings are projected to be in the year you leave the job, after monthly saving, returns and one-time costs up to then.">i</span></div><div class="v" id="m2">—</div><div class="s" id="m2s"></div></div>
-          <div class="res"><div class="k">Money lasts until<span class="info" tabindex="0" data-tip="The age at which savings would hit zero after you switch. 85+ means returns plus income keep it positive for the whole plan.">i</span></div><div class="v" id="m3">—</div><div class="s" id="m3s"></div></div>
-        </div>
-        <div class="chartbox grow-chart"><svg class="chart" id="lifeChart" viewBox="0 0 700 440"></svg></div>
-        <div class="legend">
-          <span><i style="background:var(--accent)"></i>Savings with your switch age</span>
-          <span><i style="background:var(--faint)"></i>If you never switch</span>
-          <span><i style="background:var(--blue)"></i>Slow-life target</span>
-          <span><i style="background:var(--rose);border-radius:50%;width:8px;height:8px"></i>One-time costs</span>
-        </div>
-        <p class="hint">Hover over the chart to see any year. Slow-life target = (family cost − other income) × 12 ÷ withdrawal rate, plus one-time costs still ahead. Projections, not guarantees — take advice from a SEBI-registered advisor for the actual allocation.</p>
-      </div>
-    </div>
-    <div class="card reveal flowcard">
-      <div class="flowhead">
-        <div><div class="lbl">Year by year</div><h3>Where your savings go each year</h3></div>
-        <div class="legend" style="margin:0">
-          <span><i style="background:var(--blue)"></i>Money added</span>
-          <span><i style="background:var(--green)"></i>Returns earned</span>
-          <span><i style="background:var(--amber)"></i>Withdrawn for living gap</span>
-          <span><i style="background:var(--rose)"></i>One-time costs</span>
-        </div>
-      </div>
-      <div class="flowsum" id="flowSum"></div>
-      <div class="chartbox"><svg id="flowChart" viewBox="0 0 1200 300" style="width:100%;height:300px;display:block"></svg></div>
-      <p class="hint">Bars above the line add to savings, bars below take money out. Hover over any year for the exact amounts. All figures in today's money.</p>
-      <details class="ytable"><summary>Show the full year-by-year table</summary><div class="ytwrap" id="yTable"></div></details>
+      </div></div>
     </div>
   </div>
 </section>
 
-<section id="gur">
+<section id="income">
   <div class="wrap">
-    <div class="sec-head reveal"><div><div class="num">02 · gur</div><h2>Season economics</h2><p>The margin is in selling, not making. Cane comes from the land section; change the share sent to the kolhu, prices, costs and sales channels to test approaches.</p></div>
-      <div class="field" style="max-width:250px"><label for="gurPreset">Approach</label><div class="select"><select id="gurPreset">
-        <option value="test">Season 1 · small test</option><option value="own">Half our cane, mostly direct</option><option value="full" selected>All our cane, mixed channels</option><option value="premium">Premium: direct + outlet only</option><option value="mandi">Mandi only (no brand)</option><option value="custom">Custom</option></select></div></div>
-    </div>
-    <div class="gur">
-      <div class="card reveal">
-        <div class="fgrid">
-          <div class="group-t">production</div>
-          <div class="field"><label>Own cane sent to kolhu (%)</label><input class="input" type="number" step="5" data-path="gur.useShare" data-preset="#gurPreset" ></div>
-          <div class="field"><label>Extra cane bought (tonnes)</label><input class="input" type="number" step="5" data-path="gur.boughtCane" data-preset="#gurPreset" ></div>
-          <div class="field"><label>Gur recovery (%)<span class="info" tabindex="0" data-tip="Kilos of gur you get from 100 kg of cane. Around 10% is typical; good cane and a good kolhu can reach 11–12%.">i</span></label><input class="input" type="number" step="0.5" data-path="gur.recovery" data-preset="#gurPreset" ></div>
-          <div class="field"><label>Loss / unsold (%)<span class="info" tabindex="0" data-tip="Gur lost to moisture, breakage or stock that doesn’t sell.">i</span></label><input class="input" type="number" step="1" data-path="gur.wastage" data-preset="#gurPreset" ></div>
-          <div class="group-t">costs</div>
-          <div class="field"><label>Cane price (₹/quintal)<span class="info" tabindex="0" data-tip="UP state advised price for cane sold to mills: ₹390–400 per quintal for 2025–26. Used as the value of your own cane.">i</span></label><input class="input" type="number" step="5" data-path="gur.canePrice" data-preset="#gurPreset" ></div>
-          <div class="field"><label>Making cost (₹/kg)</label><input class="input" type="number" step="1" data-path="gur.making" data-preset="#gurPreset" ></div>
-          <div class="field"><label>Fixed season costs (₹)</label><input class="input" type="number" step="5000" data-path="gur.fixed" data-preset="#gurPreset" ></div>
-          <div class="field"><label>Contractor rent (₹/season) <span class="est">enter actual</span></label><input class="input" type="number" step="5000" data-path="gur.rent" data-preset="#gurPreset"></div>
-          <label class="toggle"><input type="checkbox" data-path="gur.ownAtMill" data-preset="#gurPreset"> Count our own cane at the mill price (true cost of not selling it to the mill)</label>
-          <div class="group-t">sales channels</div>
-          <div style="grid-column:1/-1"><table class="chtable"><thead><tr><th>Channel</th><th>Share %</th><th>Price ₹/kg</th><th>Pack + delivery ₹/kg</th></tr></thead><tbody><tr><td>Direct to NCR</td><td><input class="input" type="number" step="5" data-path="gur.ch.direct.share" data-preset="#gurPreset"></td><td><input class="input" type="number" step="5" data-path="gur.ch.direct.price" data-preset="#gurPreset"></td><td><input class="input" type="number" step="1" data-path="gur.ch.direct.pack" data-preset="#gurPreset"></td></tr><tr><td>Highway outlet</td><td><input class="input" type="number" step="5" data-path="gur.ch.outlet.share" data-preset="#gurPreset"></td><td><input class="input" type="number" step="5" data-path="gur.ch.outlet.price" data-preset="#gurPreset"></td><td><input class="input" type="number" step="1" data-path="gur.ch.outlet.pack" data-preset="#gurPreset"></td></tr><tr><td>Mandi</td><td><input class="input" type="number" step="5" data-path="gur.ch.mandi.share" data-preset="#gurPreset"></td><td><input class="input" type="number" step="5" data-path="gur.ch.mandi.price" data-preset="#gurPreset"></td><td><input class="input" type="number" step="1" data-path="gur.ch.mandi.pack" data-preset="#gurPreset"></td></tr></tbody></table>
-            <div class="mix" id="mixBar"></div><div class="legend" id="mixLegend" style="margin-top:8px"></div><p class="hint warn" id="shareWarn"></p></div>
-        </div>
-      </div>
-      <div class="card reveal">
-        <div class="flow" id="gurFlow"></div>
-        <div class="compare" id="gurCompare"></div>
-        <div class="lbl" style="margin-top:18px">Profit at different average selling prices</div>
-        <div class="chartbox grow-chart" style="min-height:240px"><svg id="gurChart" viewBox="0 0 700 240" style="min-height:240px"></svg></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="land">
-  <div class="wrap">
-    <div class="sec-head reveal"><div><div class="num">03 · zameen</div><h2>Land, crops and dairy</h2><p>Today my father runs the land, with ~80% (about 24 bigha) under sugarcane. 1 pucca bigha ≈ 6,806 sq ft ≈ 0.156 acre.</p></div>
-      <div class="field" style="max-width:250px"><label for="landPreset">Layout</label><div class="select"><select id="landPreset">
-        <option value="today" selected>Today (father's current)</option><option value="plan">Recommended plan</option><option value="cane">Maximum gur (cane-heavy)</option><option value="diverse">Diverse (more veg & orchard)</option><option value="custom">Custom</option></select></div></div>
-    </div>
+    <div class="sec-head reveal"><div><div class="num">step 2 · aamdani</div><h2>Income after you switch</h2><p>Land feeds the kolhu, gur is the main earner, and dairy and your own projects add the rest. The total at the end of this step goes into the freedom maths.</p></div></div>
+    <div class="subsec" id="land">
+      <div class="sub-head reveal"><div><div class="num">2a · zameen</div><h3>Land and crops</h3><p>Today my father runs the land, with ~80% under sugarcane. 1 pucca bigha ≈ 6,806 sq ft ≈ 0.156 acre.</p></div><div class="field" style="max-width:250px"><label for="landPreset">Layout</label><div class="select"><select id="landPreset">
+        <option value="today" selected>Today (father's current)</option><option value="plan">Recommended plan</option><option value="cane">Maximum gur (cane-heavy)</option><option value="diverse">Diverse (more veg & orchard)</option><option value="custom">Custom</option></select></div></div></div>
     <div class="card reveal">
       <div class="land-bar" id="landBar"></div>
       <div class="land-list" id="landList"></div>
@@ -633,44 +581,65 @@ details.ytable[open] summary::before{content:"▾ ";}
       </div>
     </div>
     <p class="hint">Yields and incomes are rough starting estimates — replace them with your father's real numbers and local rates.</p>
-  </div>
-</section>
-
-<section id="phases">
-  <div class="wrap">
-    <div class="sec-head reveal"><div><div class="num">04 · phases</div><h2>Five phases to freedom</h2><p>Edit any title, date or task and add your own. <b>Plan works / falls short</b> checks whether this scenario's numbers add up. <b>Not started / In progress / Completed</b> tracks what you've actually done.</p></div>
-      <div class="field" style="max-width:230px"><label for="areaFilter">Show area</label><div class="select"><select id="areaFilter">
-        <option value="all">All areas</option><option value="job">Job & savings</option><option value="farm">Farm</option><option value="gur">Gur & sales</option><option value="tech">Tech</option><option value="life">Life & family</option></select></div></div>
     </div>
-    <div class="phase-tabs reveal" id="phaseTabs"></div>
-    <div class="card phase-body reveal" id="phaseBody"></div>
-  </div>
-</section>
-
-<section id="calendar">
-  <div class="wrap">
-    <div class="sec-head reveal"><div><div class="num">05 · mausam</div><h2>The yearly rhythm</h2><p>Busy winters, slow summers. Pick a month to edit what happens on the farm, at the kolhu and on the screen.</p></div>
-      <div class="toolbar" style="min-width:min(100%,440px)">
-        <div class="field"><label for="monthSel">Month</label><div class="select"><select id="monthSel"></select></div></div>
-        <div class="field"><label for="calFilter">Focus</label><div class="select"><select id="calFilter"><option value="all">Everything</option><option value="farm">Farm only</option><option value="gur">Gur & sales only</option><option value="tech">Tech only</option></select></div></div>
+    <div class="subsec" id="gur">
+      <div class="sub-head reveal"><div><div class="num">2b · gur</div><h3>Gur: season economics</h3><p>The margin is in selling, not making. Cane comes from the land above; change how much goes to the kolhu, prices, costs and sales channels.</p></div><div class="field" style="max-width:250px"><label for="gurPreset">Approach</label><div class="select"><select id="gurPreset">
+        <option value="test">Season 1 · small test</option><option value="own">Half our cane, mostly direct</option><option value="full" selected>All our cane, mixed channels</option><option value="premium">Premium: direct + outlet only</option><option value="mandi">Mandi only (no brand)</option><option value="custom">Custom</option></select></div></div></div>
+    <div class="gur">
+      <div class="card reveal">
+        <div class="fgrid">
+          <div class="group-t">production</div>
+          <div class="field"><label>Own cane sent to kolhu (%)</label><input class="input" type="number" step="5" data-path="gur.useShare" data-preset="#gurPreset" ></div>
+          <div class="field"><label>Extra cane bought (tonnes)</label><input class="input" type="number" step="5" data-path="gur.boughtCane" data-preset="#gurPreset" ></div>
+          <div class="field"><label>Gur recovery (%)<span class="info" tabindex="0" data-tip="Kilos of gur you get from 100 kg of cane. Around 10% is typical; good cane and a good kolhu can reach 11–12%.">i</span></label><input class="input" type="number" step="0.5" data-path="gur.recovery" data-preset="#gurPreset" ></div>
+          <div class="field"><label>Loss / unsold (%)<span class="info" tabindex="0" data-tip="Gur lost to moisture, breakage or stock that doesn’t sell.">i</span></label><input class="input" type="number" step="1" data-path="gur.wastage" data-preset="#gurPreset" ></div>
+          <div class="group-t">costs</div>
+          <div class="field"><label>Cane price (₹/quintal)<span class="info" tabindex="0" data-tip="UP state advised price for cane sold to mills: ₹390–400 per quintal for 2025–26. Used as the value of your own cane.">i</span></label><input class="input" type="number" step="5" data-path="gur.canePrice" data-preset="#gurPreset" ></div>
+          <div class="field"><label>Making cost (₹/kg)</label><input class="input" type="number" step="1" data-path="gur.making" data-preset="#gurPreset" ></div>
+          <div class="field"><label>Fixed season costs (₹)</label><input class="input" type="number" step="5000" data-path="gur.fixed" data-preset="#gurPreset" ></div>
+          <div class="field"><label>Contractor rent (₹/season) <span class="est">enter actual</span></label><input class="input" type="number" step="5000" data-path="gur.rent" data-preset="#gurPreset"></div>
+          <label class="toggle"><input type="checkbox" data-path="gur.ownAtMill" data-preset="#gurPreset"> Count our own cane at the mill price (true cost of not selling it to the mill)</label>
+          <div class="group-t">sales channels</div>
+          <div style="grid-column:1/-1"><table class="chtable"><thead><tr><th>Channel</th><th>Share %</th><th>Price ₹/kg</th><th>Pack + delivery ₹/kg</th></tr></thead><tbody><tr><td>Direct to NCR</td><td><input class="input" type="number" step="5" data-path="gur.ch.direct.share" data-preset="#gurPreset"></td><td><input class="input" type="number" step="5" data-path="gur.ch.direct.price" data-preset="#gurPreset"></td><td><input class="input" type="number" step="1" data-path="gur.ch.direct.pack" data-preset="#gurPreset"></td></tr><tr><td>Highway outlet</td><td><input class="input" type="number" step="5" data-path="gur.ch.outlet.share" data-preset="#gurPreset"></td><td><input class="input" type="number" step="5" data-path="gur.ch.outlet.price" data-preset="#gurPreset"></td><td><input class="input" type="number" step="1" data-path="gur.ch.outlet.pack" data-preset="#gurPreset"></td></tr><tr><td>Mandi</td><td><input class="input" type="number" step="5" data-path="gur.ch.mandi.share" data-preset="#gurPreset"></td><td><input class="input" type="number" step="5" data-path="gur.ch.mandi.price" data-preset="#gurPreset"></td><td><input class="input" type="number" step="1" data-path="gur.ch.mandi.pack" data-preset="#gurPreset"></td></tr></tbody></table>
+            <div class="mix" id="mixBar"></div><div class="legend" id="mixLegend" style="margin-top:8px"></div><p class="hint warn" id="shareWarn"></p></div>
+        </div>
+      </div>
+      <div class="card reveal">
+        <div class="flow" id="gurFlow"></div>
+        <div class="compare" id="gurCompare"></div>
+        <div class="lbl" style="margin-top:18px">Profit at different average selling prices</div>
+        <div class="chartbox grow-chart" style="min-height:240px"><svg id="gurChart" viewBox="0 0 700 240" style="min-height:240px"></svg></div>
       </div>
     </div>
-    <div class="card reveal">
-      <div class="legend" style="margin:0"><span><i style="background:var(--green)"></i>Farm</span><span><i style="background:var(--amber)"></i>Gur & sales</span><span><i style="background:var(--blue)"></i>Tech</span><span><i style="background:linear-gradient(90deg,var(--green),var(--amber),var(--rose))"></i>Workload</span></div>
-      <div class="months" id="months"></div>
-      <div class="mdetail" id="mdetail"></div>
+    </div>
+    <div class="subsec" id="incomeTotal">
+      <div class="sub-head reveal"><div><div class="num">2c · total</div><h3>Total monthly income</h3><p>Everything above added up, plus when it starts and how fast it grows.</p></div></div>
+      <div class="grid-2">
+        <div class="card reveal"><div class="lbl">Monthly income at full scale</div><div id="incStack"></div></div>
+        <div class="card reveal"><div class="fgrid">
+          <div class="group-t">timing</div>
+          <div class="field" style="grid-column:1/-1"><label>Other income comes from</label><div class="select"><select data-path="money.incMode"><option value="linked">Gur + land + dairy + projects</option><option value="manual">A fixed number</option></select></div></div>
+          <div class="field" id="incManualWrap" style="grid-column:1/-1"><label>Fixed monthly income (₹)</label><input class="input" type="number" step="1000" data-path="money.incManual" ></div>
+          <div class="field"><label>Farm income starts at age</label><input class="input" type="number" step="1" data-path="ramp.start" ></div>
+          <div class="field"><label>Years to reach full scale</label><input class="input" type="number" step="1" data-path="ramp.years" ></div>
+          <label class="toggle"><input type="checkbox" data-path="money.saveFarmIncome"> Save farm & gur income too while still working</label>
+        </div></div>
+      </div>
     </div>
   </div>
 </section>
 
-<section id="budget">
+<section id="costs">
   <div class="wrap">
-    <div class="sec-head reveal"><div><div class="num">06 · ghar kharcha</div><h2>Household & big costs</h2><p>Monthly costs change with life stage. Big one-time costs are taken out of savings in the year they happen.</p></div>
+    <div class="sec-head reveal"><div><div class="num">step 3 · kharcha</div><h2>Household & big costs</h2><p>What the family needs each month at each life stage, and the big one-time costs ahead. One-time costs are paid from savings in the year they happen.</p></div>
       <div class="field" style="max-width:230px"><label>Edit stage</label><div class="select"><select data-path="budget.stage"><option value="single">Single</option><option value="couple">Married couple</option><option value="family">Family with 2 kids</option></select></div></div>
     </div>
+    <div class="subsec" id="budget" style="margin-top:0">
     <div class="grid-2">
       <div class="card reveal">
         <div class="fgrid" style="margin-bottom:14px">
+          <div class="field" style="grid-column:1/-1"><label>Family cost comes from</label><div class="select"><select data-path="money.costMode"><option value="budget">Household budget (by life stage)</option><option value="manual">A fixed number</option></select></div></div>
+          <div class="field" id="costManualWrap" style="grid-column:1/-1"><label>Fixed monthly cost (₹)</label><input class="input" type="number" step="1000" data-path="money.costManual"></div>
           <div class="field"><label>Married at age</label><input class="input" type="number" step="1" data-path="budget.marriageAge" ></div>
           <div class="field"><label>Kids from age</label><input class="input" type="number" step="1" data-path="budget.kidsAge" ></div>
         </div>
@@ -696,12 +665,57 @@ details.ytable[open] summary::before{content:"▾ ";}
         </div>
       </div>
     </div>
+    </div>
+  </div>
+</section>
+
+<section id="freedom">
+  <div class="wrap">
+    <div class="sec-head reveal"><div><div class="num">step 4 · azaadi</div><h2>When you're free, and whether the money lasts</h2><p>Income from step 2 meets costs from step 3. Any monthly gap is paid from savings, which keep earning returns. Here is every rupee, month by month and year by year.</p></div></div>
+    <div class="results reveal" style="margin-bottom:16px">
+          <div class="res"><div class="k">Slow-life target at switch<span class="info" tabindex="0" data-tip="Savings needed when you leave the job so that, together with farm, gur and project income, you can cover family costs forever at the safe withdrawal rate, plus one-time costs still ahead.">i</span></div><div class="v" id="m1">—</div><div class="s" id="m1s"></div></div>
+          <div class="res"><div class="k">Savings at switch<span class="info" tabindex="0" data-tip="What your savings are projected to be in the year you leave the job, after monthly saving, returns and one-time costs up to then.">i</span></div><div class="v" id="m2">—</div><div class="s" id="m2s"></div></div>
+          <div class="res"><div class="k">Money lasts until<span class="info" tabindex="0" data-tip="The age at which savings would hit zero after you switch. 85+ means returns plus income keep it positive for the whole plan.">i</span></div><div class="v" id="m3">—</div><div class="s" id="m3s"></div></div>
+    </div>
+    <div class="card reveal" id="coverBox"></div>
+    <div class="card reveal" style="margin-top:16px">
+      <div class="flowhead"><div><div class="lbl">Month by month</div><h3>Income vs family cost at every age</h3></div>
+        <div class="legend" style="margin:0"><span><i style="background:var(--green)"></i>Monthly income</span><span><i style="background:var(--rose)"></i>Family cost</span><span><i style="background:var(--blue)"></i>Returns on savings</span></div></div>
+      <div class="chartbox"><svg id="monthChart" viewBox="0 0 1200 300" style="width:100%;height:300px;display:block"></svg></div>
+      <p class="hint">Red shading is a monthly gap paid from savings; green shading is a surplus. While you still work, your salary covers the family, so the gap only matters after you switch. Hover over any age for the numbers.</p>
+    </div>
+    <div class="card reveal" style="margin-top:16px">
+      <div class="flowhead"><div><div class="lbl">Savings over your life</div><h3>Will the money last?</h3></div></div>
+        <div class="chartbox grow-chart"><svg class="chart" id="lifeChart" viewBox="0 0 700 440"></svg></div>
+        <div class="legend">
+          <span><i style="background:var(--accent)"></i>Savings with your switch age</span>
+          <span><i style="background:var(--faint)"></i>If you never switch</span>
+          <span><i style="background:var(--blue)"></i>Slow-life target</span>
+          <span><i style="background:var(--rose);border-radius:50%;width:8px;height:8px"></i>One-time costs</span>
+        </div>
+        <p class="hint">Hover over the chart to see any year. Slow-life target = (family cost − other income) × 12 ÷ withdrawal rate, plus one-time costs still ahead. Projections, not guarantees — take advice from a SEBI-registered advisor for the actual allocation.</p>
+    </div>
+    <div class="card reveal flowcard">
+      <div class="flowhead">
+        <div><div class="lbl">Year by year</div><h3>Where your savings go each year</h3><label class="ftoggle" style="margin-top:8px"><input type="checkbox" id="showOT"> Also show one-time costs (wedding, home, education)</label></div>
+        <div class="legend" style="margin:0">
+          <span><i style="background:var(--blue)"></i>Money added</span>
+          <span><i style="background:var(--green)"></i>Returns earned</span>
+          <span><i style="background:var(--amber)"></i>Withdrawn for living gap</span>
+          <span><i style="background:var(--rose)"></i>One-time costs</span>
+        </div>
+      </div>
+      <div class="flowsum" id="flowSum"></div>
+      <div class="chartbox"><svg id="flowChart" viewBox="0 0 1200 360" style="width:100%;height:360px;display:block"></svg></div>
+      <p class="hint">Top panel: money going into savings. Bottom panel (its own scale, so small amounts stay visible): money taken out. Amber is the monthly living gap × 12, for example ₹4,436 × 12 ≈ ₹53,000 a year. Tick “Also show one-time costs” to add the big one-off payments. Hover over any year for exact amounts.</p>
+      <details class="ytable"><summary>Show the full year-by-year table</summary><div class="ytwrap" id="yTable"></div></details>
+    </div>
   </div>
 </section>
 
 <section id="whatif">
   <div class="wrap">
-    <div class="sec-head reveal"><div><div class="num">07 · what-if</div><h2>What moves the plan most</h2><p>Each row lowers one assumption (left half) and raises it (right half), keeping everything else the same. Longer bars matter more. Green is better, red is worse.</p></div>
+    <div class="sec-head reveal"><div><div class="num">step 5 · what-if</div><h2>What moves the plan most</h2><p>Each row lowers one assumption (left half) and raises it (right half), keeping everything else the same. Longer bars matter more. Green is better, red is worse.</p></div>
       <div class="toolbar" style="min-width:min(100%,440px)">
         <div class="field"><label for="tMetric">Measure</label><div class="select"><select id="tMetric"><option value="slow">Slow-life age</option><option value="full">Full-freedom age</option><option value="c60">Savings at 60</option><option value="lasts">Money lasts until</option><option value="inc">Monthly income</option></select></div></div>
         <div class="field"><label for="tRange">Change each by</label><div class="select"><select id="tRange"><option value="10">± 10%</option><option value="20" selected>± 20%</option><option value="30">± 30%</option></select></div></div>
@@ -714,14 +728,41 @@ details.ytable[open] summary::before{content:"▾ ";}
     <div class="card reveal" style="margin-top:16px">
       <div class="lbl" style="margin-bottom:10px">Saved scenarios side by side</div>
       <div class="cmp" id="cmp"></div>
-      <p class="hint">Save different approaches in the Overview section to compare them here.</p>
+      <p class="hint">Save different approaches in the Summary section to compare them here.</p>
+    </div>
+  </div>
+</section>
+
+<section id="phases">
+  <div class="wrap">
+    <div class="sec-head reveal"><div><div class="num">step 6 · action plan</div><h2>Five phases to freedom</h2><p>Edit any title, date or task and add your own. <b>Plan works / falls short</b> checks whether this scenario's numbers add up. <b>Not started / In progress / Completed</b> tracks what you've actually done.</p></div>
+      <div class="field" style="max-width:230px"><label for="areaFilter">Show area</label><div class="select"><select id="areaFilter">
+        <option value="all">All areas</option><option value="job">Job & savings</option><option value="farm">Farm</option><option value="gur">Gur & sales</option><option value="tech">Tech</option><option value="life">Life & family</option></select></div></div>
+    </div>
+    <div class="phase-tabs reveal" id="phaseTabs"></div>
+    <div class="card phase-body reveal" id="phaseBody"></div>
+  </div>
+</section>
+
+<section id="calendar">
+  <div class="wrap">
+    <div class="sec-head reveal"><div><div class="num">step 6 · mausam</div><h2>The yearly rhythm</h2><p>Busy winters, slow summers. Pick a month to edit what happens on the farm, at the kolhu and on the screen.</p></div>
+      <div class="toolbar" style="min-width:min(100%,440px)">
+        <div class="field"><label for="monthSel">Month</label><div class="select"><select id="monthSel"></select></div></div>
+        <div class="field"><label for="calFilter">Focus</label><div class="select"><select id="calFilter"><option value="all">Everything</option><option value="farm">Farm only</option><option value="gur">Gur & sales only</option><option value="tech">Tech only</option></select></div></div>
+      </div>
+    </div>
+    <div class="card reveal">
+      <div class="legend" style="margin:0"><span><i style="background:var(--green)"></i>Farm</span><span><i style="background:var(--amber)"></i>Gur & sales</span><span><i style="background:var(--blue)"></i>Tech</span><span><i style="background:linear-gradient(90deg,var(--green),var(--amber),var(--rose))"></i>Workload</span></div>
+      <div class="months" id="months"></div>
+      <div class="mdetail" id="mdetail"></div>
     </div>
   </div>
 </section>
 
 <section id="rules">
   <div class="wrap">
-    <div class="sec-head reveal"><div><div class="num">08 · niyam</div><h2>What protects the plan</h2><p>Edit, remove or add your own principles.</p></div></div>
+    <div class="sec-head reveal"><div><div class="num">niyam</div><h2>What protects the plan</h2><p>Edit, remove or add your own principles.</p></div></div>
     <div class="rules" id="rulesList"></div>
     <div class="quote reveal">The freedom test: <em>could I stop this for a month</em><br>without anything bad happening?</div>
   </div>
@@ -891,19 +932,26 @@ details.ytable[open] summary::before{content:"▾ ";}
 
 
   function drawFlow(){
-    const svg=$('#flowChart');if(!svg)return;const W=Math.max(320,Math.round(svg.clientWidth||1200)),H=300;svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
-    const pl=56,pr=10,pt=14,pb=28;const cs=getComputedStyle(document.documentElement);const c=n=>cs.getPropertyValue(n).trim();
-    const L=R.life.slice(1);const pos=p=>p.add+Math.max(0,p.ret),neg=p=>p.draw+p.ot+Math.max(0,-p.ret);
-    const max=Math.max(1,...L.map(pos))*1.08,min=-Math.max(1,...L.map(neg))*1.08;
-    const n=L.length,bw=(W-pl-pr)/n,x=i=>pl+i*bw,y=v=>pt+(max-v)/(max-min)*(H-pt-pb);
-    let g='';[max/1.08,max/2.16,0,min/2.16,min/1.08].forEach(v=>{g+=`<line x1="${pl}" x2="${W-pr}" y1="${y(v)}" y2="${y(v)}" stroke="${c('--line')}"/><text x="${pl-8}" y="${y(v)+4}" text-anchor="end">${v===0?'0':short(v).replace('₹','')}</text>`});
-    const si=L.findIndex(p=>!p.working);if(si>0)g+=`<line x1="${x(si)}" x2="${x(si)}" y1="${pt}" y2="${H-pb}" stroke="${c('--green')}" stroke-dasharray="4 4"/><text x="${x(si)+5}" y="${pt+10}" style="fill:${c('--green')};font-weight:600">switch at ${R.sw}</text>`;
-    L.forEach((p,i)=>{const bx=x(i)+bw*.14,w=Math.max(1,bw*.72);let top=y(0);
-      const up=[[p.add,c('--blue')],[Math.max(0,p.ret),c('--green')]];up.forEach(([v,col])=>{if(v<=0)return;const yy=y(0)-(y(0)-y(v));const h=y(0)-y(v);top-=h;g+=`<rect x="${bx}" y="${top}" width="${w}" height="${h}" fill="${col}" rx="1.5"/>`});
-      let bot=y(0);const dn=[[p.draw,c('--amber')],[p.ot,c('--rose')],[Math.max(0,-p.ret),c('--faint')]];dn.forEach(([v,col])=>{if(v<=0)return;const h=y(-v)-y(0);g+=`<rect x="${bx}" y="${bot}" width="${w}" height="${h}" fill="${col}" rx="1.5"/>`;bot+=h});
-      if(p.yr%5===0)g+=`<text x="${x(i)+bw/2}" y="${H-8}" text-anchor="middle">${p.yr}</text>`});
-    g+=`<line x1="${pl}" x2="${W-pr}" y1="${y(0)}" y2="${y(0)}" stroke="${c('--text')}" stroke-opacity=".35"/>`;
-    g+='<g class="hov"></g>';svg.innerHTML=g;svg._geo={L,bw,x,pl,pt,pb,W,H};
+    const svg=$('#flowChart');if(!svg)return;const W=Math.max(320,Math.round(svg.clientWidth||1200)),H=360;svg.setAttribute('viewBox',`0 0 ${W} ${H}`);svg.style.height=H+'px';
+    const pl=64,pr=10,pt=22,pb=26,gap=34;const cs=getComputedStyle(document.documentElement);const c=n=>cs.getPropertyValue(n).trim();
+    const L=R.life.slice(1);const sOT=!$('#showOT')||$('#showOT').checked;
+    const pos=p=>p.add+Math.max(0,p.ret),neg=p=>p.draw+(sOT?p.ot:0)+Math.max(0,-p.ret);
+    const inner=H-pt-pb-gap,hTop=inner*.55,hBot=inner*.45,yT0=pt+hTop,yB0=yT0+gap;
+    const maxT=Math.max(1,...L.map(pos))*1.08,maxB=Math.max(1,...L.map(neg))*1.12;
+    const n=L.length,bw=(W-pl-pr)/n,x=i=>pl+i*bw,yT=v=>yT0-v/maxT*hTop,yB=v=>yB0+v/maxB*hBot;
+    let g='';
+    g+=`<text x="${pl}" y="${pt-8}" style="fill:${c('--green')};font-weight:700">▲ Into savings</text><text x="${pl}" y="${yB0-8}" style="fill:${c('--amber')};font-weight:700">▼ Out of savings (own scale)</text>`;
+    [0,.5,1].forEach(f=>{const v=maxT/1.08*f;g+=`<line x1="${pl}" x2="${W-pr}" y1="${yT(v)}" y2="${yT(v)}" stroke="${c('--line')}"/><text x="${pl-8}" y="${yT(v)+4}" text-anchor="end">${v?short(v).replace('₹',''):'0'}</text>`});
+    [.5,1].forEach(f=>{const v=maxB/1.12*f;g+=`<line x1="${pl}" x2="${W-pr}" y1="${yB(v)}" y2="${yB(v)}" stroke="${c('--line')}"/><text x="${pl-8}" y="${yB(v)+4}" text-anchor="end">−${short(v).replace('₹','')}</text>`});
+    g+=`<line x1="${pl}" x2="${W-pr}" y1="${yB0}" y2="${yB0}" stroke="${c('--line-2')}"/>`;
+    const si=L.findIndex(p=>!p.working);if(si>0)g+=`<line x1="${x(si)}" x2="${x(si)}" y1="${pt}" y2="${H-pb}" stroke="${c('--green')}" stroke-dasharray="4 4"/><text x="${x(si)+5}" y="${pt+4}" style="fill:${c('--green')};font-weight:600">switch at ${R.sw}</text>`;
+    L.forEach((p,i)=>{const bx=x(i)+bw*.14,w=Math.max(1,bw*.72);let top=yT0;
+      [[p.add,c('--blue')],[Math.max(0,p.ret),c('--green')]].forEach(([v,col])=>{if(v<=0)return;const h=v/maxT*hTop;top-=h;g+=`<rect x="${bx}" y="${top}" width="${w}" height="${h}" fill="${col}" rx="1.5"/>`});
+      let bot=yB0;[[p.draw,c('--amber')],[sOT?p.ot:0,c('--rose')],[Math.max(0,-p.ret),c('--faint')]].forEach(([v,col])=>{if(v<=0)return;const h=v/maxB*hBot;g+=`<rect x="${bx}" y="${bot}" width="${w}" height="${h}" fill="${col}" rx="1.5"/>`;bot+=h});
+      if(p.yr%5===0)g+=`<text x="${x(i)+bw/2}" y="${H-6}" text-anchor="middle">${p.yr}</text>`});
+    g+=`<line x1="${pl}" x2="${W-pr}" y1="${yT0}" y2="${yT0}" stroke="${c('--text')}" stroke-opacity=".35"/>`;
+    const pt2=pt,pb2=pb;
+    g+='<g class="hov"></g>';svg.innerHTML=g;svg._geo={L,bw,x,pl,pt:pt2,pb:pb2,W,H};
     // summary
     const work=L.filter(p=>p.working),free=L.filter(p=>!p.working);const S=(a,k)=>a.reduce((t,p)=>t+p[k],0);
     $('#flowSum').innerHTML=
@@ -953,10 +1001,36 @@ details.ytable[open] summary::before{content:"▾ ";}
     const html=`<b>Average price ₹${Math.round(pr)}/kg</b><hr>`+TR('Season profit',inr(v),v>=0?'#a3c96d':'#ec8d6d')+TR('Per month',inr(v/12))+TR('vs your current',(v-R.profit>=0?'+':'')+inr(v-R.profit));
     return{g,html}});
 
+
+  function drawMonth(){
+    const svg=$('#monthChart');if(!svg)return;const W=Math.max(320,Math.round(svg.clientWidth||1200)),H=300;svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+    const pl=64,pr=12,pt=16,pb=28;const c=cv;const a0=AGE0,a1=R.H;
+    const P=[];for(let a=a0;a<=a1;a++){const n=R.life.find(q=>q.yr===a)||R.life[R.life.length-1];P.push({a,inc:R.incAt(a),cost:R.costAt(a),ret:(n.ret||0)/12,work:a<R.sw})}
+    const max=Math.max(1,...P.map(p=>Math.max(p.inc,p.cost,p.ret)))*1.12;
+    const x=a=>pl+(a-a0)/(a1-a0)*(W-pl-pr),y=v=>pt+(max-v)/max*(H-pt-pb);
+    let g='';for(let i=0;i<=4;i++){const v=max/4*i;g+=`<line x1="${pl}" x2="${W-pr}" y1="${y(v)}" y2="${y(v)}" stroke="${c('--line')}"/><text x="${pl-8}" y="${y(v)+4}" text-anchor="end">${v?'₹'+Math.round(v/1000)+'k':'0'}</text>`}
+    for(let a=Math.ceil(a0/5)*5;a<=a1;a+=5)g+=`<text x="${x(a)}" y="${H-8}" text-anchor="middle">${a}</text>`;
+    g+=`<rect x="${x(a0)}" y="${pt}" width="${x(R.sw)-x(a0)}" height="${H-pt-pb}" fill="${c('--surface-3')}" opacity=".7"/><text x="${(x(a0)+x(R.sw))/2}" y="${pt+14}" text-anchor="middle" style="fill:${c('--muted')};font-weight:600">working · salary pays</text>`;
+    g+=`<line x1="${x(R.sw)}" x2="${x(R.sw)}" y1="${pt}" y2="${H-pb}" stroke="${c('--green')}" stroke-dasharray="4 4"/>`;
+    for(let i=0;i<P.length-1;i++){const p=P[i],q=P[i+1];if(p.work)continue;const d=p.inc-p.cost;if(Math.abs(d)<1)continue;
+      g+=`<polygon points="${x(p.a)},${y(p.inc)} ${x(q.a)},${y(p.inc)} ${x(q.a)},${y(p.cost)} ${x(p.a)},${y(p.cost)}" fill="${d<0?c('--rose'):c('--green')}" opacity=".18"/>`}
+    const step=k=>P.slice(0,-1).map(p=>`${x(p.a)},${y(p[k])} ${x(p.a+1)},${y(p[k])}`).join(' ');
+    g+=`<polyline points="${step('ret')}" fill="none" stroke="${c('--blue')}" stroke-width="1.6" stroke-dasharray="5 4"/>`;
+    g+=`<polyline points="${step('cost')}" fill="none" stroke="${c('--rose')}" stroke-width="2.4"/>`;
+    g+=`<polyline points="${step('inc')}" fill="none" stroke="${c('--green')}" stroke-width="2.4"/>`;
+    const pf=P.find(p=>!p.work&&p.cost>p.inc);if(pf){const mid=(y(pf.inc)+y(pf.cost))/2;g+=`<text x="${x(pf.a)+6}" y="${mid+4}" style="fill:${c('--rose')};font-weight:700">gap −${inr(pf.cost-pf.inc)}/mo</text>`}
+    g+='<g class="hov"></g>';svg.innerHTML=g;svg._geo={x,y,a0,a1,pl,pr,pt,pb,W,H,P};
+  }
+  chartHover('monthChart',(G,px)=>{const a=Math.floor(G.a0+(px-G.pl)/(G.W-G.pl-G.pr)*(G.a1-G.a0));const p=G.P.find(q=>q.a===a);if(!p)return null;
+    const g=`<line x1="${G.x(a+.5)}" x2="${G.x(a+.5)}" y1="${G.pt}" y2="${G.H-G.pb}" stroke="${cv('--text')}" stroke-opacity=".3"/>`;const d=p.inc-p.cost;
+    let html=`<b>Age ${a}</b> · ${p.work?'working':'after switch'}<hr>`+TR('Monthly income',inr(p.inc),'#a3c96d')+TR('Family cost',inr(p.cost),'#ec8d6d');
+    html+=p.work?`<hr><span style="opacity:.75">Your salary covers the family while you work.</span>`:'<hr>'+TR(d<0?'Gap paid from savings':'Surplus saved',(d<0?'−':'+')+inr(Math.abs(d)),d<0?'#ec8d6d':'#a3c96d')+TR('Savings earn',inr(p.ret)+'/mo','#8ec0d1')+(d<0?`<span style="opacity:.75">${p.ret>=-d?'Returns cover the gap, so savings still grow.':'Returns don’t cover the gap, so savings shrink.'}</span>`:'');
+    return{g,html}});
+
   /* ---------- clickable navigation ---------- */
   document.addEventListener('click',e=>{const el=e.target.closest('[data-go]');if(!el||e.target.closest('input,select,button:not([data-go]),.info,a:not([data-go])'))return;e.preventDefault();const go=el.dataset.go;
     if(go.startsWith('phase:')){curPhase=+go.split(':')[1];LS.set('ka-phase',curPhase);renderTabs();buildPhase();$('#phases').scrollIntoView({behavior:'smooth'});return}
-    const t=$(go);if(!t)return;(t.closest('section')&&go!=='#incStack'&&go!=='#flowChart'?t:t.closest('.card')||t).scrollIntoView({behavior:'smooth',block:go==='#flowChart'||go==='#incStack'?'center':'start'})});
+    const t=$(go);if(!t)return;const tgt=t.matches('section,.subsec,.card')?t:(t.closest('.card')||t);tgt.scrollIntoView({behavior:'smooth',block:tgt.matches('section,.subsec')?'start':'center'})});
 
   /* ---------- binding ---------- */
   function populate(){
@@ -987,34 +1061,38 @@ details.ytable[open] summary::before{content:"▾ ";}
   function tile(k,v,s,cls,go,tip){return`<div class="tile ${cls||''}" ${go?`data-go="${go}"`:''}><div class="k">${k}${tip?`<span class="info" tabindex="0" data-tip="${esc(tip)}">i</span>`:''}<span class="go">${go?'details →':''}</span></div><div class="v">${v}</div><div class="s">${s}</div></div>`}
   function renderOverview(){
     const lasts=R.lastsAge?`runs out at ${R.lastsAge}`:`lasts beyond ${R.H}`;
+    const stp=(n,t,v,s2,go,cls)=>`<div class="step ${cls||''}" data-go="${go}"><div class="st"><span class="sn">${n}</span>${t}<span class="go" style="margin-left:auto">→</span></div><div class="sv">${v}</div><div class="ss">${s2}</div></div>`;
+    $('#steps').innerHTML=stp(1,'Start',short(num(st.money.start)),`+ ${inr(num(st.money.save))} saved monthly`,'#start')+
+      stp(2,'Income',inr(R.incFull)+'/mo','land, gur, dairy & projects at full scale','#income')+
+      stp(3,'Costs',inr(R.costFinal)+'/mo',`family stage · ${short(st.oneTime.reduce((t,o)=>t+num(o.a),0))} one-time ahead`,'#costs')+
+      stp(4,'Freedom',`switch at ${R.sw}`,`money ${lasts}`,'#freedom','out');
     $('#tiles').innerHTML=
-      tile('Slow-life age',R.slowAge?R.slowAge:'60+',R.slowAge?`${yrsTo(R.slowAge)} · target ${short(R.slowT(R.slowAge))}`:'not reached by 60',R.slowAge&&R.slowAge<=40?'good':'','#money','Earliest age (if you kept working) when savings are enough to leave the job and live on farm, gur and project income, with savings covering any gap.')+
-      tile('Full-freedom age',R.fullAge?R.fullAge:'60+',R.fullAge?`${yrsTo(R.fullAge)} · target ${short(R.fullT(R.fullAge))}`:'not reached by 60','','#money','Earliest age when savings alone could pay the full family cost forever, even with zero other income.')+
-      tile('Your switch age',R.sw,`money ${lasts}`,R.lastsAge?'bad':'good','#money','The age you plan to leave the job. Change it with the slider in the Money section.')+
-      tile('Monthly income (full scale)',inr(R.incFull),`vs family cost ${inr(R.costFinal)}`,R.incFull>=R.costFinal?'good':'','#incStack','Gur + vegetables + orchard + dairy + own projects, once everything is running at full scale.')+
+      tile('Slow-life age',R.slowAge?R.slowAge:'60+',R.slowAge?`${yrsTo(R.slowAge)} · target ${short(R.slowT(R.slowAge))}`:'not reached by 60',R.slowAge&&R.slowAge<=40?'good':'','#freedom','Earliest age (if you kept working) when savings are enough to leave the job and live on farm, gur and project income, with savings covering any gap.')+
+      tile('Full-freedom age',R.fullAge?R.fullAge:'60+',R.fullAge?`${yrsTo(R.fullAge)} · target ${short(R.fullT(R.fullAge))}`:'not reached by 60','','#freedom','Earliest age when savings alone could pay the full family cost forever, even with zero other income.')+
+      tile('Your switch age',R.sw,`money ${lasts}`,R.lastsAge?'bad':'good','#start','The age you plan to leave the job. Change it with the slider in Starting point.')+
+      tile('Monthly gap after switch',(R.gapM>0?'−':'+')+inr(Math.abs(R.gapM)),R.gapM>0?`paid from savings · returns ≈ ${inr(R.retM)}/mo`:'income covers all costs',R.gapM>0&&R.retM<R.gapM?'bad':'good','#coverBox','Monthly family cost minus monthly income at full scale. A gap is paid from savings; step 4 shows how.')+
       tile('Gur season profit',short(R.profit),`${R.sold.toFixed(1)} t sold · ${inr(R.profit/12)}/month`,R.profit<0?'bad':'','#gur','Revenue from all sales channels minus cane, making, packing and fixed costs for one season.')+
       tile('Savings at age 60',short(R.corpus60),`with a switch at ${R.sw}`,R.corpus60<0?'bad':'','#flowChart','Projected savings at 60 after all withdrawals and one-time costs, in today’s money.');
     // income stack
     const parts=[['Gur',R.gurM,COL.gur],['Vegetables',R.vegM,COL.veg],['Orchard',R.orchM,COL.orch],['Dairy',R.dairyM,COL.dairy],['Own projects',R.projM,COL.proj]].filter(p=>p[1]>0);
-    const tot=Math.max(R.incFull,R.costFinal,1), sum=parts.reduce((t,p)=>t+p[1],0)||1, diff=R.incFull-R.costFinal;
+    const tot=Math.max(R.incFull,1), sum=parts.reduce((t,p)=>t+p[1],0)||1, diff=R.incFull-R.costFinal;
     const GO={Gur:'#gur',Vegetables:'#land',Orchard:'#land',Dairy:'#land','Own projects':'#land'};
     let h='<div class="stack">'+parts.map(p=>`<div style="flex:0 0 ${p[1]/tot*100}%;background:${p[2]}" data-tip="<b>${p[0]}</b><br>${inr(p[1])} a month · ${Math.round(p[1]/sum*100)}% of income">${p[1]/tot>=.2?p[0]:''}</div>`).join('')+'</div>';
-    {const pc=Math.min(100,R.costFinal/tot*100);h+=`<div class="costline"><span style="left:${pc}%;transform:translateX(${pc>70?'-100%':pc<30?'0':'-50%'})">▲ family cost ${inr(R.costFinal)}</span></div>`}
+    {const pc=Math.min(100,R.costFinal/tot*100);if(false)h+=`<div class="costline"><span style="left:${pc}%;transform:translateX(${pc>70?'-100%':pc<30?'0':'-50%'})">▲ family cost ${inr(R.costFinal)}</span></div>`}
     h+='<div class="flow" style="margin-top:14px">'+parts.map(p=>`<div class="frow" data-go="${GO[p[0]]}"><span style="display:flex;align-items:center;gap:10px"><i style="width:10px;height:10px;border-radius:3px;background:${p[2]};display:inline-block"></i>${p[0]}</span><span style="display:flex;gap:14px;align-items:baseline"><span class="hint" style="margin:0">${Math.round(p[1]/sum*100)}%</span><b>${inr(p[1])}</b></span></div>`).join('')+
-      `<div class="frow"><span><b>Total income</b></span><b>${inr(R.incFull)}</b></div>`+
-      `<div class="frow" data-go="#budget"><span>Family cost (${st.money.costMode==='manual'?'fixed':'family stage'})</span><b>${inr(R.costFinal)}</b></div>`+
-      `<div class="frow total ${diff<0?'neg':''}"><span>${diff>=0?'Surplus each month':'Gap savings must cover'}</span><b style="color:${diff>=0?'var(--green)':'var(--rose)'}">${diff>=0?'+':'−'}${inr(Math.abs(diff))}</b></div></div>`;
+      `<div class="frow total"><span>Total monthly income</span><b>${inr(R.incFull)}</b></div></div>`;
     h+=st.money.incMode==='manual'?'<p class="hint">Income is set manually in the Money section, so these parts are shown for reference only.</p>':`<p class="hint">Full scale from age ${num(st.ramp.start)+Math.max(1,num(st.ramp.years))-1}; it builds up from age ${num(st.ramp.start)}. Orchard income starts at ${num(st.land.orchStart)}.</p>`;
 
     {const g=R.gapM,yrs=12;let v,cls,rows='';
-      rows+=`<div class="frow" data-go="#money"><span>Savings when you switch (age ${R.sw})</span><b>${short(R.corpusSwitch)}</b></div>`;
+      const top=`<div class="cover-grid" style="margin-bottom:10px"><div class="frow" data-go="#incomeTotal"><span>Monthly income (full scale)</span><b>${inr(R.incFull)}</b></div><div class="frow" data-go="#costs"><span>Family cost (${st.money.costMode==='manual'?'fixed':'family stage'})</span><b>${inr(R.costFinal)}</b></div><div class="frow total ${g>0?'neg':''}"><span>${g>0?'Gap paid from savings':'Surplus each month'}</span><b style="color:${g>0?'var(--rose)':'var(--green)'}">${g>0?'−':'+'}${inr(Math.abs(g))}</b></div></div>`;
+      rows+=`<div class="frow" data-go="#start"><span>Savings when you switch (age ${R.sw})</span><b>${short(R.corpusSwitch)}</b></div>`;
       rows+=`<div class="frow"><span>They earn above inflation (${num(st.money.rPost)}% a year)</span><b>≈ ${inr(R.retM)}/month</b></div>`;
       rows+=`<div class="frow"><span>Safe withdrawal limit (${num(st.money.swr)}% a year)</span><b>≈ ${inr(R.safeM)}/month</b></div>`;
       if(g<=0){v=`No gap. The surplus of ${inr(-g)} a month can go back into savings, and the returns of about ${inr(R.retM)} a month keep growing your savings.`;cls='ok'}
       else if(R.retM>=g){v=`Covered by returns. The ${inr(g)} gap (${short(g*12)} a year) is paid by withdrawing from savings, but your savings earn about ${inr(R.retM)} a month, more than the gap. So you only spend part of the returns and your savings keep growing.`;cls='ok'}
       else if(R.safeM>=g){v=`Covered within the safe limit. Returns (${inr(R.retM)}/month) don't cover all of the ${inr(g)} gap, so savings shrink slowly, but the withdrawal stays below the safe limit of ${inr(R.safeM)}/month.`;cls='warn'}
       else{v=`Not covered safely. The ${inr(g)} gap is more than the safe limit of ${inr(R.safeM)}/month, so savings ${R.lastsAge?'run out around age '+R.lastsAge:'shrink fast'}. Raise income, lower costs, or switch later.`;cls='bad'}
-      $('#coverBox').innerHTML=`<div class="cover" style="margin:0;border:none;background:none;padding:0"><h5>How the monthly gap is covered<span class="info" tabindex="0" data-tip="After you leave the job, any month where family costs are more than your farm, gur and project income is paid from savings. Savings keep earning returns at the same time.">i</span></h5><div class="cover-grid">${rows}</div><p class="verdict ${cls}">${v}</p><p class="hint" style="margin-top:6px">One-time costs (wedding, home, education) also come out of savings in the year they happen. <a href="#flowChart" data-go="#flowChart" style="color:var(--accent);font-weight:600">See every year’s added, returns and withdrawals →</a></p></div>`}
+      $('#coverBox').innerHTML=`<div class="cover" style="margin:0;border:none;background:none;padding:0"><h5>The monthly picture after you switch<span class="info" tabindex="0" data-tip="After you leave the job, any month where family costs are more than your farm, gur and project income is paid from savings. Savings keep earning returns at the same time.">i</span></h5>${top}<div class="lbl" style="margin:4px 0 8px">How the gap is covered</div><div class="cover-grid">${rows}</div><p class="verdict ${cls}">${v}</p><p class="hint" style="margin-top:6px">One-time costs (wedding, home, education) also come out of savings in the year they happen. <a href="#flowChart" data-go="#flowChart" style="color:var(--accent);font-weight:600">See every year’s added, returns and withdrawals below ↓</a></p></div>`}
     $('#incStack').innerHTML=h;
     $('#gateList').innerHTML=st.phases.map((p,i)=>{const g=R.gates[p.gate];return`<div class="grow" data-go="phase:${i}"><div><b>${esc(p.n)} · ${esc(p.t)}</b> <span class="go" style="float:none">open →</span><div class="hint" style="margin:2px 0 0">${esc(g.text)}</div></div><div class="pills">${planPill(g)}${statusPill(i)}</div></div>`}).join('');
   }
@@ -1024,7 +1102,7 @@ details.ytable[open] summary::before{content:"▾ ";}
     $('#m3').textContent=R.lastsAge?'age '+R.lastsAge:R.H+'+';$('#m3s').textContent=R.lastsAge?'savings run out':'savings never run out';
     $('#costManualWrap').style.display=st.money.costMode==='manual'?'':'none';
     $('#incManualWrap').style.display=st.money.incMode==='manual'?'':'none';
-    drawLife();drawFlow();
+    drawLife();drawFlow();drawMonth();
   }
   function drawLife(){
     const svg=$('#lifeChart');if(!svg)return;const W=Math.max(320,Math.round(svg.clientWidth||700)),H=Math.max(300,Math.round(svg.clientHeight||440));svg.setAttribute('viewBox',`0 0 ${W} ${H}`);const pl=56,pr=14,pt=26,pb=30;
@@ -1256,13 +1334,14 @@ details.ytable[open] summary::before{content:"▾ ";}
   $('.brand').addEventListener('click',e=>{e.preventDefault();window.scrollTo({top:0,behavior:'smooth'});history.replaceState(null,'',location.pathname+location.search)});
   /* theme / reveal / nav */
   const root=document.documentElement;root.setAttribute('data-theme',LS.get('fp-theme','light'));
-  $('#themeBtn').onclick=()=>{const t=root.getAttribute('data-theme')==='dark'?'light':'dark';root.setAttribute('data-theme',t);LS.set('fp-theme',t);drawLife();drawGurChart();drawFlow()};
+  $('#themeBtn').onclick=()=>{const t=root.getAttribute('data-theme')==='dark'?'light':'dark';root.setAttribute('data-theme',t);LS.set('fp-theme',t);drawLife();drawGurChart();drawFlow();drawMonth()};
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.08});
   $$('.reveal').forEach(el=>io.observe(el));
   const links=$$('#links a');
   const secIO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id))}),{rootMargin:'-45% 0px -50% 0px'});
   $$('section[id]').forEach(s=>secIO.observe(s));
-  window.addEventListener('resize',()=>{drawLife();drawGurChart();drawFlow()});
+  window.addEventListener('resize',()=>{drawLife();drawGurChart();drawFlow();drawMonth()});
+  $('#showOT').addEventListener('change',drawFlow);
   $('#yTable').closest('details').addEventListener('toggle',e=>{if(e.target.open)renderYTable()});
 
   rebuildAll();
