@@ -507,6 +507,13 @@ body{padding-bottom:80px}
 .shead .big{font-family:"Fraunces",Georgia,serif;font-size:34px;font-weight:600}
 @media (max-width:980px){.stress{grid-template-columns:1fr 1fr}.vbody{grid-template-columns:1fr}.vcol+.vcol{border-left:none;border-top:1px solid var(--line)}}
 @media (max-width:640px){.stress{grid-template-columns:1fr}#dock .dm span.opt{display:none}#dock{font-size:12px}}
+
+.vplan{display:flex;flex-direction:column;gap:6px;min-width:220px}
+.cmpbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.cmpbar .select select{height:36px;line-height:36px}
+.vplan .select select{height:40px;line-height:40px}
+.vacts{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.imp th{max-width:140px;overflow:hidden;text-overflow:ellipsis}
 </style>
 </head>
 <body>
@@ -1404,37 +1411,51 @@ body{padding-bottom:80px}
     ['Money lasts until',r=>r.lastsAge||r.H+1,v=>v>R.H?R.H+'+':'age '+v,1],
     ['Savings at 60',r=>r.corpus60,short,1],
     ['Slow-life age',r=>r.slowAge||61,v=>v>60?'60+':v,-1]];
-  let BASE=null,BASEN='';
-  function setBase(){BASE=clone(st);BASEN=store.cur}
+  let CMP=LS.get('ka-cmp',DEF);
+  const cmpName=()=>{if(!store.list[CMP]||CMP===store.cur){const o=Object.keys(store.list).filter(n=>n!==store.cur);CMP=store.cur!==DEF?DEF:(o[0]||DEF)}return CMP};
+  const planState=n=>n===store.cur?st:store.list[n];
+  const pOpts=(sel,skip)=>Object.keys(store.list).filter(n=>n!==skip).map(n=>`<option value="${esc(n)}" ${n===sel?'selected':''}>${esc(n)}${n===DEF?' (original numbers)':''}</option>`).join('');
   function renderVerdict(){
     const J=judge(R);const [ic,tt]=VT[J.level];
     let sub=J.level==='good'?`You can leave the job at ${R.sw}, live on land, gur and savings, and the money lasts beyond ${R.H}.`
       :J.level==='tight'?`It holds together, but with little room for error. See the warnings and the stress test below.`
-      :`With these numbers the plan fails. See what to change on the right.`;
+      :`With these numbers the plan fails. See what to change on the left.`;
     const fixes=J.level==='good'?[]:findFixes();
-    const B=BASE?compute(BASE):R;let chg=0;
-    const rows=MET.map(([n,f,fmt,dir])=>{const a=f(B,BASE||st),b=f(R,st);const d=b-a;const same=Math.abs(d)<(n==='Verdict'?0.5:1);if(!same)chg++;
-      const cls=same?'same':(d*dir>0?'up':'down');const arr=same?'—':(d>0?'▲':'▼');
-      return`<tr><td>${n}</td><td>${fmt(a)}</td><td>${fmt(b)}</td><td class="${cls}">${arr}</td></tr>`}).join('');
+    const cn=cmpName(),same=cn===store.cur,cs=planState(cn),B=same?R:compute(cs);let chg=0;
+    const rows=MET.map(([n,f,fmt,dir])=>{const a=f(B,cs),b=f(R,st);const d=b-a;const eq=Math.abs(d)<(n==='Verdict'?0.5:1);if(!eq)chg++;
+      const cls=eq?'same':(d*dir>0?'up':'down');const arr=eq?'=':(d*dir>0?'better':'worse');
+      return`<tr><td>${n}</td><td>${fmt(a)}</td><td><b>${fmt(b)}</b></td><td class="${cls}" style="font-size:12px">${arr}</td></tr>`}).join('');
+    const onDef=store.cur===DEF,many=Object.keys(store.list).length>1;
     $('#verdict').className=`card reveal in verdict-card v-${J.level}`;
-    $('#verdict').innerHTML=`<div class="vhead"><div class="vbadge">${ic}</div><div style="flex:1;min-width:240px"><div class="lbl">Will this plan work? · live verdict</div><div class="vtitle">${tt}</div><div class="vsub">${sub}</div></div></div>
+    $('#verdict').innerHTML=`<div class="vhead"><div class="vbadge">${ic}</div><div style="flex:1;min-width:240px"><div class="lbl">Will this plan work? · live verdict for <b>${esc(store.cur)}</b></div><div class="vtitle">${tt}</div><div class="vsub">${sub}</div></div>
+        <div class="vplan"><label class="lbl" for="vPlan">Open plan</label><div class="select"><select id="vPlan">${pOpts(store.cur)}</select></div></div></div>
       <div class="vbody"><div class="vcol"><h5>Why</h5>${J.checks.map(c=>`<div class="chk-row" data-go="${c.go}"><span class="ci ${c.l}">${c.l==='ok'?'✓':c.l==='warn'?'!':'✕'}</span><div>${c.t}<small>${c.d}</small></div></div>`).join('')}
         ${fixes.length?`<div class="fixes"><b>To make it work</b><ul>${fixes.map(f=>`<li>${f}</li>`).join('')}</ul></div>`:''}</div>
-      <div class="vcol imp"><h5>Impact of your changes${I_('“Before” is what the plan looked like when you opened the page, switched scenario, or last pressed “Compare from now”. Change anything — for example land to 10 bigha — and “Now” updates instantly so you can see the impact. “Reset to default numbers” puts every number back to the Default plan’s original values; your phase tasks, calendar and rules are kept.')}</h5>
-        <table><thead><tr><th></th><th>Before</th><th>Now</th><th></th></tr></thead><tbody>${rows}</tbody></table>
-        <div class="bl"><span class="hint" style="margin:0">${chg?`${chg} result${chg>1?'s':''} changed`:'No changes yet — edit any number to see the impact'}</span><span style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" id="resetDef" type="button">↺ Reset to default numbers</button><button class="btn sm" id="setBase" type="button">Compare from now</button></span></div></div></div>`;
-    $('#setBase').onclick=()=>{setBase();renderVerdict();renderDock();flash('“Before” is now your current numbers')};
-    $('#resetDef').onclick=e=>armReset(e.currentTarget);
+      <div class="vcol imp"><h5>Compare plans${I_('The open plan is the one every section of this page is showing and editing. Pick any other saved plan to compare it side by side. “Open” switches the whole page to that plan.')}</h5>
+        ${many?`<div class="cmpbar"><span class="hint" style="margin:0">Compare <b>${esc(store.cur)}</b> with</span><div class="select" style="flex:1;min-width:180px"><select id="vCmp">${pOpts(cn,store.cur)}</select></div></div>
+        <table><thead><tr><th></th><th>${esc(cn)}</th><th>${esc(store.cur)} <span style="text-transform:none;letter-spacing:0">(open)</span></th><th></th></tr></thead><tbody>${rows}</tbody></table>
+        <div class="bl"><span class="hint" style="margin:0">${chg?`${chg} result${chg>1?'s':''} differ between the two plans`:'Both plans give the same results'}</span></div>`
+        :`<p class="hint" style="margin:0 0 10px">You only have the Default plan. Change any number and your edits are saved as a new plan, which you can then compare here.</p>`}
+        <div class="vacts">
+          ${many?`<button class="btn sm primary" id="vOpen" type="button">Open “${esc(cn)}”</button>`:''}
+          <button class="btn sm" id="vSave" type="button">＋ Save a copy as new plan</button>
+          ${onDef?'':`<button class="btn sm" id="resetDef" type="button">↺ Reset “${esc(store.cur)}” to Default plan numbers</button>`}
+        </div></div></div>`;
+    $('#vPlan').onchange=e=>{loadScen(e.target.value);flash(`Opened “${e.target.value}”`)};
+    if($('#vCmp'))$('#vCmp').onchange=e=>{CMP=e.target.value;LS.set('ka-cmp',CMP);renderVerdict();renderDock()};
+    if($('#vOpen'))$('#vOpen').onclick=()=>{const t=cn;CMP=store.cur;LS.set('ka-cmp',CMP);loadScen(t);flash(`Opened “${t}”`)};
+    $('#vSave').onclick=()=>{let n='My plan',i=2;while(store.list[n])n='My plan '+(i++);persist();store.list[n]=clone(st);const prev=store.cur;CMP=prev;LS.set('ka-cmp',CMP);loadScen(n);flash(`Saved a copy as “${n}” and opened it`)};
+    if($('#resetDef'))$('#resetDef').onclick=e=>armReset(e.currentTarget);
   }
   const I_=t=>`<span class="info" tabindex="0" data-tip="${esc(t)}">i</span>`;
   let lastLevel=null;
   function renderDock(){
-    const J=judge(R);const [ic,tt]=VT[J.level];const B=BASE?compute(BASE):R;
+    const J=judge(R);const [ic,tt]=VT[J.level];const cn=cmpName(),B=cn===store.cur?R:compute(planState(cn));
     const la=B.lastsAge||B.H+1,lb=R.lastsAge||R.H+1;
-    let delta='';if(BASE){const parts=[];if(lb!==la)parts.push(`money lasts ${la>R.H?R.H+'+':la} → ${lb>R.H?R.H+'+':lb}`);const ga=B.incFull-B.costFinal,gb=R.incFull-R.costFinal;if(Math.abs(gb-ga)>=1)parts.push(`gap ${inr(ga)} → ${inr(gb)}`);
-      if(parts.length)delta=`<span class="dd ${lb<la||gb<ga?'down':'up'}">vs before: ${parts.join(' · ')}</span>`}
+    let delta='';if(cn!==store.cur){const parts=[];if(lb!==la)parts.push(`money lasts ${la>R.H?R.H+'+':la} → ${lb>R.H?R.H+'+':lb}`);const ga=B.incFull-B.costFinal,gb=R.incFull-R.costFinal;if(Math.abs(gb-ga)>=1)parts.push(`gap ${inr(ga)} → ${inr(gb)}`);
+      if(parts.length)delta=`<span class="dd ${lb<la||gb<ga?'down':'up'}">vs ${esc(cn)}: ${parts.join(' · ')}</span>`}
     const g=R.incFull-R.costFinal;
-    $('#dock').innerHTML=`<span class="db ${J.level}">${ic} ${tt}</span><span class="dm"><span>Switch <b>${R.sw}</b></span><span>Lasts <b>${R.lastsAge?'till '+R.lastsAge:R.H+'+'}</b></span><span class="opt">Gap <b>${g<0?'−':'+'}${inr(Math.abs(g))}/mo</b></span><span class="opt">At 60 <b>${short(R.corpus60)}</b></span></span>${delta}`;
+    $('#dock').innerHTML=`<span class="db ${J.level}">${ic} ${tt}</span><span class="dm"><b>${esc(store.cur)}</b></span><span class="dm"><span>Switch <b>${R.sw}</b></span><span>Lasts <b>${R.lastsAge?'till '+R.lastsAge:R.H+'+'}</b></span><span class="opt">Gap <b>${g<0?'−':'+'}${inr(Math.abs(g))}/mo</b></span><span class="opt">At 60 <b>${short(R.corpus60)}</b></span></span>${delta}`;
     if(lastLevel&&lastLevel!==J.level){const d=$('#dock');d.classList.remove('flashy');void d.offsetWidth;d.classList.add('flashy')}lastLevel=J.level;
   }
   $('#dock').addEventListener('click',()=>{const v=$('#verdict');window.scrollTo({top:v.getBoundingClientRect().top+scrollY-90,behavior:'smooth'})});
@@ -1480,9 +1501,9 @@ body{padding-bottom:80px}
   $('#scenSel').onchange=e=>loadScen(e.target.value);
   $('#scenSave').onclick=()=>{let n=$('#scenName').value.trim();if(!n){n='Scenario '+(Object.keys(store.list).length+1)}let b=n,i=2;while(store.list[n])n=b+' '+(i++);persist();store.list[n]=clone(st);$('#scenName').value='';loadScen(n);flash('Saved as “'+n+'”')};
   $('#scenDel').onclick=()=>{if(store.cur===DEF)return;delete store.list[store.cur];store.cur=DEF;st=store.list[store.cur];LS.set('ka-store',store);rebuildAll();flash('Scenario removed')};
-  function resetDefaults(){const keep={phases:st.phases,calendar:st.calendar,rules:st.rules};const d=defaults();Object.assign(d,clone(keep));const old=BASE?clone(st):null;store.list[store.cur]=st=d;LS.set('ka-store',store);rebuildAll();if(old){BASE=old;renderVerdict();renderDock()}flash('All numbers are back to the default settings')}
+  function resetDefaults(){const keep={phases:st.phases,calendar:st.calendar,rules:st.rules};const d=defaults();Object.assign(d,clone(keep));store.list[store.cur]=st=d;LS.set('ka-store',store);rebuildAll();flash(`“${store.cur}” now has the Default plan numbers`)}
   function armReset(btn){if(btn.dataset.armed){delete btn.dataset.armed;clearTimeout(btn._t);btn.textContent=btn.dataset.label;resetDefaults();return}
-    btn.dataset.label=btn.dataset.label||btn.textContent;btn.dataset.armed='1';btn.textContent='Click again to confirm';btn._t=setTimeout(()=>{delete btn.dataset.armed;btn.textContent=btn.dataset.label},3500)}
+    btn.dataset.label=btn.dataset.label||btn.textContent;btn.dataset.armed='1';btn.textContent='Click again to reset';btn._t=setTimeout(()=>{delete btn.dataset.armed;btn.textContent=btn.dataset.label},3500)}
   $('#scenReset').onclick=e=>armReset(e.currentTarget);
   $('#scenExp').onclick=()=>{persist();const b=new Blob([JSON.stringify(store,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='khet-azaadi-scenarios.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
   $('#scenImp').onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{const s=JSON.parse(rd.result);if(!s.list)throw 0;for(const k in s.list)store.list[k]=merge(defaults(),s.list[k]);store.cur=s.cur&&store.list[s.cur]?s.cur:Object.keys(s.list)[0];st=store.list[store.cur];LS.set('ka-store',store);rebuildAll();flash('Scenarios imported')}catch(err){flash('That file could not be read')}};rd.readAsText(f);e.target.value=''};
@@ -1505,7 +1526,7 @@ body{padding-bottom:80px}
     R=compute(st);persist();paintRanges();
     renderHero();renderOverview();renderMoney();renderGur();renderLand();renderBudget();renderTabs();renderPhaseGate();renderStress();renderCompare();renderVerdict();renderDock();renderReal();
   }
-  function rebuildAll(){setBase();renderScen();buildLand();buildBudget();buildOT();buildRules();populate();R=compute(st);if(curPhase>=st.phases.length)curPhase=0;buildPhase();renderMonths();refresh()}
+  function rebuildAll(){renderScen();buildLand();buildBudget();buildOT();buildRules();populate();R=compute(st);if(curPhase>=st.phases.length)curPhase=0;buildPhase();renderMonths();refresh()}
   $('#areaFilter').onchange=buildPhase;
   $('#monthSel').onchange=e=>{selM=+e.target.value;renderMonths()};
   $('#calFilter').onchange=renderMonths;
