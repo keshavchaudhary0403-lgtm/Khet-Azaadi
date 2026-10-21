@@ -588,12 +588,12 @@ body{padding-bottom:80px}
         <div class="acts">
           <button class="btn primary" id="scenSave">Save as new</button>
           <button class="btn danger" id="scenDel">Delete</button>
-          <button class="btn" id="scenReset">Reset to defaults</button>
+          <button class="btn" id="scenReset">Reset to default numbers</button>
           <button class="btn" id="scenExp">Export</button>
           <label class="btn file-btn">Import<input type="file" id="scenImp" accept="application/json"></label>
         </div>
       </div>
-      <p class="hint">“Default plan” always keeps the original numbers and can’t be deleted — if you change anything while it is selected, your edits are saved as a new “My plan”. Other scenarios save edits automatically. To test a new approach, first “Save as new”, then change that copy — your original stays as it was. Export keeps a backup file you can import on another device.</p>
+      <p class="hint">“Default plan” always keeps the original numbers and can’t be deleted — if you change anything while it is selected, your edits are saved as a new “My plan”. Your own scenarios save edits automatically, and “Reset to default numbers” puts a scenario back to the Default plan’s values. To test a new approach, first “Save as new”, then change that copy — your original stays as it was. Export keeps a backup file you can import on another device.</p>
     </div>
       <div class="card reveal fill"><div class="lbl" style="margin-bottom:10px">Phases · plan check and your progress</div><div id="gateList" class="fill-list"></div></div>
     </div>
@@ -940,7 +940,7 @@ body{padding-bottom:80px}
       if(!x.qFix){const raw=(rawStore&&rawStore.list&&rawStore.list[k])||{};if(raw.land&&raw.land.yieldT!=null&&raw.land.yieldQ==null)x.land.yieldQ=Math.round(num(x.land.yieldT===32?24:raw.land.yieldT)*10);if(raw.gur&&raw.gur.boughtCane!=null&&raw.gur.boughtCaneQ==null)x.gur.boughtCaneQ=num(raw.gur.boughtCane)*10;delete x.land.yieldT;delete x.gur.boughtCane;const Q=t=>t.replace(/1–2 tonnes/g,'10–20 quintal').replace(/5–8 tonnes/g,'50–80 quintal').replace(/10\+ tonnes/g,'100+ quintal');x.phases.forEach(ph=>Object.values(ph.items).forEach(a=>a.forEach(it=>it.t=Q(it.t))));x.qFix=true}
       {const raw=(rawStore&&rawStore.list&&rawStore.list[k])||{};const rm=raw.money||{},rl=raw.land||{};if(rm.nPre==null&&rm.rPre!=null)x.money.nPre=Math.round(((1+num(rm.rPre)/100)*1.055-1)*1000)/10;if(rm.nPost==null&&rm.rPost!=null)x.money.nPost=Math.round(((1+num(rm.rPost)/100)*1.055-1)*1000)/10;if(rl.yieldQB==null){const q=x.land.yieldQ!=null?num(x.land.yieldQ):(rl.yieldQ!=null?num(rl.yieldQ):null);if(q!=null)x.land.yieldQB=Math.round(q*0.1563*10)/10}delete x.money.rPre;delete x.money.rPost;delete x.land.yieldQ}}
   {const keepD=store.list[DEF]||store.list['Base plan'];const d=defaults();if(keepD){d.phases=keepD.phases;d.calendar=keepD.calendar;d.rules=keepD.rules}
-    const rest={};for(const k in store.list)if(k!==DEF)rest[k]=store.list[k];store.list=Object.assign({[DEF]:d},rest)}
+    const rest={};for(const k in store.list)if(k!==DEF){let nk=k;if(k==='Base plan'){nk='My plan';let i=2;while(store.list[nk]&&nk!==k)nk='My plan '+(i++)}rest[nk]=store.list[k]}if(store.cur==='Base plan')store.cur=Object.keys(rest).find(n=>rest[n]===store.list['Base plan'])||DEF;store.list=Object.assign({[DEF]:d},rest)}
   if(!store.list[store.cur])store.cur=DEF;
   let st=store.list[store.cur];
   const numKey=x=>{const c=clone(x);delete c.phases;delete c.calendar;delete c.rules;delete c.p0done;delete c.yieldFix;delete c.qFix;if(c.budget)delete c.budget.stage;return JSON.stringify(c)};
@@ -1420,10 +1420,10 @@ body{padding-bottom:80px}
     $('#verdict').innerHTML=`<div class="vhead"><div class="vbadge">${ic}</div><div style="flex:1;min-width:240px"><div class="lbl">Will this plan work? · live verdict</div><div class="vtitle">${tt}</div><div class="vsub">${sub}</div></div></div>
       <div class="vbody"><div class="vcol"><h5>Why</h5>${J.checks.map(c=>`<div class="chk-row" data-go="${c.go}"><span class="ci ${c.l}">${c.l==='ok'?'✓':c.l==='warn'?'!':'✕'}</span><div>${c.t}<small>${c.d}</small></div></div>`).join('')}
         ${fixes.length?`<div class="fixes"><b>To make it work</b><ul>${fixes.map(f=>`<li>${f}</li>`).join('')}</ul></div>`:''}</div>
-      <div class="vcol imp"><h5>Impact of your changes${I_('Compares the plan now with a baseline: the numbers when you opened the page or loaded this scenario. “Reset to defaults” puts every number back to the original settings (your phase tasks, calendar and rules are kept) and shows what changed. Change anything, such as land to 10 bigha, and every result here updates. Press “Set as baseline” to compare future changes against the current numbers.')}</h5>
-        <table><thead><tr><th></th><th>Baseline</th><th>Now</th><th></th></tr></thead><tbody>${rows}</tbody></table>
-        <div class="bl"><span class="hint" style="margin:0">${chg?`${chg} result${chg>1?'s':''} changed since the baseline`:'No changes since the baseline'}</span><span style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" id="resetDef" type="button">↺ Reset to defaults</button><button class="btn sm" id="setBase" type="button">Set as baseline</button></span></div></div></div>`;
-    $('#setBase').onclick=()=>{setBase();renderVerdict();renderDock();flash('Baseline updated')};
+      <div class="vcol imp"><h5>Impact of your changes${I_('“Before” is what the plan looked like when you opened the page, switched scenario, or last pressed “Compare from now”. Change anything — for example land to 10 bigha — and “Now” updates instantly so you can see the impact. “Reset to default numbers” puts every number back to the Default plan’s original values; your phase tasks, calendar and rules are kept.')}</h5>
+        <table><thead><tr><th></th><th>Before</th><th>Now</th><th></th></tr></thead><tbody>${rows}</tbody></table>
+        <div class="bl"><span class="hint" style="margin:0">${chg?`${chg} result${chg>1?'s':''} changed`:'No changes yet — edit any number to see the impact'}</span><span style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" id="resetDef" type="button">↺ Reset to default numbers</button><button class="btn sm" id="setBase" type="button">Compare from now</button></span></div></div></div>`;
+    $('#setBase').onclick=()=>{setBase();renderVerdict();renderDock();flash('“Before” is now your current numbers')};
     $('#resetDef').onclick=e=>armReset(e.currentTarget);
   }
   const I_=t=>`<span class="info" tabindex="0" data-tip="${esc(t)}">i</span>`;
@@ -1432,7 +1432,7 @@ body{padding-bottom:80px}
     const J=judge(R);const [ic,tt]=VT[J.level];const B=BASE?compute(BASE):R;
     const la=B.lastsAge||B.H+1,lb=R.lastsAge||R.H+1;
     let delta='';if(BASE){const parts=[];if(lb!==la)parts.push(`money lasts ${la>R.H?R.H+'+':la} → ${lb>R.H?R.H+'+':lb}`);const ga=B.incFull-B.costFinal,gb=R.incFull-R.costFinal;if(Math.abs(gb-ga)>=1)parts.push(`gap ${inr(ga)} → ${inr(gb)}`);
-      if(parts.length)delta=`<span class="dd ${lb<la||gb<ga?'down':'up'}">vs baseline: ${parts.join(' · ')}</span>`}
+      if(parts.length)delta=`<span class="dd ${lb<la||gb<ga?'down':'up'}">vs before: ${parts.join(' · ')}</span>`}
     const g=R.incFull-R.costFinal;
     $('#dock').innerHTML=`<span class="db ${J.level}">${ic} ${tt}</span><span class="dm"><span>Switch <b>${R.sw}</b></span><span>Lasts <b>${R.lastsAge?'till '+R.lastsAge:R.H+'+'}</b></span><span class="opt">Gap <b>${g<0?'−':'+'}${inr(Math.abs(g))}/mo</b></span><span class="opt">At 60 <b>${short(R.corpus60)}</b></span></span>${delta}`;
     if(lastLevel&&lastLevel!==J.level){const d=$('#dock');d.classList.remove('flashy');void d.offsetWidth;d.classList.add('flashy')}lastLevel=J.level;
