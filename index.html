@@ -423,7 +423,7 @@ details.ytable[open] summary::before{content:"▾ ";}
 .step .st{font-weight:700;font-size:15px;display:flex;align-items:center}
 .step .sv{font-family:"Fraunces",Georgia,serif;font-size:24px;font-weight:600;margin-top:10px;letter-spacing:-.02em}
 .step .ss{font-size:12.5px;color:var(--faint)}
-.step.out{background:var(--green-soft);border-color:color-mix(in srgb,var(--green) 30%,transparent)}
+.step.out{background:var(--green-soft);border-color:color-mix(in srgb,var(--green) 30%,transparent)}.step.out.vtight{background:var(--amber-soft);border-color:color-mix(in srgb,var(--amber) 35%,transparent)}.step.out.vbad{background:var(--rose-soft);border-color:color-mix(in srgb,var(--rose) 35%,transparent)}
 #freedom .results{margin-bottom:16px}
 .ftoggle{display:inline-flex;gap:8px;align-items:center;font-size:13px;cursor:pointer;user-select:none}
 .ftoggle input{accent-color:var(--green);width:16px;height:16px}
@@ -450,6 +450,63 @@ details.ytable[open] summary::before{content:"▾ ";}
 .hl{animation:hlp 1s ease-out 2;outline:2px solid var(--accent);outline-offset:2px;transition:outline-color 1s}
 .hl.hl-out{outline-color:transparent}
 .frow[data-tip]{cursor:pointer}
+
+/* verdict */
+.realbox{font-size:13px;padding:10px 12px;border-radius:12px;background:var(--surface-2);border:1px dashed var(--line-2);color:var(--muted)}
+.realbox b{color:var(--text)}
+.verdict-card{margin-bottom:16px;padding:0;overflow:hidden}
+.vhead{display:flex;gap:18px;align-items:center;padding:22px 24px;flex-wrap:wrap}
+.vbadge{flex:none;width:58px;height:58px;border-radius:16px;display:grid;place-items:center;font-size:28px;font-weight:800;color:#fff}
+.v-good .vbadge{background:var(--green)} .v-tight .vbadge{background:var(--amber)} .v-bad .vbadge{background:var(--rose)}
+.v-good{background:linear-gradient(90deg,var(--green-soft),transparent 70%)} .v-tight{background:linear-gradient(90deg,var(--amber-soft),transparent 70%)} .v-bad{background:linear-gradient(90deg,var(--rose-soft),transparent 70%)}
+.vtitle{font-family:"Fraunces",Georgia,serif;font-size:clamp(22px,2.4vw,30px);font-weight:600;letter-spacing:-.015em;line-height:1.15}
+.vsub{color:var(--muted);font-size:14.5px;margin-top:4px}
+.vbody{display:grid;grid-template-columns:1.1fr 1fr;gap:0;border-top:1px solid var(--line)}
+.vcol{padding:18px 24px}
+.vcol+.vcol{border-left:1px solid var(--line)}
+.vcol h5{margin:0 0 10px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.chk-row{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px dashed var(--line);font-size:14px;cursor:pointer}
+.chk-row:last-child{border-bottom:none}
+.chk-row .ci{flex:none;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:800;color:#fff;margin-top:1px}
+.ci.ok{background:var(--green)} .ci.warn{background:var(--amber)} .ci.bad{background:var(--rose)}
+:root[data-theme="dark"] .ci{color:#12160f}
+.chk-row small{display:block;color:var(--faint);font-size:12.5px}
+.fixes{margin:12px 0 0;padding:12px 14px;border-radius:12px;background:var(--surface-2);font-size:13.5px}
+.fixes>b{display:block;margin-bottom:4px}
+.fixes li{margin:3px 0}
+.fixes ul{margin:0;padding-left:18px}
+.imp table{width:100%;border-collapse:collapse}
+.imp td,.imp th{padding:7px 4px;font-size:13.5px;border-bottom:1px dashed var(--line);text-align:right;white-space:nowrap}
+.imp th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600}
+.imp td:first-child,.imp th:first-child{text-align:left;white-space:normal}
+.up{color:var(--green);font-weight:700} .down{color:var(--rose);font-weight:700} .same{color:var(--faint)}
+.imp .bl{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap}
+.btn.sm{height:32px;padding:0 12px;font-size:12.5px}
+/* dock */
+#dock{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:80;display:flex;align-items:center;gap:12px;padding:8px 10px 8px 8px;border-radius:999px;background:var(--surface);border:1px solid var(--line-2);box-shadow:0 16px 40px -12px rgba(0,0,0,.35);font-size:13px;max-width:calc(100vw - 24px);cursor:pointer;transition:transform .25s,opacity .25s}
+#dock.hide{opacity:0;pointer-events:none;transform:translate(-50%,20px)}
+#dock .db{flex:none;padding:6px 12px;border-radius:999px;color:#fff;font-weight:700;white-space:nowrap}
+:root[data-theme="dark"] #dock .db{color:#12160f}
+#dock .db.good{background:var(--green)} #dock .db.tight{background:var(--amber)} #dock .db.bad{background:var(--rose)}
+#dock .dm{display:flex;gap:14px;overflow:hidden;white-space:nowrap}
+#dock .dm span{color:var(--muted)} #dock .dm b{color:var(--text)}
+#dock .dd{font-weight:700;white-space:nowrap}
+#dock.flashy{animation:hlp .9s ease-out 1}
+body{padding-bottom:80px}
+/* stress */
+.stress{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
+.sc{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:var(--shadow);border-top:4px solid var(--c)}
+.sc.good{--c:var(--green)} .sc.tight{--c:var(--amber)} .sc.bad{--c:var(--rose)}
+.sc h4{margin:0;font-size:16px;font-weight:700;display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.sc p{margin:4px 0 10px;font-size:13px;color:var(--muted)}
+.sc .row{display:flex;justify-content:space-between;gap:10px;font-size:13.5px;padding:6px 0;border-top:1px dashed var(--line)}
+.sc .row span{color:var(--muted)}
+.vpill{flex:none;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:99px;white-space:nowrap}
+.vpill.good{background:var(--green-soft);color:var(--green)} .vpill.tight{background:var(--amber-soft);color:var(--amber)} .vpill.bad{background:var(--rose-soft);color:var(--rose)}
+.shead{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.shead .big{font-family:"Fraunces",Georgia,serif;font-size:34px;font-weight:600}
+@media (max-width:980px){.stress{grid-template-columns:1fr 1fr}.vbody{grid-template-columns:1fr}.vcol+.vcol{border-left:none;border-top:1px solid var(--line)}}
+@media (max-width:640px){.stress{grid-template-columns:1fr}#dock .dm span.opt{display:none}#dock{font-size:12px}}
 </style>
 </head>
 <body>
@@ -519,7 +576,8 @@ details.ytable[open] summary::before{content:"▾ ";}
 
 <section id="summary">
   <div class="wrap">
-    <div class="sec-head reveal"><div><div class="num">at a glance</div><h2>Your plan at a glance</h2><p>The plan flows in four steps: what you start with, what you earn, what you spend, and when that makes you free. Every number is editable and everything updates together.</p></div></div>
+    <div class="sec-head reveal"><div><div class="num">at a glance</div><h2>Your plan at a glance</h2><p>The verdict below updates the moment you change anything. Then follow the four steps: what you start with, what you earn, what you spend, and when that makes you free.</p></div></div>
+    <div class="card reveal verdict-card" id="verdict"></div>
     <div class="steps reveal" id="steps"></div>
     <div class="tiles" id="tiles"></div>
     <div class="grid-2" style="margin-top:16px">
@@ -544,7 +602,7 @@ details.ytable[open] summary::before{content:"▾ ";}
 
 <section id="start">
   <div class="wrap">
-    <div class="sec-head reveal"><div><div class="num">step 1 · shuruaat</div><h2>Starting point</h2><p>What you have today, how much you keep saving, and how your savings grow. All figures are in today's money (inflation-adjusted).</p></div></div>
+    <div class="sec-head reveal"><div><div class="num">step 1 · shuruaat</div><h2>Starting point</h2><p>What you have today, how much you keep saving, and the returns you expect. Enter returns as normal yearly percentages; the plan removes inflation so every amount stays in today's rupees.</p></div></div>
     <div class="grid-2">
       <div class="card reveal" id="savingsCard"><div class="fgrid">
           <div class="group-t">savings</div>
@@ -556,10 +614,11 @@ details.ytable[open] summary::before{content:"▾ ";}
       </div></div>
       <div class="card reveal" id="returnsCard"><div class="fgrid">
           <div class="group-t">returns</div>
-          <div class="field"><label>Return while working (% above inflation)<span class="info" tabindex="0" data-tip="Growth of savings after removing inflation. 3.5% above inflation is roughly a balanced mix of FDs and equity funds. All amounts on this page are in today’s money.">i</span></label><input class="input" type="number" step="0.25" data-path="money.rPre" ></div>
-          <div class="field"><label>Return after switch (%)<span class="info" tabindex="0" data-tip="Usually a little lower than while working, because you hold safer investments once you depend on them.">i</span></label><input class="input" type="number" step="0.25" data-path="money.rPost" ></div>
-          <div class="field"><label>Safe withdrawal rate (%)<span class="info" tabindex="0" data-tip="The share of savings you can take out each year without running out over a very long life. 3.5% means ₹3.5 lakh a year per ₹1 crore saved.">i</span></label><input class="input" type="number" step="0.25" data-path="money.swr" ></div>
-          <p class="hint" style="grid-column:1/-1;margin:0">Rough guide: FD only ≈ 1.5%, balanced ≈ 3.5%, equity-heavy ≈ 5% above inflation.</p>
+          <div class="field"><label>Expected return while working (% a year)<span class="info" tabindex="0" data-tip="The normal yearly return you expect, the way banks and funds quote it. For example: FD ≈ 7%, a balanced mix of FDs and mutual funds ≈ 9%, mostly equity funds ≈ 11%.">i</span></label><input class="input" type="number" step="0.25" data-path="money.nPre"></div>
+          <div class="field"><label>Expected return after switch (% a year)<span class="info" tabindex="0" data-tip="Usually a little lower than while working, because you keep more in safer options like FDs once you live on this money.">i</span></label><input class="input" type="number" step="0.25" data-path="money.nPost"></div>
+          <div class="field"><label>Inflation (% a year)<span class="info" tabindex="0" data-tip="How fast prices rise each year. India's long-run average is around 5–6%. The plan removes inflation from your returns, so every amount on this page stays in today's rupees.">i</span></label><input class="input" type="number" step="0.25" data-path="money.infl"></div>
+          <div class="field"><label>Safe withdrawal rate (%)<span class="info" tabindex="0" data-tip="The share of savings you can take out each year without running out over a very long life. 3.5% means ₹3.5 lakh a year per ₹1 crore saved.">i</span></label><input class="input" type="number" step="0.25" data-path="money.swr"></div>
+          <div class="realbox" id="realHint" style="grid-column:1/-1"></div>
       </div></div>
     </div>
   </div>
@@ -580,9 +639,9 @@ details.ytable[open] summary::before{content:"▾ ";}
       <div class="card reveal" id="yieldsCard">
         <div class="fgrid">
           <div class="group-t">yields & income</div>
-          <div class="field"><label>Cane yield (quintal / acre) <span class="est">district avg ≈ 240</span></label><input class="input" type="number" step="5" min="0" data-path="land.yieldQ"></div>
-          <div class="field"><label>Vegetables net (₹ / bigha / year)</label><input class="input" type="number" step="1000" data-path="land.vegInc" ></div>
-          <div class="field"><label>Orchard net (₹ / bigha / year)</label><input class="input" type="number" step="1000" data-path="land.orchInc" ></div>
+          <div class="field"><label>Cane yield (quintal / bigha) <span class="est">district avg ≈ 37</span></label><input class="input" type="number" step="0.5" min="0" data-path="land.yieldQB"></div>
+          <div class="field"><label>Vegetables net (₹ / bigha / year)<span class="info" tabindex="0" data-tip="My rough estimate of profit after seeds, fertiliser, labour and transport, for mixed seasonal vegetables sold locally. It is multiplied by the bigha you give to vegetables, so 4 bigha earns twice what 2 bigha does. Real income depends on the crop, your labour and whether you can sell it all — replace it with local numbers.">i</span></label><input class="input" type="number" step="1000" data-path="land.vegInc" ></div>
+          <div class="field"><label>Orchard net (₹ / bigha / year)<span class="info" tabindex="0" data-tip="My rough estimate for guava, lemon, amla or mango once trees are mature. Trees take 3–4 years to fruit, so income only starts from the age you set. It is multiplied by the orchard bigha.">i</span></label><input class="input" type="number" step="1000" data-path="land.orchInc" ></div>
           <div class="field"><label>Orchard starts earning at age</label><input class="input" type="number" step="1" data-path="land.orchStart" ></div>
         </div>
         <div class="flow" id="landSum" style="margin-top:14px"></div>
@@ -598,7 +657,7 @@ details.ytable[open] summary::before{content:"▾ ";}
           <div class="field"><label>Income from your projects (₹ / month)</label><input class="input" type="number" step="1000" data-path="projects.monthly" ></div>
           <div class="field"><label>Starts at age</label><input class="input" type="number" step="1" data-path="projects.start" ></div>
         </div>
-        <div id="dairySum" style="margin-top:14px"></div>
+        <div id="dairySum" class="flow" style="margin-top:14px"></div>
       </div>
     </div>
     <p class="hint">Yields and incomes are rough starting estimates — replace them with your father's real numbers and local rates.</p>
@@ -616,8 +675,8 @@ details.ytable[open] summary::before{content:"▾ ";}
           <div class="field"><label>Loss / unsold (%)<span class="info" tabindex="0" data-tip="Gur lost to moisture, breakage or stock that doesn’t sell.">i</span></label><input class="input" type="number" step="1" data-path="gur.wastage" data-preset="#gurPreset" ></div>
           <div class="group-t">costs</div>
           <div class="field"><label>Cane price (₹/quintal)<span class="info" tabindex="0" data-tip="UP state advised price for cane sold to mills: ₹390–400 per quintal for 2025–26. Used as the value of your own cane.">i</span></label><input class="input" type="number" step="5" data-path="gur.canePrice" data-preset="#gurPreset" ></div>
-          <div class="field"><label>Making cost (₹/kg)</label><input class="input" type="number" step="1" data-path="gur.making" data-preset="#gurPreset" ></div>
-          <div class="field"><label>Fixed season costs (₹)</label><input class="input" type="number" step="5000" data-path="gur.fixed" data-preset="#gurPreset" ></div>
+          <div class="field"><label>Making cost (₹/kg)<span class="info" tabindex="0" data-tip="Cost per kg of gur for labour at the kolhu, fuel (bagasse plus wood) and lime/okra for cleaning. About ₹5–8 per kg is common.">i</span></label><input class="input" type="number" step="1" data-path="gur.making" data-preset="#gurPreset" ></div>
+          <div class="field"><label>Fixed season costs (₹)<span class="info" tabindex="0" data-tip="Costs you pay once a season however much gur you make: kolhu and pan repairs, shed upkeep, electricity connection, FSSAI renewal, scale and moulds, branding and photos. ₹30,000 is a starting guess.">i</span></label><input class="input" type="number" step="5000" data-path="gur.fixed" data-preset="#gurPreset" ></div>
           <div class="field"><label>Contractor rent (₹/season) <span class="est">enter actual</span></label><input class="input" type="number" step="5000" data-path="gur.rent" data-preset="#gurPreset"></div>
           <label class="toggle"><input type="checkbox" data-path="gur.ownAtMill" data-preset="#gurPreset"> Count our own cane at the mill price (true cost of not selling it to the mill)</label>
           <div class="group-t">sales channels</div>
@@ -726,16 +785,9 @@ details.ytable[open] summary::before{content:"▾ ";}
 
 <section id="whatif">
   <div class="wrap">
-    <div class="sec-head reveal"><div><div class="num">step 5 · what-if</div><h2>What moves the plan most</h2><p>Each row lowers one assumption (left half) and raises it (right half), keeping everything else the same. Longer bars matter more. Green is better, red is worse.</p></div>
-      <div class="toolbar" style="min-width:min(100%,440px)">
-        <div class="field"><label for="tMetric">Measure</label><div class="select"><select id="tMetric"><option value="slow">Slow-life age</option><option value="full">Full-freedom age</option><option value="c60">Savings at 60</option><option value="lasts">Money lasts until</option><option value="inc">Monthly income</option></select></div></div>
-        <div class="field"><label for="tRange">Change each by</label><div class="select"><select id="tRange"><option value="10">± 10%</option><option value="20" selected>± 20%</option><option value="30">± 30%</option></select></div></div>
-      </div>
-    </div>
-    <div class="card reveal">
-      <div class="lbl" id="tBase"></div>
-      <div class="tornado" id="tornado"></div>
-    </div>
+    <div class="sec-head reveal"><div><div class="num">step 5 · what-if</div><h2>What if things go wrong?<span class="info" tabindex="0" data-tip="We take your current plan and apply one bad event at a time, such as cheaper gur, a bad cane year or higher costs, keeping everything else the same. Each card shows whether the plan would still work and which numbers change. Use it to see which risks to protect against.">i</span></h2><p>Your current plan is tested against common shocks, one at a time. Each card shows whether the plan still works and what changes.</p></div></div>
+    <div class="card reveal" id="stressHead"></div>
+    <div class="stress" id="stress"></div>
     <div class="card reveal" style="margin-top:16px">
       <div class="lbl" style="margin-bottom:10px">Saved scenarios side by side</div>
       <div class="cmp" id="cmp"></div>
@@ -781,6 +833,7 @@ details.ytable[open] summary::before{content:"▾ ";}
 
 <div id="flash" role="status" aria-live="polite"></div>
 <div id="tip" role="tooltip"></div>
+<div id="dock" role="status" aria-live="polite"></div>
 <footer><div class="foot-tree"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 52V16" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/><path d="M32 19C24 14 24.5 6 32 2c7.5 4 8 12 0 17z" fill="#5c8a2e"/><path d="M32 37c-8 1.5-16-3-19.5-12.5 9.5-1.5 17.5 3 19.5 12.5z" fill="#4a6d28"/><path d="M32 30c8 1.5 15.5-3 19.5-12.5-9.5-1.5-17.5 3-19.5 12.5z" fill="#6f9a3a"/><path d="M14 56c6-3 12-4.5 18-4.5S44 53 50 56" fill="none" stroke="#8a5a35" stroke-width="3" stroke-linecap="round"/></svg></div>Khet &amp; Azaadi · freedom plan · built Oct 2026 · figures are estimates — verify locally before committing</footer>
 <script>
 (function(){
@@ -808,8 +861,8 @@ details.ytable[open] summary::before{content:"▾ ";}
   /* ---------- defaults ---------- */
   const T=t=>({t,d:false});
   function defaults(){return{
-    money:{start:3500000,save:75000,saveGrowth:2,rPre:3.5,rPost:3,swr:3.5,switchAge:34,horizon:85,saveFarmIncome:true,costMode:'budget',costManual:40000,incMode:'linked',incManual:20000},
-    land:{total:30,cane:24,veg:2,fodder:3,orchard:0,base:1,yieldQ:240,vegInc:18000,orchInc:12000,orchStart:34},
+    money:{start:3500000,save:75000,saveGrowth:2,nPre:9,nPost:8.5,infl:5.5,swr:3.5,switchAge:34,horizon:85,saveFarmIncome:true,costMode:'budget',costManual:40000,incMode:'linked',incManual:20000},
+    land:{total:30,cane:24,veg:2,fodder:3,orchard:0,base:1,yieldQB:37.5,vegInc:18000,orchInc:12000,orchStart:34},
     dairy:{cows:2,litres:7,price:50,feed:6000},
     gur:{useShare:100,boughtCaneQ:0,canePrice:395,ownAtMill:true,recovery:10,making:6,wastage:3,fixed:30000,rent:100000,
       ch:{direct:{share:60,price:100,pack:15},outlet:{share:25,price:90,pack:3},mandi:{share:15,price:40,pack:1}}},
@@ -883,7 +936,8 @@ details.ytable[open] summary::before{content:"▾ ";}
   let store=LS.get('ka-store',null);
   if(!store||!store.list){store={cur:'Base plan',list:{'Base plan':defaults()}}}
   const rawStore=JSON.parse(JSON.stringify(store));for(const k in store.list){store.list[k]=merge(defaults(),store.list[k]);const x=store.list[k];if(x.p0done&&x.phases[0]&&x.phases[0].done==null)x.phases[0].done=true;x.phases.forEach(ph=>{if(ph.done==null)ph.done=false});if(!x.yieldFix){if(x.land.yieldT===32)x.land.yieldT=24;x.yieldFix=true}
-      if(!x.qFix){const raw=(rawStore&&rawStore.list&&rawStore.list[k])||{};if(raw.land&&raw.land.yieldT!=null&&raw.land.yieldQ==null)x.land.yieldQ=Math.round(num(x.land.yieldT===32?24:raw.land.yieldT)*10);if(raw.gur&&raw.gur.boughtCane!=null&&raw.gur.boughtCaneQ==null)x.gur.boughtCaneQ=num(raw.gur.boughtCane)*10;delete x.land.yieldT;delete x.gur.boughtCane;const Q=t=>t.replace(/1–2 tonnes/g,'10–20 quintal').replace(/5–8 tonnes/g,'50–80 quintal').replace(/10\+ tonnes/g,'100+ quintal');x.phases.forEach(ph=>Object.values(ph.items).forEach(a=>a.forEach(it=>it.t=Q(it.t))));x.qFix=true}}
+      if(!x.qFix){const raw=(rawStore&&rawStore.list&&rawStore.list[k])||{};if(raw.land&&raw.land.yieldT!=null&&raw.land.yieldQ==null)x.land.yieldQ=Math.round(num(x.land.yieldT===32?24:raw.land.yieldT)*10);if(raw.gur&&raw.gur.boughtCane!=null&&raw.gur.boughtCaneQ==null)x.gur.boughtCaneQ=num(raw.gur.boughtCane)*10;delete x.land.yieldT;delete x.gur.boughtCane;const Q=t=>t.replace(/1–2 tonnes/g,'10–20 quintal').replace(/5–8 tonnes/g,'50–80 quintal').replace(/10\+ tonnes/g,'100+ quintal');x.phases.forEach(ph=>Object.values(ph.items).forEach(a=>a.forEach(it=>it.t=Q(it.t))));x.qFix=true}
+      {const raw=(rawStore&&rawStore.list&&rawStore.list[k])||{};const rm=raw.money||{},rl=raw.land||{};if(rm.nPre==null&&rm.rPre!=null)x.money.nPre=Math.round(((1+num(rm.rPre)/100)*1.055-1)*1000)/10;if(rm.nPost==null&&rm.rPost!=null)x.money.nPost=Math.round(((1+num(rm.rPost)/100)*1.055-1)*1000)/10;if(rl.yieldQB==null){const q=x.land.yieldQ!=null?num(x.land.yieldQ):(rl.yieldQ!=null?num(rl.yieldQ):null);if(q!=null)x.land.yieldQB=Math.round(q*0.1563*10)/10}delete x.money.rPre;delete x.money.rPost;delete x.land.yieldQ}}
   if(!store.list[store.cur])store.cur=Object.keys(store.list)[0];
   let st=store.list[store.cur];
   const persist=()=>{store.list[store.cur]=st;LS.set('ka-store',store)};
@@ -891,7 +945,7 @@ details.ytable[open] summary::before{content:"▾ ";}
   /* ---------- model ---------- */
   function compute(s){
     const L=s.land,G=s.gur,D=s.dairy,M=s.money,B=s.budget;
-    const caneAc=num(L.cane)*BIGHA_AC, ownCaneT=caneAc*num(L.yieldQ)/10, usedOwnT=ownCaneT*num(G.useShare)/100;
+    const caneAc=num(L.cane)*BIGHA_AC, ownCaneT=num(L.cane)*num(L.yieldQB)/10, usedOwnT=ownCaneT*num(G.useShare)/100;
     const totalCaneT=usedOwnT+num(G.boughtCaneQ)/10, rec=Math.max(num(G.recovery),.1)/100;
     const produced=totalCaneT*rec, sold=produced*(1-num(G.wastage)/100), soldKg=sold*1000;
     const caneCost=((G.ownAtMill?usedOwnT:0)+num(G.boughtCaneQ)/10)*10*num(G.canePrice);
@@ -914,10 +968,11 @@ details.ytable[open] summary::before{content:"▾ ";}
     const otAt=a=>s.oneTime.filter(o=>Math.round(num(o.age))===a).reduce((t,o)=>t+num(o.a),0);
     const futureOT=a=>s.oneTime.filter(o=>num(o.age)>=a).reduce((t,o)=>t+num(o.a),0);
     const swr=Math.max(num(M.swr),.5)/100, H=Math.max(num(M.horizon),AGE0+5);
+    const inf=num(M.infl)/100, realPre=(1+num(M.nPre)/100)/(1+inf)-1, realPost=(1+num(M.nPost)/100)/(1+inf)-1;
     const slowT=a=>Math.max(0,costFinal-incAt(a))*12/swr+futureOT(a);
     const fullT=a=>costFinal*12/swr+futureOT(a);
     function life(sw){let c=num(M.start);const out=[{age:AGE0,c,start:c,ret:0,add:0,draw:0,ot:0,working:true,inc:incAt(AGE0),cost:costAt(AGE0)}];
-      for(let a=AGE0;a<H;a++){const w=a<sw;const r=(w?num(M.rPre):num(M.rPost))/100;const inc=incAt(a)*12,cost=costAt(a)*12;
+      for(let a=AGE0;a<H;a++){const w=a<sw;const r=w?realPre:realPost;const inc=incAt(a)*12,cost=costAt(a)*12;
         const start=c,ret=c*r,ot=otAt(a);let add=0,draw=0;
         if(w){add=num(M.save)*12*Math.pow(1+num(M.saveGrowth)/100,a-AGE0)+(M.saveFarmIncome?inc:0)}
         else{const net=inc-cost;if(net>=0)add=net;else draw=-net}
@@ -929,7 +984,7 @@ details.ytable[open] summary::before{content:"▾ ";}
     const neg=L1.find(p=>p.c<0), lastsAge=neg?neg.age:null;
     const at=a=>{const p=L1.find(p=>p.age===a);return p?p.c:L1[L1.length-1].c};
     const corpusSwitch=at(sw), corpus60=at(60);
-    const gapM=costFinal-incFull, retM=corpusSwitch*num(M.rPost)/100/12, safeM=corpusSwitch*swr/12;
+    const gapM=costFinal-incFull, retM=corpusSwitch*realPost/12, safeM=corpusSwitch*swr/12;
     const farmM=gurM+vegM+orchM+dairyM;
     const gates={
       p0:{ok:null,manual:true,text:'No number check for this phase. Mark it completed once 10–20 quintal have sold to real buyers and FSSAI is done.'},
@@ -939,7 +994,7 @@ details.ytable[open] summary::before{content:"▾ ";}
       lasts:{ok:!lastsAge,text:lastsAge?`With a switch at ${sw}, savings run out around age ${lastsAge}.`:`With a switch at ${sw}, savings last beyond age ${H}.`}
     };
     return{caneAc,ownCaneT,usedOwnT,totalCaneT,produced,sold,soldKg,caneCost,makingCost,pack,fixed,totalCost,revenue,profit,avgPrice,breakEven,extraVsMill,rows,
-      gurM,vegM,orchM,dairyM,projM,farmM,incFull,costFinal,costAt,incAt,stageTotal,slowT,fullT,slowAge,fullAge,lastsAge,corpusSwitch,corpus60,gapM,retM,safeM,life:L1,never:NV,gates,H,sw};
+      gurM,vegM,orchM,dairyM,projM,farmM,incFull,costFinal,costAt,incAt,stageTotal,slowT,fullT,slowAge,fullAge,lastsAge,corpusSwitch,corpus60,gapM,retM,safeM,realPre,realPost,landUsed:['cane','veg','fodder','orchard','base'].reduce((t,k)=>t+num(L.land?0:s.land[k]),0),landTotal:num(s.land.total),preNeg:L1.find(p=>p.age<=sw&&p.c<0),life:L1,never:NV,gates,H,sw};
   }
   let R=compute(st);
 
@@ -1096,7 +1151,7 @@ details.ytable[open] summary::before{content:"▾ ";}
     $('#steps').innerHTML=stp(1,'Start',short(num(st.money.start)),`+ ${inr(num(st.money.save))} saved monthly`,'#start')+
       stp(2,'Income',inr(R.incFull)+'/mo','land, gur, dairy & projects at full scale','#income')+
       stp(3,'Costs',inr(R.costFinal)+'/mo',`family stage · ${short(st.oneTime.reduce((t,o)=>t+num(o.a),0))} one-time ahead`,'#costs')+
-      stp(4,'Freedom',`switch at ${R.sw}`,`money ${lasts}`,'#freedom','out');
+      stp(4,'Freedom',`switch at ${R.sw}`,`money ${lasts}`,'#freedom','out v'+judge(R).level);
     $('#tiles').innerHTML=
       tile('Slow-life age',R.slowAge?R.slowAge:'60+',R.slowAge?`${yrsTo(R.slowAge)} · target ${short(R.slowT(R.slowAge))}`:'not reached by 60',R.slowAge&&R.slowAge<=40?'good':'','#lifeCard','Earliest age (if you kept working) when savings are enough to leave the job and live on farm, gur and project income, with savings covering any gap.')+
       tile('Full-freedom age',R.fullAge?R.fullAge:'60+',R.fullAge?`${yrsTo(R.fullAge)} · target ${short(R.fullT(R.fullAge))}`:'not reached by 60','','#freedom','Earliest age when savings alone could pay the full family cost forever, even with zero other income.')+
@@ -1123,7 +1178,7 @@ details.ytable[open] summary::before{content:"▾ ";}
     {const g=R.gapM,yrs=12;let v,cls,rows='';
       const top=`<div class="cover-grid" style="margin-bottom:10px"><div class="frow" data-go="#incomeTotal"><span>Monthly income (full scale)</span><b>${inr(R.incFull)}</b></div><div class="frow" data-go="#budgetCard"><span>Family cost (${st.money.costMode==='manual'?'fixed':'family stage'})</span><b>${inr(R.costFinal)}</b></div><div class="frow total ${g>0?'neg':''}"><span>${g>0?'Gap paid from savings':'Surplus each month'}</span><b style="color:${g>0?'var(--rose)':'var(--green)'}">${g>0?'−':'+'}${inr(Math.abs(g))}</b></div></div>`;
       rows+=`<div class="frow" data-go="#lifeCard"><span>Savings when you switch (age ${R.sw})</span><b>${short(R.corpusSwitch)}</b></div>`;
-      rows+=`<div class="frow" data-go="#returnsCard"><span>They earn above inflation (${num(st.money.rPost)}% a year)</span><b>≈ ${inr(R.retM)}/month</b></div>`;
+      rows+=`<div class="frow" data-go="#returnsCard"><span>They earn ${num(st.money.nPost)}% − ${num(st.money.infl)}% inflation ≈ ${(R.realPost*100).toFixed(1)}% real</span><b>≈ ${inr(R.retM)}/month</b></div>`;
       rows+=`<div class="frow" data-go="#returnsCard"><span>Safe withdrawal limit (${num(st.money.swr)}% a year)</span><b>≈ ${inr(R.safeM)}/month</b></div>`;
       if(g<=0){v=`No gap. The surplus of ${inr(-g)} a month can go back into savings, and the returns of about ${inr(R.retM)} a month keep growing your savings.`;cls='ok'}
       else if(R.retM>=g){v=`Covered by returns. The ${inr(g)} gap (${short(g*12)} a year) is paid by withdrawing from savings, but your savings earn about ${inr(R.retM)} a month, more than the gap. So you only spend part of the returns and your savings keep growing.`;cls='ok'}
@@ -1301,39 +1356,112 @@ details.ytable[open] summary::before{content:"▾ ";}
     $('#rAdd').onclick=()=>{const v=$('#rNew').value.trim();if(!v)return;st.rules.push({i:'🌱',t:v,p:''});persist();buildRules()};
   }
 
-  /* what-if */
-  const SENS=[
-    ['Monthly saving',(s,f)=>{s.money.save*=f}],
-    ['Family living costs',(s,f)=>{Object.values(s.budget.rows).forEach(rs=>rs.forEach(r=>r[1]*=f));s.money.costManual*=f}],
-    ['Gur selling prices',(s,f)=>{Object.values(s.gur.ch).forEach(c=>c.price*=f)}],
-    ['Cane area (bigha)',(s,f)=>{s.land.cane*=f}],
-    ['Cane yield per acre',(s,f)=>{s.land.yieldQ*=f}],
-    ['Gur recovery %',(s,f)=>{s.gur.recovery*=f}],
-    ['Cane price (mill)',(s,f)=>{s.gur.canePrice*=f}],
-    ['Return while working',(s,f)=>{s.money.rPre*=f}],
-    ['Return after switch',(s,f)=>{s.money.rPost*=f}],
-    ['Own projects income',(s,f)=>{s.projects.monthly*=f}],
-    ['Number of cows',(s,f)=>{s.dairy.cows*=f}]
-  ];
-  const METRIC={
-    slow:{n:'Slow-life age',get:r=>r.slowAge==null?61:r.slowAge,fmt:v=>v>60?'60+':'age '+v,better:-1},
-    full:{n:'Full-freedom age',get:r=>r.fullAge==null?61:r.fullAge,fmt:v=>v>60?'60+':'age '+v,better:-1},
-    c60:{n:'Savings at 60',get:r=>r.corpus60,fmt:v=>short(v),better:1},
-    lasts:{n:'Money lasts until',get:r=>r.lastsAge==null?r.H:r.lastsAge,fmt:v=>'age '+v,better:1},
-    inc:{n:'Monthly income',get:r=>r.incFull,fmt:v=>inr(v),better:1}
-  };
-  function renderWhatIf(){
-    const m=METRIC[$('#tMetric').value],d=num($('#tRange').value)/100;const base=m.get(R);
-    const rows=SENS.map(([n,fn])=>{const lo=clone(st),hi=clone(st);fn(lo,1-d);fn(hi,1+d);const vl=m.get(compute(lo)),vh=m.get(compute(hi));return{n,vl,vh,spread:Math.abs(vh-vl)}}).sort((a,b)=>b.spread-a.spread);
-    const maxD=Math.max(...rows.map(r=>Math.max(Math.abs(r.vl-base),Math.abs(r.vh-base))),1e-9);
-    $('#tBase').textContent=`${m.n} now: ${m.fmt(base)}`;
-    $('#tornado').innerHTML=rows.map(r=>{const bar=(v,cls,side)=>{const dv=v-base;if(Math.abs(dv)<1e-9)return'';const w=Math.abs(dv)/maxD*50;const good=dv*m.better>0;return`<div class="${good?'hi':'lo'}" style="${side<0?`right:50%`:`left:50%`};width:${w}%" title="${cls}: ${m.fmt(v)}"></div>`};
-      return`<div class="trow"><span>${r.n}</span><div class="tbar"><div class="mid"></div>${bar(r.vl,'−'+Math.round(d*100)+'%',-1)}${bar(r.vh,'+'+Math.round(d*100)+'%',1)}</div><span class="hint" style="margin:0;text-align:right">${m.fmt(r.vl)} ↔ ${m.fmt(r.vh)}</span></div>`}).join('');
+
+  /* ---------- verdict ---------- */
+  function judge(r,s0){
+    const S0=s0||st,checks=[];const lv=x=>x==='bad'?2:x==='warn'?1:0;
+    checks.push(r.lastsAge?{l:'bad',t:`Savings run out at age ${r.lastsAge}`,d:`With a switch at ${r.sw}, withdrawals and one-time costs use up all savings.`,go:'#lifeCard'}
+                          :{l:'ok',t:`Money lasts beyond age ${r.H}`,d:`Savings never hit zero with a switch at ${r.sw}.`,go:'#lifeCard'});
+    if(r.preNeg)checks.push({l:'bad',t:`Savings go below zero at age ${r.preNeg.age}`,d:'One-time costs before you switch are bigger than your savings at that time.',go:'#flowCard'});
+    const tgt=r.slowT(r.sw);checks.push(r.corpusSwitch>=tgt?{l:'ok',t:`Enough saved to switch at ${r.sw}`,d:`${short(r.corpusSwitch)} saved vs ${short(tgt)} needed.`,go:'#savingsCard'}
+                                          :{l:'warn',t:`Short of the target at ${r.sw}`,d:`${short(r.corpusSwitch)} saved vs ${short(tgt)} needed — short by ${short(tgt-r.corpusSwitch)}.`,go:'#savingsCard'});
+    const g=r.gapM;checks.push(g<=0?{l:'ok',t:'Income covers family costs',d:`Surplus of ${inr(-g)} a month after you switch.`,go:'#coverBox'}
+      :r.retM>=g?{l:'ok',t:`Monthly gap of ${inr(g)} is covered by returns`,d:`Savings earn about ${inr(r.retM)} a month after inflation, so they keep growing.`,go:'#coverBox'}
+      :r.safeM>=g?{l:'warn',t:`Monthly gap of ${inr(g)} slowly eats savings`,d:`Returns of ${inr(r.retM)}/month don't cover it, but it stays within the safe limit of ${inr(r.safeM)}.`,go:'#coverBox'}
+      :{l:'bad',t:`Monthly gap of ${inr(g)} is too big`,d:`It is more than the safe withdrawal limit of ${inr(r.safeM)}/month.`,go:'#coverBox'});
+    checks.push(r.profit>0?{l:'ok',t:`Gur makes a profit of ${short(r.profit)} a season`,d:`${qtl(r.sold)} sold at about ${inr(r.avgPrice)}/kg.`,go:'#gurResults'}
+                          :{l:'warn',t:`Gur loses ${short(-r.profit)} a season`,d:'Selling price is below the break-even of '+inr(r.breakEven)+'/kg.',go:'#gurResults'});
+    const used=['cane','veg','fodder','orchard','base'].reduce((t,k)=>t+num(S0.land[k]),0),tot=num(S0.land.total);
+    if(used>tot)checks.push({l:'bad',t:`Using ${used} bigha but you have ${tot}`,d:'Reduce the crop areas in the Land section.',go:'#land'});
+    const worst=Math.max(...checks.map(c=>lv(c.l)));const level=worst===2?'bad':worst===1?'tight':'good';
+    return{level,checks};
   }
+  const VT={good:['✓','This plan works'],tight:['!','Works, but it is tight'],bad:['✕','This plan does not work yet']};
+  function findFixes(){
+    const out=[];const ok=r=>!r.lastsAge&&!r.preNeg&&r.corpusSwitch>=r.slowT(r.sw);
+    for(let a=30;a<=60;a++){const t=clone(st);t.money.switchAge=a;const r=compute(t);if(ok(r)){if(a>R.sw)out.push(`Keep the job until age <b>${a}</b> instead of ${R.sw}.`);else if(a<R.sw)out.push(`You could even switch as early as <b>${a}</b>.`);break}}
+    if(R.gapM>R.retM&&R.gapM>0)out.push(`Add about <b>${inr(R.gapM-R.retM)}</b> a month of income, or cut family costs by that much, so returns cover the gap.`);
+    if(R.profit<=0)out.push(`Raise the gur selling price above <b>${inr(R.breakEven)}/kg</b> or sell more direct instead of at the mandi.`);
+    if(R.preNeg)out.push(`Move or reduce one-time costs around age <b>${R.preNeg.age}</b>.`);
+    return out;
+  }
+  const MET=[
+    ['Verdict',(r,ss)=>({good:3,tight:2,bad:1})[judge(r,ss).level],v=>['','✕ Not yet','! Tight','✓ Works'][v],1],
+    ['Monthly income',r=>r.incFull,inr,1],
+    ['Monthly family cost',r=>r.costFinal,inr,-1],
+    ['Monthly gap (− = paid from savings)',r=>r.incFull-r.costFinal,v=>(v<0?'−':'+')+inr(Math.abs(v)),1],
+    ['Gur profit a season',r=>r.profit,short,1],
+    ['Savings at switch',r=>r.corpusSwitch,short,1],
+    ['Money lasts until',r=>r.lastsAge||r.H+1,v=>v>R.H?R.H+'+':'age '+v,1],
+    ['Savings at 60',r=>r.corpus60,short,1],
+    ['Slow-life age',r=>r.slowAge||61,v=>v>60?'60+':v,-1]];
+  let BASE=null,BASEN='';
+  function setBase(){BASE=clone(st);BASEN=store.cur}
+  function renderVerdict(){
+    const J=judge(R);const [ic,tt]=VT[J.level];
+    let sub=J.level==='good'?`You can leave the job at ${R.sw}, live on land, gur and savings, and the money lasts beyond ${R.H}.`
+      :J.level==='tight'?`It holds together, but with little room for error. See the warnings and the stress test below.`
+      :`With these numbers the plan fails. See what to change on the right.`;
+    const fixes=J.level==='good'?[]:findFixes();
+    const B=BASE?compute(BASE):R;let chg=0;
+    const rows=MET.map(([n,f,fmt,dir])=>{const a=f(B,BASE||st),b=f(R,st);const d=b-a;const same=Math.abs(d)<(n==='Verdict'?0.5:1);if(!same)chg++;
+      const cls=same?'same':(d*dir>0?'up':'down');const arr=same?'—':(d>0?'▲':'▼');
+      return`<tr><td>${n}</td><td>${fmt(a)}</td><td>${fmt(b)}</td><td class="${cls}">${arr}</td></tr>`}).join('');
+    $('#verdict').className=`card reveal in verdict-card v-${J.level}`;
+    $('#verdict').innerHTML=`<div class="vhead"><div class="vbadge">${ic}</div><div style="flex:1;min-width:240px"><div class="lbl">Will this plan work? · live verdict</div><div class="vtitle">${tt}</div><div class="vsub">${sub}</div></div></div>
+      <div class="vbody"><div class="vcol"><h5>Why</h5>${J.checks.map(c=>`<div class="chk-row" data-go="${c.go}"><span class="ci ${c.l}">${c.l==='ok'?'✓':c.l==='warn'?'!':'✕'}</span><div>${c.t}<small>${c.d}</small></div></div>`).join('')}
+        ${fixes.length?`<div class="fixes"><b>To make it work</b><ul>${fixes.map(f=>`<li>${f}</li>`).join('')}</ul></div>`:''}</div>
+      <div class="vcol imp"><h5>Impact of your changes${I_('Compares the plan now with a baseline: the numbers when you opened the page or loaded this scenario. Change anything, such as land to 10 bigha, and every result here updates. Press “Set as baseline” to compare future changes against the current numbers.')}</h5>
+        <table><thead><tr><th></th><th>Baseline</th><th>Now</th><th></th></tr></thead><tbody>${rows}</tbody></table>
+        <div class="bl"><span class="hint" style="margin:0">${chg?`${chg} result${chg>1?'s':''} changed since the baseline`:'No changes since the baseline'}</span><button class="btn sm" id="setBase" type="button">Set as baseline</button></div></div></div>`;
+    $('#setBase').onclick=()=>{setBase();renderVerdict();renderDock();flash('Baseline updated')};
+  }
+  const I_=t=>`<span class="info" tabindex="0" data-tip="${esc(t)}">i</span>`;
+  let lastLevel=null;
+  function renderDock(){
+    const J=judge(R);const [ic,tt]=VT[J.level];const B=BASE?compute(BASE):R;
+    const la=B.lastsAge||B.H+1,lb=R.lastsAge||R.H+1;
+    let delta='';if(BASE){const parts=[];if(lb!==la)parts.push(`money lasts ${la>R.H?R.H+'+':la} → ${lb>R.H?R.H+'+':lb}`);const ga=B.incFull-B.costFinal,gb=R.incFull-R.costFinal;if(Math.abs(gb-ga)>=1)parts.push(`gap ${inr(ga)} → ${inr(gb)}`);
+      if(parts.length)delta=`<span class="dd ${lb<la||gb<ga?'down':'up'}">vs baseline: ${parts.join(' · ')}</span>`}
+    const g=R.incFull-R.costFinal;
+    $('#dock').innerHTML=`<span class="db ${J.level}">${ic} ${tt}</span><span class="dm"><span>Switch <b>${R.sw}</b></span><span>Lasts <b>${R.lastsAge?'till '+R.lastsAge:R.H+'+'}</b></span><span class="opt">Gap <b>${g<0?'−':'+'}${inr(Math.abs(g))}/mo</b></span><span class="opt">At 60 <b>${short(R.corpus60)}</b></span></span>${delta}`;
+    if(lastLevel&&lastLevel!==J.level){const d=$('#dock');d.classList.remove('flashy');void d.offsetWidth;d.classList.add('flashy')}lastLevel=J.level;
+  }
+  $('#dock').addEventListener('click',()=>{const v=$('#verdict');window.scrollTo({top:v.getBoundingClientRect().top+scrollY-90,behavior:'smooth'})});
+  new IntersectionObserver(es=>es.forEach(e=>$('#dock').classList.toggle('hide',e.isIntersecting))).observe(document.getElementById('verdict'));
+
+  /* ---------- stress test ---------- */
+  const SHOCKS=[
+    ['Gur sells 20% cheaper','Prices in every sales channel fall by a fifth.',t=>Object.values(t.gur.ch).forEach(c=>c.price=num(c.price)*0.8)],
+    ['The brand doesn’t take off','All gur has to be sold at the mandi price.',t=>{t.gur.ch.direct.share=0;t.gur.ch.outlet.share=0;t.gur.ch.mandi.share=100}],
+    ['Cane yield 20% lower','Bad weather, pests or poor soil every year.',t=>{t.land.yieldQB=num(t.land.yieldQB)*0.8}],
+    ['Family costs 20% higher','Every monthly budget item goes up a fifth.',t=>{Object.values(t.budget.rows).forEach(rs=>rs.forEach(r=>r[1]=num(r[1])*1.2));t.money.costManual=num(t.money.costManual)*1.2}],
+    ['Investments earn 2% less','Returns 2% lower, both before and after you switch.',t=>{t.money.nPre=num(t.money.nPre)-2;t.money.nPost=num(t.money.nPost)-2}],
+    ['Inflation 2% higher',null,t=>{t.money.infl=num(t.money.infl)+2}],
+    ['No dairy income','The cows are sold or stop making a profit.',t=>{t.dairy.cows=0}],
+    ['No income from own projects','Your websites and apps earn nothing.',t=>{t.projects.monthly=0}],
+    ['₹10 lakh emergency at 45','A health or family emergency paid from savings.',t=>{t.oneTime.push({n:'Emergency',a:1000000,age:45})}],
+    ['Leave the job 2 years earlier',null,t=>{t.money.switchAge=num(t.money.switchAge)-2}],
+    ['Save ₹25,000 less each month','Less saving while you are still working.',t=>{t.money.save=Math.max(0,num(t.money.save)-25000)}]];
+  function renderStress(){
+    const base=judge(R).level;const res=SHOCKS.map(([n,d,fn])=>{const t=clone(st);fn(t);const r=compute(t);return{n,d:d||(n.startsWith('Inflation')?`Prices rise ${num(st.money.infl)+2}% a year instead of ${num(st.money.infl)}%.`:`Switch at ${R.sw-2} instead of ${R.sw}.`),r,j:judge(r,t).level}});
+    const rank={bad:0,tight:1,good:2};res.sort((a,b)=>rank[a.j]-rank[b.j]||(a.r.lastsAge||999)-(b.r.lastsAge||999));
+    const pass=res.filter(x=>x.j!=='bad').length,comfy=res.filter(x=>x.j==='good').length;
+    const LBL={good:'✓ Still works',tight:'! Gets tight',bad:'✕ Plan fails'};
+    $('#stressHead').innerHTML=`<div class="shead"><div class="big">${pass} of ${res.length}</div><div style="flex:1;min-width:240px"><b>shocks your plan survives</b><div class="hint" style="margin:2px 0 0">${comfy} comfortably, ${pass-comfy} only just, ${res.length-pass} would break it. Current plan: <span class="vpill ${base}">${LBL[base]}</span></div></div></div>`+
+      (res.length-pass?`<p class="hint" style="margin-top:10px">Biggest risks: <b>${res.filter(x=>x.j==='bad').map(x=>x.n.toLowerCase()).join(', ')}</b>. These are the things to protect against first.</p>`:'');
+    const g=r=>r.incFull-r.costFinal;
+    $('#stress').innerHTML=res.map(x=>`<div class="sc ${x.j}"><h4>${x.n}<span class="vpill ${x.j}">${LBL[x.j]}</span></h4><p>${x.d}</p>
+      <div class="row"><span>Money lasts until</span><b>${R.lastsAge?R.lastsAge:R.H+'+'} → ${x.r.lastsAge?'<span class=down>'+x.r.lastsAge+'</span>':R.H+'+'}</b></div>
+      <div class="row"><span>Monthly gap</span><b>${inr(g(R))} → ${inr(g(x.r))}</b></div>
+      <div class="row"><span>Savings at 60</span><b>${short(R.corpus60)} → ${short(x.r.corpus60)}</b></div></div>`).join('');
+  }
+  function renderReal(){$('#realHint').innerHTML=`After ${num(st.money.infl)}% inflation, your savings really grow by <b>${(R.realPre*100).toFixed(1)}%</b> a year while working and <b>${(R.realPost*100).toFixed(1)}%</b> after you switch. All amounts on this page are in today’s rupees.`}
+
   function renderCompare(){
     const names=Object.keys(store.list);
-    $('#cmp').innerHTML=`<table><thead><tr><th>Scenario</th><th>Switch</th><th>Slow life</th><th>Full freedom</th><th>Income / month</th><th>Gur profit</th><th>At age 60</th><th>Money lasts</th></tr></thead><tbody>`+
-      names.map(n=>{const r=n===store.cur?R:compute(store.list[n]);return`<tr class="${n===store.cur?'cur':''}"><td><b>${esc(n)}</b></td><td>${r.sw}</td><td>${r.slowAge||'60+'}</td><td>${r.fullAge||'60+'}</td><td>${inr(r.incFull)}</td><td>${short(r.profit)}</td><td>${short(r.corpus60)}</td><td>${r.lastsAge?'till '+r.lastsAge:r.H+'+'}</td></tr>`}).join('')+`</tbody></table>`;
+    $('#cmp').innerHTML=`<table><thead><tr><th>Scenario</th><th>Verdict</th><th>Switch</th><th>Slow life</th><th>Full freedom</th><th>Income / month</th><th>Gur profit</th><th>At age 60</th><th>Money lasts</th></tr></thead><tbody>`+
+      names.map(n=>{const r=n===store.cur?R:compute(store.list[n]);const jl=judge(r,n===store.cur?st:store.list[n]).level;return`<tr class="${n===store.cur?'cur':''}"><td><b>${esc(n)}</b></td><td><span class="vpill ${jl}">${({good:'✓ Works',tight:'! Tight',bad:'✕ Not yet'})[jl]}</span></td><td>${r.sw}</td><td>${r.slowAge||'60+'}</td><td>${r.fullAge||'60+'}</td><td>${inr(r.incFull)}</td><td>${short(r.profit)}</td><td>${short(r.corpus60)}</td><td>${r.lastsAge?'till '+r.lastsAge:r.H+'+'}</td></tr>`}).join('')+`</tbody></table>`;
   }
 
   /* scenarios */
@@ -1362,13 +1490,12 @@ details.ytable[open] summary::before{content:"▾ ";}
   /* ---------- refresh ---------- */
   function refresh(){
     R=compute(st);persist();paintRanges();
-    renderHero();renderOverview();renderMoney();renderGur();renderLand();renderBudget();renderTabs();renderPhaseGate();renderWhatIf();renderCompare();
+    renderHero();renderOverview();renderMoney();renderGur();renderLand();renderBudget();renderTabs();renderPhaseGate();renderStress();renderCompare();renderVerdict();renderDock();renderReal();
   }
-  function rebuildAll(){renderScen();buildLand();buildBudget();buildOT();buildRules();populate();R=compute(st);if(curPhase>=st.phases.length)curPhase=0;buildPhase();renderMonths();refresh()}
+  function rebuildAll(){setBase();renderScen();buildLand();buildBudget();buildOT();buildRules();populate();R=compute(st);if(curPhase>=st.phases.length)curPhase=0;buildPhase();renderMonths();refresh()}
   $('#areaFilter').onchange=buildPhase;
   $('#monthSel').onchange=e=>{selM=+e.target.value;renderMonths()};
   $('#calFilter').onchange=renderMonths;
-  $('#tMetric').onchange=renderWhatIf;$('#tRange').onchange=renderWhatIf;
 
   $('.brand').addEventListener('click',e=>{e.preventDefault();window.scrollTo({top:0,behavior:'smooth'});history.replaceState(null,'',location.pathname+location.search)});
   /* theme / reveal / nav */
