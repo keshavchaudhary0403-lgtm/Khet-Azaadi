@@ -554,6 +554,22 @@ body{padding-bottom:80px}
   #dock .dm .opt{display:none}
   #dock .dd{padding:7px 12px;border-top:1px solid var(--line);font-size:12px;text-align:center;background:var(--surface-2)}
 }
+
+.pls{display:grid;gap:10px}
+.pl{border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--surface)}
+.pl.open{border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 25%,transparent)}
+.pl-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.pl-name{font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.pl-tag{font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:99px;background:var(--surface-3);color:var(--muted)}
+.pl-nums{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:13px;color:var(--muted);margin:6px 0 10px}
+.pl-nums b{color:var(--text)}
+.pl-acts{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.pl-now{font-size:12.5px;font-weight:700;color:var(--accent)}
+.pl-diff{margin-top:12px;padding:12px 14px;border-radius:14px;background:var(--surface-2);border:1px dashed var(--line-2)}
+.df{display:flex;justify-content:space-between;gap:10px;font-size:13.5px;padding:5px 0;border-bottom:1px dashed var(--line)}
+.df:last-child{border-bottom:none}
+.df em{font-style:normal;font-size:11.5px;font-weight:700;margin-left:4px}
+.df em.up{color:var(--green)} .df em.down{color:var(--rose)}
 </style>
 </head>
 <body>
@@ -1459,32 +1475,35 @@ body{padding-bottom:80px}
     const J=judge(R);const [ic,tt]=VT[J.level];
     let sub=J.level==='good'?`You can leave the job at ${R.sw}, live on land, gur and savings, and the money lasts beyond ${R.H}.`
       :J.level==='tight'?`It holds together, but with little room for error. See the warnings and the stress test below.`
-      :`With these numbers the plan fails. See what to change on the left.`;
+      :`With these numbers the plan fails. See what to change below.`;
     const fixes=J.level==='good'?[]:findFixes();
-    const cn=cmpName(),same=cn===store.cur,cs=planState(cn),B=same?R:compute(cs);let chg=0;
-    const rows=MET.map(([n,f,fmt,dir])=>{const a=f(B,cs),b=f(R,st);const d=b-a;const eq=Math.abs(d)<(n==='Verdict'?0.5:1);if(!eq)chg++;
-      const cls=eq?'same':(d*dir>0?'up':'down');const arr=eq?'=':(d*dir>0?'better':'worse');
-      return`<tr><td>${n}</td><td>${fmt(a)}</td><td><b>${fmt(b)}</b></td><td class="${cls}" style="font-size:12px">${arr}</td></tr>`}).join('');
-    const onDef=store.cur===DEF,many=Object.keys(store.list).length>1;
+    const names=Object.keys(store.list),onDef=store.cur===DEF;
+    const VL={good:'✓ Works',tight:'! Tight',bad:'✕ Fails'};
+    const sg=v=>(v<0?'−':'+')+inr(Math.abs(v));
+    const cards=names.map(n=>{const ps=planState(n),r=n===store.cur?R:compute(ps),jl=judge(r,ps).level,open=n===store.cur;
+      return`<div class="pl ${open?'open':''}"><div class="pl-top"><div class="pl-name">${esc(n)}${n===DEF?'<span class="pl-tag">original</span>':''}</div><span class="vpill ${jl}">${VL[jl]}</span></div>
+        <div class="pl-nums"><span>Leave job <b>${r.sw}</b></span><span>Money lasts <b>${r.lastsAge?'till '+r.lastsAge:r.H+'+'}</b></span><span>Gap <b>${sg(r.incFull-r.costFinal)}/mo</b></span></div>
+        <div class="pl-acts">${open?`<span class="pl-now">● Showing now</span>`:`<button class="btn sm primary" data-popen="${esc(n)}" type="button">Show this plan</button>`}
+          ${n===DEF?'':`<button class="btn sm danger" data-pdel="${esc(n)}" type="button">Delete</button>`}</div></div>`}).join('');
+    // difference vs Default
+    let diff='';if(!onDef){const B=compute(store.list[DEF]);const rows=[
+      ['Money lasts',r=>r.lastsAge||r.H+1,v=>v>R.H?R.H+'+':'till '+v,1],['Monthly gap',r=>r.incFull-r.costFinal,sg,1],['Monthly income',r=>r.incFull,inr,1],['Savings at 60',r=>r.corpus60,short,1],['Leave job at',r=>r.sw,v=>v,-1]]
+      .map(([n,f,fmt,dir])=>{const a=f(B),b=f(R);if(Math.abs(b-a)<1)return'';const good=(b-a)*dir>0;return`<div class="df"><span>${n}</span><span>${fmt(a)} → <b>${fmt(b)}</b> <em class="${good?'up':'down'}">${good?'better':'worse'}</em></span></div>`}).join('');
+      diff=`<div class="pl-diff"><div class="lbl" style="margin-bottom:6px">“${esc(store.cur)}” compared with the Default plan</div>${rows||'<p class="hint" style="margin:0">Same numbers as the Default plan — change anything in the steps below to see the difference here.</p>'}</div>`}
     $('#verdict').className=`card reveal in verdict-card v-${J.level}`;
-    $('#verdict').innerHTML=`<div class="vhead"><div class="vbadge">${ic}</div><div style="flex:1;min-width:240px"><div class="lbl">Will this plan work? · live verdict for <b>${esc(store.cur)}</b></div><div class="vtitle">${tt}</div><div class="vsub">${sub}</div></div>
-        <div class="vplan"><label class="lbl" for="vPlan">Open plan</label><div class="select"><select id="vPlan">${pOpts(store.cur)}</select></div></div></div>
+    $('#verdict').innerHTML=`<div class="vhead"><div class="vbadge">${ic}</div><div style="flex:1;min-width:240px"><div class="lbl">Will this plan work? · showing <b>${esc(store.cur)}</b></div><div class="vtitle">${tt}</div><div class="vsub">${sub}</div></div></div>
       <div class="vbody"><div class="vcol"><h5>Why</h5>${J.checks.map(c=>`<div class="chk-row" data-go="${c.go}"><span class="ci ${c.l}">${c.l==='ok'?'✓':c.l==='warn'?'!':'✕'}</span><div>${c.t}<small>${c.d}</small></div></div>`).join('')}
         ${fixes.length?`<div class="fixes"><b>To make it work</b><ul>${fixes.map(f=>`<li>${f}</li>`).join('')}</ul></div>`:''}</div>
-      <div class="vcol imp"><h5>Compare plans${I_('The open plan is the one every section of this page is showing and editing. Pick any other saved plan to compare it side by side. “Open” switches the whole page to that plan.')}</h5>
-        ${many?`<div class="cmpbar"><span class="hint" style="margin:0">Compare <b>${esc(store.cur)}</b> with</span><div class="select" style="flex:1;min-width:180px"><select id="vCmp">${pOpts(cn,store.cur)}</select></div></div>
-        <table><thead><tr><th></th><th>${esc(cn)}</th><th>${esc(store.cur)} <span style="text-transform:none;letter-spacing:0">(open)</span></th><th></th></tr></thead><tbody>${rows}</tbody></table>
-        <div class="bl"><span class="hint" style="margin:0">${chg?`${chg} result${chg>1?'s':''} differ between the two plans`:'Both plans give the same results'}</span></div>`
-        :`<p class="hint" style="margin:0 0 10px">You only have the Default plan. Change any number and your edits are saved as a new plan, which you can then compare here.</p>`}
-        <div class="vacts">
-          ${many?`<button class="btn sm primary" id="vOpen" type="button">Open “${esc(cn)}”</button>`:''}
-          <button class="btn sm" id="vSave" type="button">＋ Save a copy as new plan</button>
-          ${onDef?'':`<button class="btn sm" id="resetDef" type="button">↺ Reset “${esc(store.cur)}” to Default plan numbers</button>`}
-        </div></div></div>`;
-    $('#vPlan').onchange=e=>{loadScen(e.target.value);flash(`Opened “${e.target.value}”`)};
-    if($('#vCmp'))$('#vCmp').onchange=e=>{CMP=e.target.value;LS.set('ka-cmp',CMP);renderVerdict();renderDock()};
-    if($('#vOpen'))$('#vOpen').onclick=()=>{const t=cn;CMP=store.cur;LS.set('ka-cmp',CMP);loadScen(t);flash(`Opened “${t}”`)};
-    $('#vSave').onclick=()=>{let n='My plan',i=2;while(store.list[n])n='My plan '+(i++);persist();store.list[n]=clone(st);const prev=store.cur;CMP=prev;LS.set('ka-cmp',CMP);loadScen(n);flash(`Saved a copy as “${n}” and opened it`)};
+      <div class="vcol imp"><h5>Your plans</h5>
+        <p class="hint" style="margin:0 0 12px">A plan is one set of numbers. The whole page shows the plan marked “Showing now”. To try an idea, save a copy and change it — the Default plan always keeps the original numbers.</p>
+        <div class="pls">${cards}</div>${diff}
+        <div class="vacts"><button class="btn sm" id="vSave" type="button">＋ Save a copy to try changes</button>
+          ${onDef?'':`<button class="btn sm" id="resetDef" type="button">↺ Undo all changes in “${esc(store.cur)}”</button>`}</div></div></div>`;
+    $$('#verdict [data-popen]').forEach(b=>b.onclick=()=>{const n=b.dataset.popen;loadScen(n);flash(`Now showing “${n}”`)});
+    $$('#verdict [data-pdel]').forEach(b=>b.onclick=()=>{const n=b.dataset.pdel;
+      if(!b.dataset.armed){b.dataset.armed='1';b.textContent='Tap again to delete';b._t=setTimeout(()=>{delete b.dataset.armed;b.textContent='Delete'},3500);return}
+      clearTimeout(b._t);delete store.list[n];if(store.cur===n){store.cur=DEF;st=store.list[DEF]}LS.set('ka-store',store);rebuildAll();flash(`Deleted “${n}”`)});
+    $('#vSave').onclick=()=>{let n='My plan',i=2;while(store.list[n])n='My plan '+(i++);persist();store.list[n]=clone(st);loadScen(n);flash(`Saved a copy as “${n}” — change anything to test your idea`)};
     if($('#resetDef'))$('#resetDef').onclick=e=>armReset(e.currentTarget);
   }
   const I_=t=>`<span class="info" tabindex="0" data-tip="${esc(t)}">i</span>`;
