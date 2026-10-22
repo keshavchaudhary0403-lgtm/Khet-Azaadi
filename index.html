@@ -536,6 +536,24 @@ body{padding-bottom:80px}
 #flash{bottom:84px!important;max-width:calc(100vw - 32px);text-align:center}
 @media (max-width:760px){#flash{bottom:150px!important;font-size:13px}}
 #dock .nw{white-space:nowrap}
+
+/* dock v3 */
+#dock .dc small{font-size:inherit;color:var(--muted)}
+#dock .dgo{display:none}
+@media (max-width:760px){
+  #dock{padding:0;gap:0;overflow:hidden;border-radius:16px}
+  #dock .dtop{padding:10px 12px 8px;gap:10px}
+  #dock .db{font-size:12.5px;padding:4px 10px}
+  #dock .dn{flex:1;font-size:13.5px}
+  #dock .dgo{display:inline;font-size:12px;font-weight:600;color:var(--accent);white-space:nowrap}
+  #dock .dm{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line);white-space:nowrap}
+  #dock .dc{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:7px 4px;text-align:center;min-width:0}
+  #dock .dc+.dc{border-left:1px solid var(--line)}
+  #dock .dc small{font-size:10.5px;letter-spacing:.02em;text-transform:uppercase}
+  #dock .dc b{font-size:14px}
+  #dock .dm .opt{display:none}
+  #dock .dd{padding:7px 12px;border-top:1px solid var(--line);font-size:12px;text-align:center;background:var(--surface-2)}
+}
 </style>
 </head>
 <body>
@@ -1478,8 +1496,8 @@ body{padding-bottom:80px}
     let delta='';if(cn!==store.cur){const parts=[];if((B.lastsAge||0)!==(R.lastsAge||0))parts.push(`lasts ${age(B)} → ${age(R)}`);const ga=B.incFull-B.costFinal,gb=R.incFull-R.costFinal;if(Math.abs(gb-ga)>=1)parts.push(`gap ${sg(ga)} → ${sg(gb)}`);
       const worse=(R.lastsAge||999)<(B.lastsAge||999)||gb<ga;if(parts.length)delta=`<div class="dd ${worse?'down':'up'}">vs ${esc(cn)}: ${parts.join(' · ')}</div>`}
     const g=R.incFull-R.costFinal;
-    $('#dock').innerHTML=`<div class="dtop"><span class="db ${J.level}">${ic} <span class="dl">${tt}</span><span class="ds">${SHORT[J.level]}</span></span><span class="dn" title="Open plan">${esc(store.cur)}</span></div>
-      <div class="dm"><span>Switch <b>${R.sw}</b></span><span>Lasts <b>${R.lastsAge?'till '+R.lastsAge:R.H+'+'}</b></span><span>Gap <b>${sg(g)}/mo</b></span><span class="opt">At 60 <b>${short(R.corpus60)}</b></span></div>${delta}`;
+    $('#dock').innerHTML=`<div class="dtop"><span class="db ${J.level}">${ic} <span class="dl">${tt}</span><span class="ds">${SHORT[J.level]}</span></span><span class="dn" title="Open plan">${esc(store.cur)}</span><span class="dgo">Details ↑</span></div>
+      <div class="dm"><span class="dc"><small>Switch at</small> <b>${R.sw}</b></span><span class="dc"><small>Money lasts</small> <b>${R.lastsAge?'till '+R.lastsAge:R.H+'+'}</b></span><span class="dc"><small>Monthly gap</small> <b>${sg(g)}</b></span><span class="dc opt"><small>At 60</small> <b>${short(R.corpus60)}</b></span></div>${delta}`;
     if(lastLevel&&lastLevel!==J.level){const d=$('#dock');d.classList.remove('flashy');void d.offsetWidth;d.classList.add('flashy')}lastLevel=J.level;
   }
   $('#dock').addEventListener('click',()=>{const v=$('#verdict');window.scrollTo({top:v.getBoundingClientRect().top+scrollY-90,behavior:'smooth'})});
