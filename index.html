@@ -514,6 +514,28 @@ body{padding-bottom:80px}
 .vplan .select select{height:40px;line-height:40px}
 .vacts{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 .imp th{max-width:140px;overflow:hidden;text-overflow:ellipsis}
+
+/* dock v2 */
+#dock .dtop{display:flex;align-items:center;gap:10px;min-width:0}
+#dock .ds{display:none}
+#dock .dn{font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px}
+#dock .dm{display:flex;gap:14px;white-space:nowrap;overflow:hidden}
+#dock .dd{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#dock .dd.down{color:var(--rose)} #dock .dd.up{color:var(--green)}
+@media (max-width:760px){
+  #dock{left:10px;right:10px;bottom:10px;transform:none;max-width:none;border-radius:18px;padding:10px 12px;display:grid;grid-template-columns:1fr;gap:6px;font-size:12.5px}
+  #dock.hide{transform:translateY(20px)}
+  #dock .dl{display:none} #dock .ds{display:inline}
+  #dock .db{padding:4px 10px;font-size:12.5px}
+  #dock .dn{max-width:none;flex:1;min-width:0;font-size:13px}
+  #dock .dm{gap:12px;flex-wrap:wrap;white-space:normal}
+  #dock .dm .opt{display:none}
+  #dock .dd{white-space:normal;font-size:12px;line-height:1.35}
+  body{padding-bottom:120px}
+}
+#flash{bottom:84px!important;max-width:calc(100vw - 32px);text-align:center}
+@media (max-width:760px){#flash{bottom:150px!important;font-size:13px}}
+#dock .nw{white-space:nowrap}
 </style>
 </head>
 <body>
@@ -1450,12 +1472,14 @@ body{padding-bottom:80px}
   const I_=t=>`<span class="info" tabindex="0" data-tip="${esc(t)}">i</span>`;
   let lastLevel=null;
   function renderDock(){
-    const J=judge(R);const [ic,tt]=VT[J.level];const cn=cmpName(),B=cn===store.cur?R:compute(planState(cn));
-    const la=B.lastsAge||B.H+1,lb=R.lastsAge||R.H+1;
-    let delta='';if(cn!==store.cur){const parts=[];if(lb!==la)parts.push(`money lasts ${la>R.H?R.H+'+':la} → ${lb>R.H?R.H+'+':lb}`);const ga=B.incFull-B.costFinal,gb=R.incFull-R.costFinal;if(Math.abs(gb-ga)>=1)parts.push(`gap ${inr(ga)} → ${inr(gb)}`);
-      if(parts.length)delta=`<span class="dd ${lb<la||gb<ga?'down':'up'}">vs ${esc(cn)}: ${parts.join(' · ')}</span>`}
+    const J=judge(R);const [ic,tt]=VT[J.level];const SHORT={good:'Plan works',tight:'Plan is tight',bad:'Plan fails'};
+    const cn=cmpName(),B=cn===store.cur?R:compute(planState(cn));
+    const sg=v=>`<span class="nw">${(v<0?'−':'+')+inr(Math.abs(v))}</span>`;const age=r=>`<span class="nw">${r.lastsAge?'age '+r.lastsAge:r.H+'+'}</span>`;
+    let delta='';if(cn!==store.cur){const parts=[];if((B.lastsAge||0)!==(R.lastsAge||0))parts.push(`lasts ${age(B)} → ${age(R)}`);const ga=B.incFull-B.costFinal,gb=R.incFull-R.costFinal;if(Math.abs(gb-ga)>=1)parts.push(`gap ${sg(ga)} → ${sg(gb)}`);
+      const worse=(R.lastsAge||999)<(B.lastsAge||999)||gb<ga;if(parts.length)delta=`<div class="dd ${worse?'down':'up'}">vs ${esc(cn)}: ${parts.join(' · ')}</div>`}
     const g=R.incFull-R.costFinal;
-    $('#dock').innerHTML=`<span class="db ${J.level}">${ic} ${tt}</span><span class="dm"><b>${esc(store.cur)}</b></span><span class="dm"><span>Switch <b>${R.sw}</b></span><span>Lasts <b>${R.lastsAge?'till '+R.lastsAge:R.H+'+'}</b></span><span class="opt">Gap <b>${g<0?'−':'+'}${inr(Math.abs(g))}/mo</b></span><span class="opt">At 60 <b>${short(R.corpus60)}</b></span></span>${delta}`;
+    $('#dock').innerHTML=`<div class="dtop"><span class="db ${J.level}">${ic} <span class="dl">${tt}</span><span class="ds">${SHORT[J.level]}</span></span><span class="dn" title="Open plan">${esc(store.cur)}</span></div>
+      <div class="dm"><span>Switch <b>${R.sw}</b></span><span>Lasts <b>${R.lastsAge?'till '+R.lastsAge:R.H+'+'}</b></span><span>Gap <b>${sg(g)}/mo</b></span><span class="opt">At 60 <b>${short(R.corpus60)}</b></span></div>${delta}`;
     if(lastLevel&&lastLevel!==J.level){const d=$('#dock');d.classList.remove('flashy');void d.offsetWidth;d.classList.add('flashy')}lastLevel=J.level;
   }
   $('#dock').addEventListener('click',()=>{const v=$('#verdict');window.scrollTo({top:v.getBoundingClientRect().top+scrollY-90,behavior:'smooth'})});
